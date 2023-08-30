@@ -29,10 +29,13 @@ export const getNewsFromGoogleSearch = async (searchQuery: string) => {
   const newsHeading = await page.$('div.n0jPhd.ynAwRc.MBeuO.nDgy9d[role="heading"]');
   if (newsHeading) {
     await newsHeading.click();
-    await page.waitForLoadState('load');
-    const res = await page.getByText(`${searchQuery}`).first().click();
+    // await page.waitForLoadState('load');
+    const res = await page.getByText(`${searchQuery}`).first();
+    const res1 = await page.getByText(`${searchQuery}`).nth(2);
+    const text: string | null = await res.textContent();
+    const text1: string | null = await res1.textContent();
     await browser.close();
-    console.log(res);
+    console.log(text1);
     return res;
   } else {
     console.log('見出しが見つかりませんでした。');

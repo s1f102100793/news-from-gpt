@@ -15,7 +15,9 @@ export const makeNews = async (name: string) => {
   const news = await getNewsFromGoogleSearch(name);
   console.log(news);
   const llm = new OpenAI({ openAIApiKey: OPENAIAPI, temperature: 0.9, modelName: 'gpt-4' });
-  const res = await llm.call(`${news}の内容をまとめ${name}新たな新聞記事の内容を作成してください`);
+  const res = await llm.call(
+    `${news}の内容を使った${name}の新たな新聞記事の内容を作成してください`
+  );
   creatNews(name, res);
   return res;
 };

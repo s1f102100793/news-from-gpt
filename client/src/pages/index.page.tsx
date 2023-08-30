@@ -11,6 +11,7 @@ import styles from './index.module.css';
 const Home = () => {
   const [user] = useAtom(userAtom);
   const [inputValue, setInputValue] = useState('');
+  const [response, setResponse] = useState<string | null>(null);
 
   if (!user) return <Loading visible />;
 
@@ -19,8 +20,10 @@ const Home = () => {
   };
 
   const postBackend = async () => {
-    const res = await apiClient.gpt.post({ body: { name: inputValue } });
-    console.log(res.body);
+    console.log('押した');
+    const res = await apiClient.gpt.$post({ body: { name: inputValue } });
+    console.log(res);
+    setResponse(res);
   };
 
   return (
@@ -37,6 +40,9 @@ const Home = () => {
         <button onClick={postBackend} className={styles.buttonStyle}>
           送信
         </button>
+        {response !== null && response !== '' && (
+          <div className={styles.responseContainer}>{JSON.stringify(response)}</div>
+        )}
       </div>
     </>
   );

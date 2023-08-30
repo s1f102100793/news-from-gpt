@@ -11,6 +11,7 @@ const FIREBASE_SERVER_KEY = process.env.FIREBASE_SERVER_KEY ?? '';
 const TWITTER_USERNAME = process.env.TWITTER_USERNAME ?? '';
 const TWITTER_PASSWORD = process.env.TWITTER_PASSWORD ?? '';
 const NEWSAPI = process.env.NEWS_API ?? '';
+const OPENAIAPI = process.env.OPENAI_API ?? '';
 
 export {
   API_BASE_PATH,
@@ -19,6 +20,7 @@ export {
   FIREBASE_AUTH_EMULATOR_HOST,
   FIREBASE_SERVER_KEY,
   NEWSAPI,
+  OPENAIAPI,
   PORT,
   TWITTER_PASSWORD,
   TWITTER_USERNAME,

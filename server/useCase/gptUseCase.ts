@@ -16,7 +16,7 @@ export const makeNews = async (name: string) => {
   console.log(news);
   const llm = new OpenAI({ openAIApiKey: OPENAIAPI, temperature: 0.9, modelName: 'gpt-4' });
   const res = await llm.call(
-    `${news}の内容を使った${name}の新たな新聞記事の内容を作成してください`
+    `${news}の内容をmまとめた${name}の新たな新聞記事の内容を作成してください`
   );
   creatNews(name, res);
   return res;

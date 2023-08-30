@@ -1,5 +1,9 @@
 import { chromium } from 'playwright';
 
+const isValidText = (value: string | null | undefined): boolean => {
+  return value !== null && value !== undefined && value !== '';
+};
+
 export const getNewsFromGoogleSearch = async (searchQuery: string) => {
   const browser = await chromium.launch({ headless: false });
   const page = await browser.newPage();
@@ -29,14 +33,20 @@ export const getNewsFromGoogleSearch = async (searchQuery: string) => {
   const newsHeading = await page.$('div.n0jPhd.ynAwRc.MBeuO.nDgy9d[role="heading"]');
   if (newsHeading) {
     await newsHeading.click();
-    // await page.waitForLoadState('load');
-    const res = await page.getByText(`${searchQuery}`).first();
-    const res1 = await page.getByText(`${searchQuery}`).nth(2);
-    const text: string | null = await res.textContent();
-    const text1: string | null = await res1.textContent();
+
+    const elements = await page.$$(`:text("${searchQuery}")`);
+    const texts: (string | null)[] = [];
+
+    for (const element of elements) {
+      const text = await element.textContent();
+      if (isValidText(text)) {
+        texts.push(text);
+      }
+    }
+
     await browser.close();
-    console.log(text1);
-    return res;
+
+    return texts; // これでテキストの配列を返します
   } else {
     console.log('見出しが見つかりませんでした。');
   }

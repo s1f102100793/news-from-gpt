@@ -1,4 +1,3 @@
-import { fetchNews } from '$/repository/newsRepository';
 import { getNewsFromGoogleSearch } from '$/repository/playwrightRepository';
 import { OPENAIAPI } from '$/service/envValues';
 import { OpenAI } from 'langchain/llms';

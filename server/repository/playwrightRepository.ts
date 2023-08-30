@@ -15,23 +15,42 @@ export const getNewsFromGoogleSearch = async (searchQuery: string) => {
   // 検索結果が表示されるまで待機
   await page.waitForSelector('h3');
 
-  const newsLinks = await page.getByRole('link', { name: 'ニュース', exact: true }).click();
+  await page.getByRole('link', { name: 'ニュース', exact: true }).click();
 
-  if (newsLinks.length > 0) {
-    await newsLinks[0].click();
+  // セレクタを使用して要素を取得
+  const headingElement = await page.$('.n0jPhd.ynAwRc.MBeuO.nDgy9d');
 
-    // 新しいページがロードされるのを待機
-    await page.waitForLoadState('load');
-
-    // ニュースの主要なテキスト内容を取得
-    // 注意: これは一般的なセレクタです。実際のサイトに合わせて調整が必要です。
-    const newsContent = await page.$$eval('p', (elements) =>
-      elements.map((el) => el.textContent).join('\n')
-    );
-    console.log(newsContent);
+  if (headingElement) {
+    // 要素をクリック
+    await headingElement.click();
+    await page.waitForLoadState('load'); // 新しいページがロードされるのを待機
   } else {
-    console.log('ニュースリンクが見つかりませんでした。');
+    console.log('指定された要素が見つかりませんでした。');
   }
+  // const firstNewsLink = await page.getByRole('link', { role;'heding' }).click();
+  // // const firstNewsLink = await page.$('article h3 a');
+  // if (firstNewsLink) {
+  //   await firstNewsLink.click();
+  //   await page.waitForLoadState('load'); // 新しいページがロードされるのを待機
+  // } else {
+  //   console.log('ニュースリンクが見つかりませんでした。');
+  // }
+
+  // const firstNewsLink = await page.$$('article h3 a');
+  // if (firstNewsLink.length > 0) {
+  //   await firstNewsLink[0].click();
+
+  //   // 新しいページがロードされるのを待機
+  //   await page.waitForLoadState('load');
+
+  //   // ニュースの主要なテキスト内容を取得
+  //   const newsContent = await page.$$eval('p', (elements) =>
+  //     elements.map((el) => el.textContent).join('\n')
+  //   );
+  //   console.log(newsContent);
+  // } else {
+  //   console.log('ニュースリンクが見つかりませんでした。');
+  // }
 
   await browser.close();
 };

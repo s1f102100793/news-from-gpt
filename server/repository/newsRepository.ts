@@ -10,7 +10,7 @@ export const fetchNews = async (keyword: string): Promise<any> => {
         q: keyword,
         apiKey: NEWSAPI,
         langauge: 'jp',
-        sortBy: 'popularity',
+        sortBy: 'createdAt',
       },
     });
     const descriptions = response.data.articles.map((article: any) => article.description);

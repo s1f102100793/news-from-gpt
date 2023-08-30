@@ -3,6 +3,7 @@ import type { ChangeEvent } from 'react';
 import { useState } from 'react';
 import { Loading } from 'src/components/Loading/Loading';
 import { BasicHeader } from 'src/pages/@components/BasicHeader/BasicHeader';
+import { apiClient } from 'src/utils/apiClient';
 import { userAtom } from '../atoms/user';
 import './index.module.css';
 import styles from './index.module.css';
@@ -17,8 +18,9 @@ const Home = () => {
     setInputValue(e.target.value);
   };
 
-  const postBackend = () => {
-    console.log(inputValue);
+  const postBackend = async () => {
+    const res = await apiClient.gpt.post({ body: { name: inputValue } });
+    console.log(res.body);
   };
 
   return (

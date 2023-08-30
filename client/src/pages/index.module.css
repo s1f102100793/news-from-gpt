@@ -16,4 +16,26 @@
 .buttonStyle {
   padding: 10px 20px;
   font-size: 16px;
+  cursor: pointer; /* Makes the button feel more clickable */
+  background-color: #007bff; /* Example color, adjust if needed */
+  color: white; /* Text color */
+  border: none; /* Remove default borders */
+  border-radius: 4px; /* Rounded corners */
+  transition: background-color 0.2s; /* Transition effect for hover */
+}
+
+.buttonStyle:hover {
+  background-color: #0056b3; /* Darker shade for hover effect */
+}
+
+/* New style for response container */
+.responseContainer {
+  margin-top: 20px;
+  padding: 15px;
+  border: 1px solid #ccc;
+  width: 80%; /* Adjust this to fit your design needs */
+  max-height: 200px; /* Set a maximum height */
+  overflow-y: auto; /* Add scroll if content is too long */
+  font-size: 14px; /* Adjust font size if needed */
+  background-color: #f6f6f6; /* Light grey background for visibility */
 }

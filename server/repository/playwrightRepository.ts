@@ -30,6 +30,10 @@ export const getNewsFromGoogleSearch = async (searchQuery: string) => {
   if (newsHeading) {
     await newsHeading.click();
     await page.waitForLoadState('load');
+    const res = await page.getByText(`${searchQuery}`).first().click();
+    await browser.close();
+    console.log(res);
+    return res;
   } else {
     console.log('見出しが見つかりませんでした。');
   }

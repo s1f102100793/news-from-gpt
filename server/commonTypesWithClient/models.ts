@@ -18,3 +18,8 @@ export type TrendModel = {
   isHashtag: boolean;
   word: string;
 };
+
+export type NewsModel = {
+  title: string;
+  content: string;
+};

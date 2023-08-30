@@ -17,16 +17,26 @@ export const getNewsFromGoogleSearch = async (searchQuery: string) => {
 
   await page.getByRole('link', { name: 'ニュース', exact: true }).click();
 
-  // セレクタを使用して要素を取得
-  const headingElement = await page.$('.n0jPhd.ynAwRc.MBeuO.nDgy9d');
-
-  if (headingElement) {
-    // 要素をクリック
-    await headingElement.click();
+  // await page.waitForSelector('article h3');
+  // 最初のニュースリンクをクリック
+  const firstNewsLink = await page.$('article h3 a');
+  if (firstNewsLink) {
+    await firstNewsLink.click();
     await page.waitForLoadState('load'); // 新しいページがロードされるのを待機
   } else {
-    console.log('指定された要素が見つかりませんでした。');
+    console.log('ニュースリンクが見つかりませんでした。');
   }
+
+  // // セレクタを使用して要素を取得
+  // const headingElement = await page.$('.n0jPhd.ynAwRc.MBeuO.nDgy9d');
+
+  // if (headingElement) {
+  //   // 要素をクリック
+  //   await headingElement.click();
+  //   await page.waitForLoadState('load'); // 新しいページがロードされるのを待機
+  // } else {
+  //   console.log('指定された要素が見つかりませんでした。');
+  // }
   // const firstNewsLink = await page.getByRole('link', { role;'heding' }).click();
   // // const firstNewsLink = await page.$('article h3 a');
   // if (firstNewsLink) {

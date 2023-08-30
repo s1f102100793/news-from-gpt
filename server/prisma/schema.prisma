@@ -13,3 +13,9 @@ model Task {
   done      Boolean
   createdAt DateTime
 }
+
+model News {
+  createdAt DateTime @id
+  title     String
+  content   String
+}

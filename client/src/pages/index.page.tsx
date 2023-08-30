@@ -1,47 +1,43 @@
-import type { TrendModel } from 'commonTypesWithClient/models';
 import { useAtom } from 'jotai';
+import type { ChangeEvent } from 'react';
 import { useState } from 'react';
 import { Loading } from 'src/components/Loading/Loading';
 import { BasicHeader } from 'src/pages/@components/BasicHeader/BasicHeader';
 import { apiClient } from 'src/utils/apiClient';
-import { returnNull } from 'src/utils/returnNull';
 import { userAtom } from '../atoms/user';
+import './index.module.css';
 import styles from './index.module.css';
 
 const Home = () => {
   const [user] = useAtom(userAtom);
-  const [trends, setTrends] = useState<TrendModel[]>();
-  const fetchTrends = async () => {
-    setTrends(undefined);
-
-    const res = await apiClient.trends.$get().catch(returnNull);
-
-    if (res !== null) setTrends(res);
-  };
+  const [inputValue, setInputValue] = useState('');
 
   if (!user) return <Loading visible />;
+
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setInputValue(e.target.value);
+  };
+
+  const postBackend = async () => {
+    const res = await apiClient.gpt.post({ body: { name: inputValue } });
+    console.log(res.body);
+  };
 
   return (
     <>
       <BasicHeader user={user} />
-      <div className={styles.title} style={{ marginTop: '120px' }}>
-        Welcome to frourio!
+      <div className={styles.centerContainer}>
+        <input
+          type="text"
+          value={inputValue}
+          onChange={handleInputChange}
+          placeholder="こちらに入力してください"
+          className={styles.inputStyle}
+        />
+        <button onClick={postBackend} className={styles.buttonStyle}>
+          送信
+        </button>
       </div>
-
-      <div style={{ textAlign: 'center', marginTop: '40px' }}>
-        <button onClick={fetchTrends}>Get trends</button>
-      </div>
-      <ul className={styles.tasks}>
-        {trends?.map((trend, i) => (
-          <li key={i}>
-            <label>
-              <span>
-                {i + 1}位 {trend.word}
-              </span>
-            </label>
-          </li>
-        ))}
-      </ul>
     </>
   );
 };

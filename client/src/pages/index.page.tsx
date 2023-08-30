@@ -1,3 +1,4 @@
+import type { AxiosError } from 'axios';
 import { useAtom } from 'jotai';
 import type { ChangeEvent } from 'react';
 import { useState } from 'react';
@@ -21,9 +22,23 @@ const Home = () => {
 
   const postBackend = async () => {
     console.log('押した');
-    const res = await apiClient.gpt.$post({ body: { name: inputValue } });
-    console.log(res);
-    setResponse(res);
+    try {
+      const res = await apiClient.gpt.$post({ body: { name: inputValue } });
+      console.log(res);
+      setResponse(res);
+    } catch (error) {
+      const axiosError = error as AxiosError;
+
+      if (axiosError.response) {
+        console.error('Error data:', axiosError.response.data);
+        console.error('Error status:', axiosError.response.status);
+      } else if (axiosError.request !== null && axiosError.request !== undefined) {
+        console.error('No response from server:', axiosError.request);
+      } else {
+        console.error('Error:', axiosError.message);
+      }
+      setResponse('エラーが発生しました。');
+    }
   };
 
   return (

@@ -29,11 +29,32 @@ export const getNewsFromGoogleSearch = async (searchQuery: string) => {
   //   await page.waitForLoadState('load'); // 新しいページがロードされるのを待機
   // } else {
   //   console.log('ニュースリンクが見つかりませんでした。');
-  // }
-  const newsHeading = await page.$('div.n0jPhd.ynAwRc.MBeuO.nDgy9d[role="heading"]');
-  if (newsHeading) {
-    await newsHeading.click();
+  // // }
 
+  // // 動いた
+  // const newsHeading = await page.$('div.n0jPhd.ynAwRc.MBeuO.nDgy9d[role="heading"]');
+  // if (newsHeading) {
+  //   await newsHeading.click();
+
+  //   const elements = await page.$$(`:text("${searchQuery}")`);
+  //   const texts: (string | null)[] = [];
+
+  //   for (const element of elements) {
+  //     const text = await element.textContent();
+  //     if (isValidText(text)) {
+  //       texts.push(text);
+  //     }
+  //   }
+  //   // aaa
+  //   await browser.close();
+
+  //   return texts; // これでテキストの配列を返します
+  // } else {
+  //   console.log('見出しが見つかりませんでした。');
+  // }
+  // //
+
+  const getAllTextsFromPage = async (page: any, searchQuery: string) => {
     const elements = await page.$$(`:text("${searchQuery}")`);
     const texts: (string | null)[] = [];
 
@@ -44,12 +65,43 @@ export const getNewsFromGoogleSearch = async (searchQuery: string) => {
       }
     }
 
-    await browser.close();
+    return texts;
+  };
 
-    return texts; // これでテキストの配列を返します
-  } else {
+  // すべてのニュース見出しを取得
+  const newsHeadings = await page.$$('div.n0jPhd.ynAwRc.MBeuO.nDgy9d[role="heading"]');
+  console.log('newsHeadings.length', newsHeadings.length);
+
+  if (newsHeadings.length === 0) {
     console.log('見出しが見つかりませんでした。');
+    return [];
   }
+  for (const newsHeading of newsHeadings) {
+    try {
+      // newsHeadingがDOM上に存在するか確認
+      const isAttached = await page.evaluate(
+        (element) => document.body.contains(element),
+        newsHeading
+      );
+      if (!isAttached) continue;
+
+      await newsHeading.click();
+
+      const texts = await getAllTextsFromPage(page, searchQuery);
+      console.log('texts.length', texts.length);
+
+      if (texts.length > 0) {
+        await browser.close();
+        return texts;
+      }
+    } catch (error) {
+      console.error('Error during processing the news heading:', error.message);
+    }
+  }
+
+  await browser.close();
+  console.log('適切なテキストが見つかりませんでした。');
+  return [];
 
   // <div class="n0jPhd ynAwRc MBeuO nDgy9d" aria-level="3" role="heading" style="-webkit-line-clamp:3">Scraping the unscrapable in Python using Playwright</div>
 

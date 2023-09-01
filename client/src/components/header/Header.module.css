@@ -5,16 +5,26 @@
   color: #09090b;
   padding: 2% 0;
   text-align: center;
-  border-top: 2px solid #09090b;
-  border-bottom: 2px solid #09090b;
   box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.headerLine {
+  flex-grow: 1;
+  background-color: #09090b;
+  height: 2px;
+  width: 100%;
 }
 
 .headerTitle {
   font-size: 2em;
   font-weight: bold;
+  display: inline-block;
+  padding: 0.2em 0; /* テキストと線との間のスペース */
 }
 
 .yellowText {
-  color: #958B42;
+  color: #958b42;
 }

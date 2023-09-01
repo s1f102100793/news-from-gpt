@@ -11,11 +11,12 @@
   background-color: #f4f5ed;
   color: #09090b;
   padding: 2% 0;
-  text-align: left; /* コンテナ内のテキストを左に揃える */
+  text-align: left;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  align-items: flex-start; /* 子要素をコンテナの左端に配置 */
+  align-items: flex-start;
+  top: 0;
 }
 
 .dateTime {
@@ -29,6 +30,7 @@
   background-color: #09090b;
   height: 3px;
   width: 100%;
+  margin: 0 1.5%;
 }
 
 .headerTitle {
@@ -37,10 +39,6 @@
   display: inline-block;
   padding: 0; /* テキストと線との間のスペース */
   margin-left: 5%;
-  /* margin-left: 8%;
-  font-family: 'TitleFont', serif;
-  letter-spacing: 0.5ch;
-  transform: scaleX(2.5); */
 }
 
 .yellowText {

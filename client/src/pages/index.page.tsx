@@ -12,22 +12,24 @@ import styles from './index.module.css';
 const Home = () => {
   const [user] = useAtom(userAtom);
   const [inputValue, setInputValue] = useState('');
-  const [response, setResponse] = useState<string | null>(null);
+  const [responsebody, setResponsebody] = useState<string | null>(null);
+  const [responsetitle, setResponsetitle] = useState<string | null>(null);
+  const [responsesubtitle, setResponsesubtitle] = useState<string | null>(null);
   const [displayedText, setDisplayedText] = useState('');
   const [charIndex, setCharIndex] = useState(0);
 
   useEffect(() => {
-    if (response === null || response === '' || charIndex >= response.length) {
+    if (responsebody === null || responsebody === '' || charIndex >= responsebody.length) {
       return;
     }
 
     const timerId = setTimeout(() => {
-      setDisplayedText((prevText) => prevText + response[charIndex]);
+      setDisplayedText((prevText) => prevText + responsebody[charIndex]);
       setCharIndex((prevIndex) => prevIndex + 1);
     }, 100);
 
     return () => clearTimeout(timerId);
-  }, [response, charIndex]);
+  }, [responsebody, charIndex]);
 
   if (!user) return <Loading visible />;
 
@@ -44,7 +46,9 @@ const Home = () => {
       console.log(res.title);
       console.log(res.subtitle);
       console.log(res.body);
-      setResponse(res.body);
+      setResponsetitle(res.title);
+      setResponsesubtitle(res.subtitle);
+      setResponsebody(res.body);
     } catch (error) {
       const axiosError = error as AxiosError;
 
@@ -56,7 +60,6 @@ const Home = () => {
       } else {
         console.error('Error:', axiosError.message);
       }
-      setResponse('エラーが発生しました。');
     }
   };
 
@@ -74,7 +77,13 @@ const Home = () => {
         <button onClick={postBackend} className={styles.buttonStyle}>
           送信
         </button>
-        {displayedText && <div className={styles.responseContainer}>{displayedText}</div>}
+        {displayedText && (
+          <div className={styles.newsContainer}>
+            <h1 className={styles.newsTitle}>{responsetitle}</h1>
+            <h2 className={styles.newsSubtitle}>{responsesubtitle}</h2>
+            <p className={styles.newsBody}>{responsebody}</p>
+          </div>
+        )}
       </div>
     </>
   );

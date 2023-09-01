@@ -39,3 +39,27 @@
   font-size: 14px; /* Adjust font size if needed */
   background-color: #f6f6f6; /* Light grey background for visibility */
 }
+
+.newsContainer {
+  width: 80%;
+  margin: 20px auto;
+  padding: 20px;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+  background-color: #f9f9f9;
+}
+
+.newsTitle {
+  font-size: 2em;
+  margin-bottom: 10px;
+}
+
+.newsSubtitle {
+  font-size: 1.5em;
+  color: #777;
+  margin-bottom: 20px;
+}
+
+.newsBody {
+  font-size: 1em;
+  line-height: 1.6;
+}

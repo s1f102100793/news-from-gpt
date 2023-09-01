@@ -6,7 +6,7 @@ const isValidText = (value: string | null | undefined): boolean => {
 
 // eslint-disable-next-line complexity
 export const getNewsFromGoogleSearch = async (searchQuery: string) => {
-  const browser = await chromium.launch({ headless: false });
+  const browser = await chromium.launch({ headless: true });
   const page = await browser.newPage();
 
   // Googleで検索を実行

@@ -36,8 +36,9 @@ const Home = () => {
   };
 
   const postBackend = async () => {
-    setDisplayedText('');
     console.log('押した');
+    setDisplayedText('');
+    setCharIndex(0);
     try {
       const res = await apiClient.gpt.$post({ body: { name: inputValue } });
       console.log(res);

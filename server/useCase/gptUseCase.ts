@@ -6,6 +6,7 @@ import { type News } from '@prisma/client';
 import { OpenAI } from 'langchain/llms';
 import { StructuredOutputParser } from 'langchain/output_parsers';
 import { PromptTemplate } from 'langchain/prompts';
+import { z } from 'zod';
 
 export const toNewsModel = (prismaNews: News): NewsModel => ({
   title: prismaNews.title,
@@ -13,12 +14,19 @@ export const toNewsModel = (prismaNews: News): NewsModel => ({
 });
 
 export const makeNews = async (name: string) => {
-  const parser = StructuredOutputParser.fromNamesAndDescriptions({
-    title: 'ニュース記事のタイトル',
-    subtitle: '記事のサブタイトルまたは追加情報',
-    body: 'ニュース記事の主要な内容',
-  });
+  // const parser = StructuredOutputParser.fromNamesAndDescriptions({
+  //   title: 'ニュース記事のタイトル',
+  //   subtitle: '記事のサブタイトルまたは追加情報',
+  //   body: 'ニュース記事の主要な内容',
+  // });
 
+  const parser = StructuredOutputParser.fromZodSchema(
+    z.object({
+      title: z.string().describe('ニュース記事のタイトル'),
+      subtitle: z.string().describe('記事のサブタイトルまたは追加情報'),
+      body: z.string().describe('ニュース記事の主要な内容'),
+    })
+  );
   const formatInstructions = parser.getFormatInstructions();
 
   const prompt = new PromptTemplate({
@@ -48,7 +56,7 @@ export const makeNews = async (name: string) => {
   // const document = textSplitter.splitDocuments(res);
   // console.log(document);
   // return document;
-  return res;
+  return await parser.parse(res);
 };
 
 export const creatNews = async (title: NewsModel['title'], content: NewsModel['content']) => {

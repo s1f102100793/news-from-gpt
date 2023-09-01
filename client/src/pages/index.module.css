@@ -6,28 +6,6 @@
   height: calc(100vh - 60px); /* Assuming BasicHeader has a height of 60px. Adjust accordingly. */
 }
 
-.inputStyle {
-  margin: 10px 0;
-  padding: 10px;
-  font-size: 16px;
-  width: 200px;
-}
-
-.buttonStyle {
-  padding: 10px 20px;
-  font-size: 16px;
-  cursor: pointer; /* Makes the button feel more clickable */
-  background-color: #007bff; /* Example color, adjust if needed */
-  color: white; /* Text color */
-  border: none; /* Remove default borders */
-  border-radius: 4px; /* Rounded corners */
-  transition: background-color 0.2s; /* Transition effect for hover */
-}
-
-.buttonStyle:hover {
-  background-color: #0056b3; /* Darker shade for hover effect */
-}
-
 /* New style for response container */
 .responseContainer {
   margin-top: 20px;
@@ -38,4 +16,28 @@
   overflow-y: auto; /* Add scroll if content is too long */
   font-size: 14px; /* Adjust font size if needed */
   background-color: #f6f6f6; /* Light grey background for visibility */
+}
+
+.newsContainer {
+  width: 80%;
+  margin: 20px auto;
+  padding: 20px;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+  background-color: #f9f9f9;
+}
+
+.newsTitle {
+  font-size: 2em;
+  margin-bottom: 10px;
+}
+
+.newsSubtitle {
+  font-size: 1.5em;
+  color: #777;
+  margin-bottom: 20px;
+}
+
+.newsBody {
+  font-size: 1em;
+  line-height: 1.6;
 }

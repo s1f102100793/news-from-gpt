@@ -4,6 +4,7 @@ import type { ChangeEvent } from 'react';
 import { useEffect, useState } from 'react';
 import { Loading } from 'src/components/Loading/Loading';
 import Header from 'src/components/header/Header';
+import NewsInput from 'src/components/newsinput/NewsInput';
 import { apiClient } from 'src/utils/apiClient';
 import { userAtom } from '../atoms/user';
 import './index.module.css';
@@ -12,22 +13,24 @@ import styles from './index.module.css';
 const Home = () => {
   const [user] = useAtom(userAtom);
   const [inputValue, setInputValue] = useState('');
-  const [response, setResponse] = useState<string | null>(null);
+  const [responsebody, setResponsebody] = useState<string | null>(null);
+  const [responsetitle, setResponsetitle] = useState<string | null>(null);
+  const [responsesubtitle, setResponsesubtitle] = useState<string | null>(null);
   const [displayedText, setDisplayedText] = useState('');
   const [charIndex, setCharIndex] = useState(0);
 
   useEffect(() => {
-    if (response === null || response === '' || charIndex >= response.length) {
+    if (responsebody === null || responsebody === '' || charIndex >= responsebody.length) {
       return;
     }
 
     const timerId = setTimeout(() => {
-      setDisplayedText((prevText) => prevText + response[charIndex]);
+      setDisplayedText((prevText) => prevText + responsebody[charIndex]);
       setCharIndex((prevIndex) => prevIndex + 1);
     }, 100);
 
     return () => clearTimeout(timerId);
-  }, [response, charIndex]);
+  }, [responsebody, charIndex]);
 
   if (!user) return <Loading visible />;
 
@@ -41,8 +44,12 @@ const Home = () => {
     setCharIndex(0);
     try {
       const res = await apiClient.gpt.$post({ body: { name: inputValue } });
-      console.log(res);
-      setResponse(res);
+      console.log(res.title);
+      console.log(res.subtitle);
+      console.log(res.body);
+      setResponsetitle(res.title);
+      setResponsesubtitle(res.subtitle);
+      setResponsebody(res.body);
     } catch (error) {
       const axiosError = error as AxiosError;
 
@@ -54,25 +61,21 @@ const Home = () => {
       } else {
         console.error('Error:', axiosError.message);
       }
-      setResponse('エラーが発生しました。');
     }
   };
 
   return (
     <>
       <Header />
+      <NewsInput value={inputValue} onChange={handleInputChange} onSubmit={postBackend} />
       <div className={styles.centerContainer}>
-        <input
-          type="text"
-          value={inputValue}
-          onChange={handleInputChange}
-          placeholder="正確な知りたいニュースの話題名を入れてください"
-          className={styles.inputStyle}
-        />
-        <button onClick={postBackend} className={styles.buttonStyle}>
-          送信
-        </button>
-        {displayedText && <div className={styles.responseContainer}>{displayedText}</div>}
+        {displayedText && (
+          <div className={styles.newsContainer}>
+            <h1 className={styles.newsTitle}>{responsetitle}</h1>
+            <h2 className={styles.newsSubtitle}>{responsesubtitle}</h2>
+            <p className={styles.newsBody}>{responsebody}</p>
+          </div>
+        )}
       </div>
     </>
   );

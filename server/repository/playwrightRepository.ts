@@ -1,4 +1,3 @@
-import type { ElementHandle, Page } from 'playwright';
 import { chromium } from 'playwright';
 
 const isValidText = (value: string | null | undefined): boolean => {
@@ -48,51 +47,19 @@ export const getNewsFromGoogleSearch = async (searchQuery: string) => {
     console.log('見出しが見つかりませんでした。');
     return [];
   }
-  // for (const newsHeading of newsHeadings) {
-  //   try {
-  //     // newsHeadingがDOM上に存在するか確認
-  //     const isAttached = await page.evaluate(
-  //       (element) => document.body.contains(element),
-  //       newsHeading
-  //     );
-  //     if (!isAttached) continue;
-
-  //     await newsHeading.click();
-  //     // console.log('aaaa');
-  //     // await page.waitForSelector(page.$$(`:text("${searchQuery}")`));
-  //     // console.log('bbbb');
-  //     console.log('aaa');
-  //     await page.waitForTimeout(1000);
-
-  //     const texts = await getAllTextsFromPage(page, searchQuery);
-  //     console.log('texts.length', texts.length);
-
-  //     if (texts.length > 0) {
-  //       await browser.close();
-  //       return texts;
-  //     }
-  //   } catch (error) {
-  //     if (typeof error === 'object' && error !== null && 'message' in error) {
-  //       console.error('Error during processing the news heading:', error.message);
-  //     } else {
-  //       console.error('Error during processing the news heading:', error);
-  //     }
-  //   }
-  // }
-
-  const processNewsHeading = async (
-    page: Page,
-    newsHeading: ElementHandle<Element>,
-    searchQuery: string
-  ): Promise<string[]> => {
+  for (const newsHeading of newsHeadings) {
     try {
+      // newsHeadingがDOM上に存在するか確認
       const isAttached = await page.evaluate(
         (element) => document.body.contains(element),
         newsHeading
       );
-      if (!isAttached) return [];
+      if (!isAttached) continue;
 
       await newsHeading.click();
+      // console.log('aaaa');
+      // await page.waitForSelector(page.$$(`:text("${searchQuery}")`));
+      // console.log('bbbb');
       console.log('aaa');
       await page.waitForTimeout(1000);
 
@@ -103,31 +70,63 @@ export const getNewsFromGoogleSearch = async (searchQuery: string) => {
         await browser.close();
         return texts;
       }
-      return [];
     } catch (error) {
-      console.error('Error during processing the news heading:', error.message || error);
-      return [];
+      if (typeof error === 'object' && error !== null && 'message' in error) {
+        console.error('Error during processing the news heading:', error.message);
+      } else {
+        console.error('Error during processing the news heading:', error);
+      }
     }
-  };
+  }
 
-  const processNewsHeadings = async (page: Page, searchQuery: string): Promise<string[]> => {
-    const newsHeadings = await page.$$('div.n0jPhd.ynAwRc.MBeuO.nDgy9d[role="heading"]');
-    console.log('newsHeadings.length', newsHeadings.length);
+  // const processNewsHeading = async (
+  //   page: Page,
+  //   newsHeading: ElementHandle<Element>,
+  //   searchQuery: string
+  // ): Promise<string[]> => {
+  //   try {
+  //     const isAttached = await page.evaluate(
+  //       (element) => document.body.contains(element),
+  //       newsHeading
+  //     );
+  //     if (!isAttached) return [];
 
-    if (newsHeadings.length === 0) {
-      console.log('見出しが見つかりませんでした。');
-      return [];
-    }
+  //     await newsHeading.click();
+  //     console.log('aaa');
+  //     await page.waitForTimeout(1000);
 
-    const texts: string[] = [];
+  //     const texts = await getAllTextsFromPage(page, searchQuery);
+  //     console.log('texts.length', texts.length);
 
-    for (const newsHeading of newsHeadings) {
-      const headingTexts = await processNewsHeading(page, newsHeading, searchQuery);
-      texts.push(...headingTexts);
-    }
+  //     if (texts.length > 0) {
+  //       await browser.close();
+  //       return texts;
+  //     }
+  //     return [];
+  //   } catch (error) {
+  //     console.error('Error during processing the news heading:', error.message || error);
+  //     return [];
+  //   }
+  // };
 
-    return texts;
-  };
+  // const processNewsHeadings = async (page: Page, searchQuery: string): Promise<string[]> => {
+  //   const newsHeadings = await page.$$('div.n0jPhd.ynAwRc.MBeuO.nDgy9d[role="heading"]');
+  //   console.log('newsHeadings.length', newsHeadings.length);
+
+  //   if (newsHeadings.length === 0) {
+  //     console.log('見出しが見つかりませんでした。');
+  //     return [];
+  //   }
+
+  //   const texts: string[] = [];
+
+  //   for (const newsHeading of newsHeadings) {
+  //     const headingTexts = await processNewsHeading(page, newsHeading, searchQuery);
+  //     texts.push(...headingTexts);
+  //   }
+
+  //   return texts;
+  // };
 
   // 以下でbrowserを初期化し、ページを作成してprocessNewsHeadingsを呼び出すコードを追加する必要があります
 
@@ -135,73 +134,3 @@ export const getNewsFromGoogleSearch = async (searchQuery: string) => {
   console.log('適切なテキストが見つかりませんでした。');
   return [];
 };
-
-// いる
-
-// export const getNewsFromGoogleSearch = async (searchQuery: string) => {
-//   const browser = await chromium.launch({ headless: false });
-//   const page = await browser.newPage();
-
-//   await navigateToGoogleNews(searchQuery, page);
-
-//   const texts = await processNewsHeadings(page, searchQuery);
-
-//   await browser.close();
-
-//   if (texts.length === 0) {
-//     console.log('適切なテキストが見つかりませんでした。');
-//   }
-
-//   return texts;
-// };
-
-// const navigateToGoogleNews = async (searchQuery: string, page: any) => {
-//   await page.goto('https://www.google.com');
-//   await page.getByLabel('検索', { exact: true }).click();
-//   await page.getByLabel('検索', { exact: true }).fill(searchQuery);
-//   await page.keyboard.press('Enter');
-
-//   await page.waitForSelector('h3');
-//   await page.getByRole('link', { name: 'ニュース', exact: true }).click();
-//   await page.waitForSelector('div.n0jPhd.ynAwRc.MBeuO.nDgy9d[role="heading"]');
-// };
-
-// const processNewsHeadings = async (page: any, searchQuery: string) => {
-//   const getAllTextsFromPage = async (page: any, searchQuery: string) => {
-//     const elements = await page.$$(`:text("${searchQuery}")`);
-//     const texts: (string | null)[] = [];
-
-//     for (const element of elements) {
-//       const text = await element.textContent();
-//       if (isValidText(text)) {
-//         texts.push(text);
-//       }
-//     }
-
-//     return texts;
-//   };
-
-//   const newsHeadings = await page.$$('div.n0jPhd.ynAwRc.MBeuO.nDgy9d[role="heading"]');
-
-//   if (newsHeadings.length === 0) {
-//     console.log('見出しが見つかりませんでした。');
-//     return [];
-//   }
-//   for (const newsHeading of newsHeadings) {
-//     const isAttached: boolean = await page.evaluate(
-//       (element: Element) => document.body.contains(element),
-//       newsHeading
-//     );
-
-//     if (isAttached !== true) continue;
-
-//     await newsHeading.click();
-//     const texts = await getAllTextsFromPage(page, searchQuery);
-
-//     if (texts.length > 0) {
-//       return texts;
-//     }
-//   }
-
-//   return [];
-// };

@@ -58,9 +58,7 @@ export const getNewsFromGoogleSearch = async (searchQuery: string) => {
       if (!isAttached) continue;
 
       await newsHeading.click();
-      // console.log('aaaa');
-      // await page.waitForSelector(page.$$(`:text("${searchQuery}")`));
-      // console.log('bbbb');
+      
       console.log('aaa');
       await page.waitForTimeout(1000);
 
@@ -79,57 +77,6 @@ export const getNewsFromGoogleSearch = async (searchQuery: string) => {
       }
     }
   }
-
-  // const processNewsHeading = async (
-  //   page: Page,
-  //   newsHeading: ElementHandle<Element>,
-  //   searchQuery: string
-  // ): Promise<string[]> => {
-  //   try {
-  //     const isAttached = await page.evaluate(
-  //       (element) => document.body.contains(element),
-  //       newsHeading
-  //     );
-  //     if (!isAttached) return [];
-
-  //     await newsHeading.click();
-  //     console.log('aaa');
-  //     await page.waitForTimeout(1000);
-
-  //     const texts = await getAllTextsFromPage(page, searchQuery);
-  //     console.log('texts.length', texts.length);
-
-  //     if (texts.length > 0) {
-  //       await browser.close();
-  //       return texts;
-  //     }
-  //     return [];
-  //   } catch (error) {
-  //     console.error('Error during processing the news heading:', error.message || error);
-  //     return [];
-  //   }
-  // };
-
-  // const processNewsHeadings = async (page: Page, searchQuery: string): Promise<string[]> => {
-  //   const newsHeadings = await page.$$('div.n0jPhd.ynAwRc.MBeuO.nDgy9d[role="heading"]');
-  //   console.log('newsHeadings.length', newsHeadings.length);
-
-  //   if (newsHeadings.length === 0) {
-  //     console.log('見出しが見つかりませんでした。');
-  //     return [];
-  //   }
-
-  //   const texts: string[] = [];
-
-  //   for (const newsHeading of newsHeadings) {
-  //     const headingTexts = await processNewsHeading(page, newsHeading, searchQuery);
-  //     texts.push(...headingTexts);
-  //   }
-
-  //   return texts;
-  // };
-
-  // 以下でbrowserを初期化し、ページを作成してprocessNewsHeadingsを呼び出すコードを追加する必要があります
 
   await browser.close();
   console.log('適切なテキストが見つかりませんでした。');

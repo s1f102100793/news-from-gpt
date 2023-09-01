@@ -3,7 +3,6 @@ import { useAtom } from 'jotai';
 import type { ChangeEvent } from 'react';
 import { useState } from 'react';
 import { Loading } from 'src/components/Loading/Loading';
-import { BasicHeader } from 'src/pages/@components/BasicHeader/BasicHeader';
 import { apiClient } from 'src/utils/apiClient';
 import { userAtom } from '../atoms/user';
 import './index.module.css';
@@ -43,13 +42,13 @@ const Home = () => {
 
   return (
     <>
-      <BasicHeader user={user} />
+      {/* <BasicHeader user={user} /> */}
       <div className={styles.centerContainer}>
         <input
           type="text"
           value={inputValue}
           onChange={handleInputChange}
-          placeholder="こちらに入力してください"
+          placeholder="正確な知りたいニュースの話題名を入れてください"
           className={styles.inputStyle}
         />
         <button onClick={postBackend} className={styles.buttonStyle}>

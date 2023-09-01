@@ -18,7 +18,17 @@ export const makeNews = async (name: string) => {
   const res = await llm.call(
     `${news}の内容をmまとめた${name}の新たな新聞記事の内容を作成してください`
   );
+
   creatNews(name, res);
+
+  // const textSplitter = new RecursiveCharacterTextSplitter({
+  //   chunkSize: 800,
+  //   chunkOverlap: 200,
+  // });
+
+  // const document = textSplitter.splitDocuments(res);
+  // console.log(document);
+  // return document;
   return res;
 };
 

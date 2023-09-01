@@ -1,7 +1,7 @@
 import type { AxiosError } from 'axios';
 import { useAtom } from 'jotai';
 import type { ChangeEvent } from 'react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Loading } from 'src/components/Loading/Loading';
 import Header from 'src/components/header/Header';
 import { apiClient } from 'src/utils/apiClient';
@@ -13,6 +13,21 @@ const Home = () => {
   const [user] = useAtom(userAtom);
   const [inputValue, setInputValue] = useState('');
   const [response, setResponse] = useState<string | null>(null);
+  const [displayedText, setDisplayedText] = useState('');
+  const [charIndex, setCharIndex] = useState(0);
+
+  useEffect(() => {
+    if (response === null || response === '' || charIndex >= response.length) {
+      return;
+    }
+
+    const timerId = setTimeout(() => {
+      setDisplayedText((prevText) => prevText + response[charIndex]);
+      setCharIndex((prevIndex) => prevIndex + 1);
+    }, 100);
+
+    return () => clearTimeout(timerId);
+  }, [response, charIndex]);
 
   if (!user) return <Loading visible />;
 
@@ -22,6 +37,8 @@ const Home = () => {
 
   const postBackend = async () => {
     console.log('押した');
+    setDisplayedText('');
+    setCharIndex(0);
     try {
       const res = await apiClient.gpt.$post({ body: { name: inputValue } });
       console.log(res);
@@ -43,7 +60,6 @@ const Home = () => {
 
   return (
     <>
-      {/* <BasicHeader user={user} /> */}
       <Header />
       <div className={styles.centerContainer}>
         <input
@@ -56,9 +72,7 @@ const Home = () => {
         <button onClick={postBackend} className={styles.buttonStyle}>
           送信
         </button>
-        {response !== null && response !== '' && (
-          <div className={styles.responseContainer}>{JSON.stringify(response)}</div>
-        )}
+        {displayedText && <div className={styles.responseContainer}>{displayedText}</div>}
       </div>
     </>
   );

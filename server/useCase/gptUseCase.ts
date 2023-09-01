@@ -4,7 +4,6 @@ import { OPENAIAPI } from '$/service/envValues';
 import { prismaClient } from '$/service/prismaClient';
 import { type News } from '@prisma/client';
 import { OpenAI } from 'langchain/llms';
-import { RecursiveCharacterTextSplitter } from 'langchain/text_splitter';
 
 export const toNewsModel = (prismaNews: News): NewsModel => ({
   title: prismaNews.title,

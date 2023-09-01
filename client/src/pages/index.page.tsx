@@ -49,7 +49,7 @@ const Home = () => {
           type="text"
           value={inputValue}
           onChange={handleInputChange}
-          placeholder="こちらに入力してください"
+          placeholder="正確な知りたいニュースの話題名を入れてください"
           className={styles.inputStyle}
         />
         <button onClick={postBackend} className={styles.buttonStyle}>

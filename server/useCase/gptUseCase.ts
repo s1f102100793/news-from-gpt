@@ -14,15 +14,15 @@ export const toNewsModel = (prismaNews: News): NewsModel => ({
 
 export const makeNews = async (name: string) => {
   const parser = StructuredOutputParser.fromNamesAndDescriptions({
-    title: 'Title of the news article',
-    subtitle: 'Subtitle or additional information of the article',
-    body: 'Main content of the news article',
+    title: 'ニュース記事のタイトル',
+    subtitle: '記事のサブタイトルまたは追加情報',
+    body: 'ニュース記事の主要な内容',
   });
 
   const formatInstructions = parser.getFormatInstructions();
 
   const prompt = new PromptTemplate({
-    template: 'Answer the users question as best as possible.\n{format_instructions}\n{question}',
+    template: 'ユーザーの質問に答えてください。\n{format_instructions}\n{question}',
     inputVariables: ['question'],
     partialVariables: { format_instructions: formatInstructions },
   });

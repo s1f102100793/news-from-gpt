@@ -41,7 +41,10 @@ const Home = () => {
     setCharIndex(0);
     try {
       const res = await apiClient.gpt.$post({ body: { name: inputValue } });
-      console.log(res);
+      const jsonRes = JSON.parse(res);
+      console.log(jsonRes.title);
+      console.log(jsonRes.subtitle);
+      console.log(jsonRes.body);
       setResponse(res);
     } catch (error) {
       const axiosError = error as AxiosError;

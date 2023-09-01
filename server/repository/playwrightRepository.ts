@@ -21,38 +21,6 @@ export const getNewsFromGoogleSearch = async (searchQuery: string) => {
 
   await page.getByRole('link', { name: 'ニュース', exact: true }).click();
 
-  //   await page.waitForSelector('div.n0jPhd.ynAwRc.MBeuO.nDgy9d[role="heading"]');
-  //   // // 最初のニュースリンクをクリック
-  //   // const firstNewsLink = await page.$('div n0jPhd ynAwRc MBeuO nDgy9d a');
-  //   // if (firstNewsLink) {
-  //   //   await firstNewsLink.click();
-  //   //   await page.waitForLoadState('load'); // 新しいページがロードされるのを待機
-  //   // } else {
-  //   //   console.log('ニュースリンクが見つかりませんでした。');
-  //   // // }
-
-  // // 動いた
-  // const newsHeading = await page.$('div.n0jPhd.ynAwRc.MBeuO.nDgy9d[role="heading"]');
-  // if (newsHeading) {
-  //   await newsHeading.click();
-
-  //   const elements = await page.$$(`:text("${searchQuery}")`);
-  //   const texts: (string | null)[] = [];
-
-  //   for (const element of elements) {
-  //     const text = await element.textContent();
-  //     if (isValidText(text)) {
-  //       texts.push(text);
-  //     }
-  //   }
-  //   // aaa
-  //   await browser.close();
-
-  //   return texts; // これでテキストの配列を返します
-  // } else {
-  //   console.log('見出しが見つかりませんでした。');
-  // }
-
   const getAllTextsFromPage = async (page: any, searchQuery: string) => {
     const elements = await page.$$(`:text("${searchQuery}")`);
     const texts: (string | null)[] = [];
@@ -68,6 +36,10 @@ export const getNewsFromGoogleSearch = async (searchQuery: string) => {
   };
 
   // すべてのニュース見出しを取得
+  await page.waitForSelector('div.n0jPhd.ynAwRc.MBeuO.nDgy9d[role="heading"]');
+
+  // この上は確定
+
   const newsHeadings = await page.$$('div.n0jPhd.ynAwRc.MBeuO.nDgy9d[role="heading"]');
   console.log('newsHeadings.length', newsHeadings.length);
 
@@ -85,6 +57,11 @@ export const getNewsFromGoogleSearch = async (searchQuery: string) => {
       if (!isAttached) continue;
 
       await newsHeading.click();
+      // console.log('aaaa');
+      // await page.waitForSelector(page.$$(`:text("${searchQuery}")`));
+      // console.log('bbbb');
+      console.log('aaa');
+      await page.waitForTimeout(1000);
 
       const texts = await getAllTextsFromPage(page, searchQuery);
       console.log('texts.length', texts.length);

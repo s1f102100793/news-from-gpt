@@ -3,6 +3,7 @@ import { useAtom } from 'jotai';
 import type { ChangeEvent } from 'react';
 import { useState } from 'react';
 import { Loading } from 'src/components/Loading/Loading';
+import Header from 'src/components/header/Header';
 import { apiClient } from 'src/utils/apiClient';
 import { userAtom } from '../atoms/user';
 import './index.module.css';
@@ -43,6 +44,7 @@ const Home = () => {
   return (
     <>
       {/* <BasicHeader user={user} /> */}
+      <Header />
       <div className={styles.centerContainer}>
         <input
           type="text"

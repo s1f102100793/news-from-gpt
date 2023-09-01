@@ -1,0 +1,20 @@
+/* Header.module.css */
+
+.headerContainer {
+  background-color: #f4f5ed;
+  color: #09090b;
+  padding: 2% 0;
+  text-align: center;
+  border-top: 2px solid #09090b;
+  border-bottom: 2px solid #09090b;
+  box-sizing: border-box;
+}
+
+.headerTitle {
+  font-size: 2em;
+  font-weight: bold;
+}
+
+.yellowText {
+  color: #958B42;
+}

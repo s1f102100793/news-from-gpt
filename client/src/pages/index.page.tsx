@@ -4,6 +4,7 @@ import type { ChangeEvent } from 'react';
 import { useEffect, useState } from 'react';
 import { Loading } from 'src/components/Loading/Loading';
 import Header from 'src/components/header/Header';
+import NewsInput from 'src/components/newsinput/NewsInput';
 import { apiClient } from 'src/utils/apiClient';
 import { userAtom } from '../atoms/user';
 import './index.module.css';
@@ -66,17 +67,8 @@ const Home = () => {
   return (
     <>
       <Header />
+      <NewsInput value={inputValue} onChange={handleInputChange} onSubmit={postBackend} />
       <div className={styles.centerContainer}>
-        <input
-          type="text"
-          value={inputValue}
-          onChange={handleInputChange}
-          placeholder="正確な知りたいニュースの話題名を入れてください"
-          className={styles.inputStyle}
-        />
-        <button onClick={postBackend} className={styles.buttonStyle}>
-          送信
-        </button>
         {displayedText && (
           <div className={styles.newsContainer}>
             <h1 className={styles.newsTitle}>{responsetitle}</h1>

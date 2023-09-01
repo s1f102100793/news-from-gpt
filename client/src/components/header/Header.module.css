@@ -1,28 +1,40 @@
 /* Header.module.css */
 
+@font-face {
+  font-family: 'TitleFont';  
+  src: url('../../../fonts/LeagueGothic-CondensedItalic.otf') format('opentype');  
+  font-weight: normal;
+  font-style: normal;
+}
+
 .headerContainer {
   background-color: #f4f5ed;
   color: #09090b;
   padding: 2% 0;
-  text-align: center;
+  text-align: left; /* コンテナ内のテキストを左に揃える */
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start; /* 子要素をコンテナの左端に配置 */
 }
 
 .headerLine {
   flex-grow: 1;
   background-color: #09090b;
-  height: 2px;
+  height: 3px;
   width: 100%;
 }
 
 .headerTitle {
-  font-size: 2em;
+  font-size: 3.3em; /* フォントサイズを大きくする */
   font-weight: bold;
   display: inline-block;
-  padding: 0.2em 0; /* テキストと線との間のスペース */
+  padding: 0; /* テキストと線との間のスペース */
+  margin-left: 5%; 
+  /* margin-left: 8%;
+  font-family: 'TitleFont', serif;
+  letter-spacing: 0.5ch;
+  transform: scaleX(2.5); */
 }
 
 .yellowText {

@@ -1,8 +1,8 @@
 /* Header.module.css */
 
 @font-face {
-  font-family: 'TitleFont';  
-  src: url('../../../fonts/LeagueGothic-CondensedItalic.otf') format('opentype');  
+  font-family: 'TitleFont';
+  src: url('../../../fonts/LeagueGothic-CondensedItalic.otf') format('opentype');
   font-weight: normal;
   font-style: normal;
 }
@@ -18,6 +18,12 @@
   align-items: flex-start; /* 子要素をコンテナの左端に配置 */
 }
 
+.dateTime {
+  margin-left: auto;
+  margin-top: -1.25rem;
+  margin-right: 1.25rem;
+}
+
 .headerLine {
   flex-grow: 1;
   background-color: #09090b;
@@ -30,7 +36,7 @@
   font-weight: bold;
   display: inline-block;
   padding: 0; /* テキストと線との間のスペース */
-  margin-left: 5%; 
+  margin-left: 5%;
   /* margin-left: 8%;
   font-family: 'TitleFont', serif;
   letter-spacing: 0.5ch;

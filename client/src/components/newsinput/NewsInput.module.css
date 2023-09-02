@@ -2,7 +2,6 @@
   position: absolute;
   right: 0;
   top: 12.5%; /* 開発者ツール等でHeaderの実際の高さを確認して設定してください */
-  background-color: #f4f5ed;
   align-items: center;
   display: flex;
   justify-content: flex-end;

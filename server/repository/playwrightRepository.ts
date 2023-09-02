@@ -58,7 +58,7 @@ export const getNewsFromGoogleSearch = async (searchQuery: string) => {
       if (!isAttached) continue;
 
       await newsHeading.click();
-      
+
       console.log('aaa');
       await page.waitForTimeout(1000);
 

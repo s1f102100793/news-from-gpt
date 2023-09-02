@@ -25,11 +25,15 @@ const Home = () => {
 
   const postBackend = async () => {
     console.log('押した');
+    setResponsetitle(null);
+    setResponsesubtitle(null);
+    setResponsebody(null);
     try {
       const res = await apiClient.gpt.$post({ body: { name: inputValue } });
       console.log(res.title);
       console.log(res.subtitle);
       console.log(res.body);
+      // console.log(res);
       setResponsetitle(res.title);
       setResponsesubtitle(res.subtitle);
       setResponsebody(res.body);

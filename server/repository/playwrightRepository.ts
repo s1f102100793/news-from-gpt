@@ -10,7 +10,7 @@ export const getNewsFromGoogleSearch = async (
   startPercentage: number,
   endPercentage: number
 ) => {
-  const browser = await chromium.launch({ headless: false });
+  const browser = await chromium.launch({ headless: true });
   const page = await browser.newPage();
 
   // Googleで検索を実行
@@ -82,6 +82,7 @@ export const getNewsFromGoogleSearch = async (
       console.log('texts.length', texts.length);
 
       if (texts.length > 0) {
+        // await page.on('download')
         await browser.close();
         return texts;
       }

@@ -86,7 +86,6 @@ export const makeNews25to100 = async (
     partialVariables: { format_instructions: formatInstructions },
   });
 
-  // const news = await fetchNews(name);
   const news = await getNewsFromGoogleSearch(name, startPercentage, endPercentage);
   console.log('news', news);
 
@@ -119,7 +118,21 @@ export const makeNews = async (name: string) => {
     body: `${res0to25.body} ${res25to50.body} ${res50to75.body} ${res75to100.body}`,
   };
 
-  return mergedResult;
+  const llm = new OpenAI({
+    openAIApiKey: OPENAIAPI,
+    temperature: 0.9,
+    modelName: 'gpt-4',
+    maxTokens: 5000,
+  });
+
+  const res = await llm.call(`${mergedResult.body}の文章の流れを整えてください`);
+
+  const fixedResult = {
+    title: res0to25.title,
+    subtitle: `${res0to25.subtitle} ${res25to50.subtitle} ${res50to75.subtitle} ${res75to100.subtitle}`,
+    body: `${res}`,
+  };
+  return fixedResult;
 };
 export const creatNews = async (title: NewsModel['title'], content: NewsModel['content']) => {
   const prismaNews = await prismaClient.news.create({

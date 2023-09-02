@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import styles from './news.module.css';
 
 interface NewsProps {
@@ -41,24 +41,13 @@ const NewsComponent: React.FC<NewsProps> = ({ title, subtitle, body }) => {
     };
   }, [title]);
 
-  const [fontSize, setFontSize] = useState('2em'); // デフォルトフォントサイズをセット
-
-  useEffect(() => {
-    const calculatedSize = `calc(2em + ${(2 * window.innerWidth) / 100}vw)`;
-    setFontSize(calculatedSize);
-  }, []);
-  
-  const subtitleMarginTop = `calc(${fontSize} * 1.5)`;
-
   return (
     <div className={styles.centerContainer}>
       <div className={styles.newsContainer} ref={containerRef}>
         <h1 className={styles.newsTitle} ref={titleRef}>
           {title}
         </h1>
-        <h2 className={styles.newsSubtitle} style={{ marginTop: subtitleMarginTop }}>
-          {subtitle}
-        </h2>
+        <h2 className={styles.newsSubtitle}>{subtitle}</h2>
         <p className={styles.newsBody}>{body}</p>
       </div>
     </div>

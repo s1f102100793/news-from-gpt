@@ -1,7 +1,7 @@
-import { chromium } from 'playwright';
+import { chromium } from 'playwright-core';
 
 export const getYoutube = async (searchQuery: string) => {
-  const browser = await chromium.launch({ headless: false });
+  const browser = await chromium.launch({ channel: 'chrome', headless: false });
   const page = await browser.newPage();
 
   // Googleで検索を実行
@@ -17,10 +17,16 @@ export const getYoutube = async (searchQuery: string) => {
   await page
     .getByRole('link', { name: 'YouTube: ホーム YouTube https://www.youtube.com › ...' })
     .click();
-  await page.waitForTimeout(1000);
+  await page.waitForTimeout(2000);
   await page.getByPlaceholder('Search').click();
   await page.getByPlaceholder('Search').fill(searchQuery);
   await page.getByPlaceholder('Search').press('Enter');
-  await page.getByLabel('Search filters').click();
-  await page.getByRole('link', { name: 'View count' }).click();
+  // await page.getByLabel('Search filters').click();
+  // await page.getByRole('link', { name: 'View count' }).click();
+  await page.waitForTimeout(2000);
+  console.log('aaaa');
+  await page.click('yt-formatted-string.style-scope.ytd-video-renderer:nth-of-type(1)');
+  console.log('bbbb');
+  await page.waitForTimeout(10000);
+  await browser.close();
 };

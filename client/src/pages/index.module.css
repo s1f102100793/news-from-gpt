@@ -7,13 +7,6 @@
   background-color: #f4f5ed;
 }
 
-.centerContainer {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: calc(100vh - 60px); /* Assuming BasicHeader has a height of 60px. Adjust accordingly. */
-}
 
 /* New style for response container */
 .responseContainer {
@@ -25,36 +18,4 @@
   overflow-y: auto; /* Add scroll if content is too long */
   font-size: 14px; /* Adjust font size if needed */
   background-color: #f6f6f6; /* Light grey background for visibility */
-}
-
-.newsContainer {
-  width: 95%;
-  height: 90%;
-  margin: 20px auto;
-  padding: 20px;
-  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
-  column-count: 2;
-  column-gap: 40px; 
-  position: relative;
-}
-
-.newsTitle {
-  font-size: 3em;
-  margin: 0;
-  font-family: 'Decorative Font', serif; /* 魔法的な雰囲気のフォントを選択 */
-  position: absolute;
-  top: 10px;
-  left: 10px;
-}
-
-.newsSubtitle {
-  font-size: 1.2em;
-  color: #777;
-  margin-top: 50px; /* タイトルの下にスペースをとる */
-  column-span: all; /* サブタイトルはすべてのカラムを跨ぐ */
-}
-
-.newsBody {
-  font-size: 1em;
-  line-height: 1.6;
 }

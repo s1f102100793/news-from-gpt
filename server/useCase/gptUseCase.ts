@@ -18,11 +18,9 @@ export const makeNews = async (name: string) => {
     z.object({
       title: z.string().describe('ニュース記事のタイトル'),
       subtitle: z.string().describe('記事のサブタイトルまたは追加情報'),
-      body: z.string().describe('ニュース記事の主要な内容を2000文字程度で出力する'),
+      body: z.string().describe('ニュース記事の主要な内容'),
     })
   );
-
-  // const parser = new CustomListOutputParser({ length: 5, separator: "\n" });
 
   const formatInstructions = parser.getFormatInstructions();
 
@@ -34,9 +32,10 @@ export const makeNews = async (name: string) => {
 
   // const news = await fetchNews(name);
   const news = await getNewsFromGoogleSearch(name);
+  console.log('news', news);
 
   const input = await prompt.format({
-    question: `${news}の内容をmまとめた${name}の新たな新聞記事の内容を2000文字程度でを作成してください`,
+    question: `${news}の内容をmまとめた${name}の新たな新聞記事の内容をを作成してください、あなたには記事の上から25%部分しか見てもらっていないので、他の3人が残り75%を作ります`,
   });
 
   // const chat = new ChatOpenAI();

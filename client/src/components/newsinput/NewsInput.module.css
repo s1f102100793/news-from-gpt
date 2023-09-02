@@ -1,30 +1,31 @@
 .newsInputContainer {
-  position: fixed;
+  position: absolute;
   right: 0;
-  background-color: #f4f5ed;
+  top: 12.5%; /* 開発者ツール等でHeaderの実際の高さを確認して設定してください */
   align-items: center;
   display: flex;
-  flex-direction: row;
+  justify-content: flex-end;
   width: 100%;
 }
 
 .inputStyle {
-  padding: 10px;
-  font-size: 16px;
-  width: 200px;
+  padding: 1vh 1vw; /* 上下に1%、左右に2%のビューポートの高さと幅に相当するパディング */
+  font-size: 1.6vh; /* フォントサイズをビューポートの高さの1.6%に相当するサイズに */
+  width: 20vw; /* ビューポートの幅の20%に相当する幅 */
+  max-width: 200px; /* サイズが大きくなりすぎないように最大幅を指定 */
 }
 
 .buttonStyle {
-  padding: 10px 20px;
-  font-size: 16px;
-  cursor: pointer; /* Makes the button feel more clickable */
-  background-color: #f4f5ed; /* Example color, adjust if needed */
-  color: #09090b; /* Text color */
-  border: none; /* Remove default borders */
-  border-radius: 4px; /* Rounded corners */
-  transition: background-color 0.2s; /* Transition effect for hover */
+  padding: 1vh 3vw; /* 上下に1%、左右に3%のビューポートの高さと幅に相当するパディング */
+  font-size: 1.6vh; /* フォントサイズをビューポートの高さの1.6%に相当するサイズに */
+  cursor: pointer;
+  background-color: #e3e4d3;
+  color: #09090b;
+  border: none;
+  border-radius: 1vh; /* ビューポートの高さの1%に相当する角の丸み */
+  transition: background-color 0.2s;
 }
 
 .buttonStyle:hover {
-  background-color: #e3e4d3; /* Darker shade for hover effect */
+  background-color: #c9caaf; /* Darker shade for hover effect */
 }

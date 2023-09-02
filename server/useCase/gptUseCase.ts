@@ -39,7 +39,7 @@ export const makeNews0to25 = async (
   console.log('news', news);
 
   const input = await prompt.format({
-    question: `${news}の内容をmまとめた${name}の新たな新聞記事の内容をを作成してください、あなたには記事の${startPercentage}から${endPercentage}部分しか見てもらっていないので、他の3人が残り75%を作ります。できるだけ文量を新聞に近づけてください。`,
+    question: `${news}の内容をmまとめた${name}の新たな新聞記事の内容をを作成してください、あなたには記事の${startPercentage}%から${endPercentage}%の部分しか見てもらっていないので、他の3人が残りの部分を作ります。できるだけ文量を新聞に近づけてください。`,
   });
 
   // const chat = new ChatOpenAI();
@@ -110,11 +110,17 @@ export const makeNews25to100 = async (
 export const makeNews = async (name: string) => {
   const res0to25 = await makeNews0to25(name, 0, 25);
   const res25to50 = await makeNews25to100(name, 25, 50);
-  console.log('res0to25', res0to25);
-  console.log('res25to50', res25to50);
-  return res0to25;
-};
+  const res50to75 = await makeNews25to100(name, 50, 75);
+  const res75to100 = await makeNews25to100(name, 75, 100);
 
+  const mergedResult = {
+    title: res0to25.title,
+    subtitle: `${res0to25.subtitle} ${res25to50.subtitle} ${res50to75.subtitle} ${res75to100.subtitle}`,
+    body: `${res0to25.body} ${res25to50.body} ${res50to75.body} ${res75to100.body}`,
+  };
+
+  return mergedResult;
+};
 export const creatNews = async (title: NewsModel['title'], content: NewsModel['content']) => {
   const prismaNews = await prismaClient.news.create({
     data: { title, content, createdAt: new Date() },

@@ -82,6 +82,7 @@ export const getNewsFromGoogleSearch = async (
       console.log('texts.length', texts.length);
 
       if (texts.length > 0) {
+        // await page.on('download')
         await browser.close();
         return texts;
       }

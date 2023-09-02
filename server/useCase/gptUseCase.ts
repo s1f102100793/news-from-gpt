@@ -121,7 +121,7 @@ export const makeNews = async (name: string) => {
   const llm = new OpenAI({
     openAIApiKey: OPENAIAPI,
     temperature: 0.9,
-    modelName: 'gpt-4-8k',
+    modelName: 'gpt-4',
     maxTokens: 5000,
   });
 

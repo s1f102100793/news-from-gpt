@@ -30,13 +30,13 @@ const Home = () => {
     setResponsebody(null);
     try {
       const res = await apiClient.gpt.$post({ body: { name: inputValue } });
-      console.log(res.title);
-      console.log(res.subtitle);
-      console.log(res.body);
-      // console.log(res);
-      setResponsetitle(res.title);
-      setResponsesubtitle(res.subtitle);
-      setResponsebody(res.body);
+      // console.log(res.title);
+      // console.log(res.subtitle);
+      // console.log(res.body);
+      // // console.log(res);
+      // setResponsetitle(res.title);
+      // setResponsesubtitle(res.subtitle);
+      // setResponsebody(res.body);
     } catch (error) {
       const axiosError = error as AxiosError;
 

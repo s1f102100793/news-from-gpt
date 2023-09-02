@@ -4,6 +4,7 @@ import type { ChangeEvent } from 'react';
 import { useState } from 'react';
 import { Loading } from 'src/components/Loading/Loading';
 import Header from 'src/components/header/Header';
+import NewsComponent from 'src/components/news/Newscomponet';
 import NewsInput from 'src/components/newsinput/NewsInput';
 import { apiClient } from 'src/utils/apiClient';
 import { userAtom } from '../atoms/user';
@@ -30,13 +31,13 @@ const Home = () => {
     setResponsebody(null);
     try {
       const res = await apiClient.gpt.$post({ body: { name: inputValue } });
-      // console.log(res.title);
-      // console.log(res.subtitle);
-      // console.log(res.body);
-      // // console.log(res);
-      // setResponsetitle(res.title);
-      // setResponsesubtitle(res.subtitle);
-      // setResponsebody(res.body);
+      console.log(res.title);
+      console.log(res.subtitle);
+      console.log(res.body);
+      // console.log(res);
+      setResponsetitle(res.title);
+      setResponsesubtitle(res.subtitle);
+      setResponsebody(res.body);
     } catch (error) {
       const axiosError = error as AxiosError;
 
@@ -57,13 +58,21 @@ const Home = () => {
         <Header />
         <NewsInput value={inputValue} onChange={handleInputChange} onSubmit={postBackend} />
         <div className={styles.centerContainer}>
-          {responsebody !== null && responsetitle !== null && responsesubtitle !== null && (
-            <div className={styles.newsContainer}>
+          {/* {responsebody !== null && responsetitle !== null && responsesubtitle !== null && ( */}
+          {/* <div className={styles.newsContainer}>
               <h1 className={styles.newsTitle}>{responsetitle}</h1>
               <h2 className={styles.newsSubtitle}>{responsesubtitle}</h2>
               <p className={styles.newsBody}>{responsebody}</p>
-            </div>
-          )}
+            </div> */}
+          {/* )} */}
+          <div>
+            <NewsComponent
+              title="Title"
+              subtitle="Subtitle"
+              body="bodyaaaaaaaaaaaaaaaaaaaaaaaa..."
+            />
+            {/* 他のコンテンツやコンポーネント */}
+          </div>
         </div>
       </div>
     </>

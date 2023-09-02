@@ -5,8 +5,12 @@ const isValidText = (value: string | null | undefined): boolean => {
 };
 
 // eslint-disable-next-line complexity
-export const getNewsFromGoogleSearch = async (searchQuery: string) => {
-  const browser = await chromium.launch({ headless: true });
+export const getNewsFromGoogleSearch = async (
+  searchQuery: string,
+  startPercentage: number,
+  endPercentage: number
+) => {
+  const browser = await chromium.launch({ headless: false });
   const page = await browser.newPage();
 
   // Googleで検索を実行
@@ -22,12 +26,19 @@ export const getNewsFromGoogleSearch = async (searchQuery: string) => {
 
   await page.getByRole('link', { name: 'ニュース', exact: true }).click();
 
-  const getAllTextsFromPage = async (page: any, searchQuery: string) => {
+  const getTextsFromPageByPercentage = async (
+    page: any,
+    searchQuery: string,
+    startPercentage: number,
+    endPercentage: number
+  ) => {
     const elements = await page.$$(`:text("${searchQuery}")`);
+    const startIdx = Math.floor(elements.length * (startPercentage / 100));
+    const endIdx = Math.floor(elements.length * (endPercentage / 100));
     const texts: (string | null)[] = [];
 
-    for (const element of elements) {
-      const text = await element.textContent();
+    for (let i = startIdx; i < endIdx; i++) {
+      const text = await elements[i].textContent();
       if (isValidText(text)) {
         texts.push(text);
       }
@@ -62,7 +73,12 @@ export const getNewsFromGoogleSearch = async (searchQuery: string) => {
       console.log('aaa');
       await page.waitForTimeout(1000);
 
-      const texts = await getAllTextsFromPage(page, searchQuery);
+      const texts = await getTextsFromPageByPercentage(
+        page,
+        searchQuery,
+        startPercentage,
+        endPercentage
+      );
       console.log('texts.length', texts.length);
 
       if (texts.length > 0) {

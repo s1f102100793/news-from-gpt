@@ -1,5 +1,6 @@
 import type { NewsModel } from '$/commonTypesWithClient/models';
 import { getNewsFromGoogleSearch } from '$/repository/playwrightRepository';
+import { getYoutube } from '$/repository/youtuberepository';
 import { OPENAIAPI } from '$/service/envValues';
 import { prismaClient } from '$/service/prismaClient';
 import { type News } from '@prisma/client';
@@ -111,6 +112,7 @@ export const makeNews = async (name: string) => {
   const res25to50 = await makeNews25to100(name, 25, 50);
   const res50to75 = await makeNews25to100(name, 50, 75);
   const res75to100 = await makeNews25to100(name, 75, 100);
+  await getYoutube(name);
 
   const mergedResult = {
     title: res0to25.title,
@@ -125,7 +127,7 @@ export const makeNews = async (name: string) => {
     maxTokens: 5000,
   });
 
-  const res = await llm.call(`${mergedResult.body}の文章の流れを整えてください`);
+  const res = await llm.call(`${mergedResult.body}の文章を整えてください`);
 
   const fixedResult = {
     title: res0to25.title,

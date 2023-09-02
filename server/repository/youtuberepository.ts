@@ -1,7 +1,7 @@
-import { chromium } from 'playwright';
+import { chromium } from 'playwright-core';
 
 export const getYoutube = async (searchQuery: string) => {
-  const browser = await chromium.launch({ headless: false });
+  const browser = await chromium.launch({ channel: 'chrome', headless: false });
   const page = await browser.newPage();
 
   // Googleで検索を実行

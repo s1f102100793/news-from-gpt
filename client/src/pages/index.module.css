@@ -7,13 +7,6 @@
   background-color: #f4f5ed;
 }
 
-.centerContainer {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: calc(100vh - 60px); /* Assuming BasicHeader has a height of 60px. Adjust accordingly. */
-}
 
 /* New style for response container */
 .responseContainer {

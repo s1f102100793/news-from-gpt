@@ -57,23 +57,9 @@ const Home = () => {
       <div className={styles.container}>
         <Header />
         <NewsInput value={inputValue} onChange={handleInputChange} onSubmit={postBackend} />
-        <div className={styles.centerContainer}>
-          {/* {responsebody !== null && responsetitle !== null && responsesubtitle !== null && ( */}
-          {/* <div className={styles.newsContainer}>
-              <h1 className={styles.newsTitle}>{responsetitle}</h1>
-              <h2 className={styles.newsSubtitle}>{responsesubtitle}</h2>
-              <p className={styles.newsBody}>{responsebody}</p>
-            </div> */}
-          {/* )} */}
-          <div>
-            <NewsComponent
-              title="Title"
-              subtitle="Subtitle"
-              body="bodyaaaaaaaaaaaaaaaaaaaaaaaa..."
-            />
-            {/* 他のコンテンツやコンポーネント */}
-          </div>
-        </div>
+        {responsebody !== null && responsetitle !== null && responsesubtitle !== null && (
+          <NewsComponent title={responsetitle} subtitle={responsesubtitle} body={responsebody} />
+        )}
       </div>
     </>
   );

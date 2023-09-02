@@ -5,7 +5,11 @@ const isValidText = (value: string | null | undefined): boolean => {
 };
 
 // eslint-disable-next-line complexity
-export const getNewsFromGoogleSearch = async (searchQuery: string) => {
+export const getNewsFromGoogleSearch = async (
+  searchQuery: string,
+  startPercentage: number,
+  endPercentage: number
+) => {
   const browser = await chromium.launch({ headless: true });
   const page = await browser.newPage();
 
@@ -21,35 +25,6 @@ export const getNewsFromGoogleSearch = async (searchQuery: string) => {
   await page.waitForSelector('h3');
 
   await page.getByRole('link', { name: 'ニュース', exact: true }).click();
-
-  // const getAllTextsFromPage = async (page: any, searchQuery: string) => {
-  //   const elements = await page.$$(`:text("${searchQuery}")`);
-  //   const texts: (string | null)[] = [];
-
-  //   for (const element of elements) {
-  //     const text = await element.textContent();
-  //     if (isValidText(text)) {
-  //       texts.push(text);
-  //     }
-  //   }
-
-  //   return texts;
-  // };
-
-  // const getAllTextsFromPage25 = async (page: any, searchQuery: string) => {
-  //   const elements = await page.$$(`:text("${searchQuery}")`);
-  //   const limit = Math.floor(elements.length * 0.25); // 25%の要素数を計算
-  //   const texts: (string | null)[] = [];
-
-  //   for (let i = 0; i < limit; i++) {
-  //     const text = await elements[i].textContent();
-  //     if (isValidText(text)) {
-  //       texts.push(text);
-  //     }
-  //   }
-
-  //   return texts;
-  // };
 
   const getTextsFromPageByPercentage = async (
     page: any,
@@ -98,7 +73,12 @@ export const getNewsFromGoogleSearch = async (searchQuery: string) => {
       console.log('aaa');
       await page.waitForTimeout(1000);
 
-      const texts = await getTextsFromPageByPercentage(page, searchQuery, 0, 25);
+      const texts = await getTextsFromPageByPercentage(
+        page,
+        searchQuery,
+        startPercentage,
+        endPercentage
+      );
       console.log('texts.length', texts.length);
 
       if (texts.length > 0) {

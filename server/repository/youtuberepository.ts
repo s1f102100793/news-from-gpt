@@ -25,7 +25,7 @@ export const getYoutube = async (searchQuery: string) => {
   // await page.getByRole('link', { name: 'View count' }).click();
   await page.waitForTimeout(2000);
   console.log('aaaa');
-  await page.click('div[id="dismissible"]');
+  await page.click('yt-formatted-string.style-scope.ytd-video-renderer:nth-of-type(1)');
   console.log('bbbb');
   await page.waitForTimeout(10000);
   await browser.close();

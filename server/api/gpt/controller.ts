@@ -1,4 +1,3 @@
-import { getPhoto } from '$/repository/photoRepository';
 import { makeNews } from '$/useCase/gptUseCase';
 import { defineController } from './$relay';
 

@@ -35,13 +35,20 @@ export const getYoutube = async (searchQuery: string) => {
     await page.getByRole('button', { name: 'Share' }).click();
     await page.getByRole('button', { name: 'Embed' }).click();
     // const textValue = await page.locator('#textarea').getAttribute('value');
-    const textValue = await page.locator('#textarea').innerText();
+    // const textValue = await page.locator('#textarea').innerText();
+    // // const textValue2 = await page.getByRole('#textarea').innerText();
+    // const textValue = await page
+    //   .locator('.textarea-container .style-scope.tp-yt-iron-autogrow-textarea')
+    //   .innerText();
+    const textValue = await page
+      .locator('.textarea-container .style-scope.tp-yt-iron-autogrow-textarea')
+      .inputValue();
 
     // const text = <iframe width="560" height="315" src="https://www.youtube.com/embed/R_QoIn3bD-o?si=sFBual0YuGh3UGKO" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
-    if (typeof textValue === 'string' && textValue.trim() !== '') {
-      console.log('textValue', textValue);
-    }
+    // if (typeof textValue === 'string' && textValue.trim() !== '') {
+    console.log('textValue', textValue);
+    // }
 
     // await page.locator('#textarea').click();
     // await page.locator('#textarea').press('Control+c');

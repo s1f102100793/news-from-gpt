@@ -34,7 +34,7 @@ const Home = () => {
       const res = await apiClient.gpt.$post({ body: { name: inputValue } });
       setResponsetitle(res.title);
       setResponsesubtitle(res.subtitle);
-      setResponsebody(res.body)
+      setResponsebody(res.body);
       setResponsevideo(res.video);
       console.log(res);
     } catch (error) {

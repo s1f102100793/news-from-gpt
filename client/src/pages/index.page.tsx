@@ -5,7 +5,6 @@ import { useState } from 'react';
 import { Loading } from 'src/components/Loading/Loading';
 import Header from 'src/components/header/Header';
 import NewsComponent from 'src/components/news/Newscomponet';
-import NewsInput from 'src/components/newsinput/NewsInput';
 import { apiClient } from 'src/utils/apiClient';
 import { userAtom } from '../atoms/user';
 import './index.module.css';
@@ -63,8 +62,7 @@ const Home = () => {
   return (
     <>
       <div className={styles.container}>
-        <Header />
-        <NewsInput value={inputValue} onChange={handleInputChange} onSubmit={postBackend} />
+        <Header value={inputValue} onChange={handleInputChange} onSubmit={postBackend} />
         {shouldRenderNewsComponent(
           responsetitle,
           responsesubtitle,

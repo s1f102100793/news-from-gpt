@@ -1,11 +1,12 @@
 .newsInputContainer {
-  position: absolute;
+  position: fixed; /* absoluteからfixedに変更して、スクロールしても常に同じ位置になるようにします */
   right: 0;
-  top: 12.5%; /* 開発者ツール等でHeaderの実際の高さを確認して設定してください */
+  top: 12.5%;
   align-items: center;
   display: flex;
   justify-content: flex-end;
-  width: 100%;
+  width: auto; /* 100%からautoに変更して、コンテンツの幅に合わせる */
+  z-index: 1000;
 }
 
 .inputStyle {

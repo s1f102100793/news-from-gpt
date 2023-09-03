@@ -1,8 +1,15 @@
 // Header.tsx
 import { useEffect, useState } from 'react';
+import NewsInput from '../newsinput/NewsInput';
 import styles from './Header.module.css';
 
-const Header = () => {
+interface NewsInputProps {
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onSubmit: () => void;
+}
+
+const Header: React.FC<NewsInputProps> = ({ value, onChange, onSubmit }) => {
   const [currentDateTime, setCurrentDateTime] = useState(new Date());
 
   useEffect(() => {
@@ -27,6 +34,7 @@ const Header = () => {
       </h1>
       <div className={styles.dateTime}>{formattedDateTime}</div>
       <div className={styles.headerLine} />
+      <NewsInput value={value} onChange={onChange} onSubmit={onSubmit} />
     </div>
   );
 };

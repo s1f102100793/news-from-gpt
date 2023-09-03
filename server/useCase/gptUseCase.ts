@@ -115,7 +115,9 @@ export const makeNews = async (name: string) => {
   });
 
   const resbody = await llm.call(`${mergedResult.body}の文章を整えてください`);
-  const ressubtitle = await llm.call(`${mergedResult.subtitle}の文章を整えてください`);
+  const ressubtitle = await llm.call(
+    `${mergedResult.subtitle}の文章を整えてニュースのサブタイトルのように人を魅了するようにしてください`
+  );
 
   const video = await getYoutube(name);
 

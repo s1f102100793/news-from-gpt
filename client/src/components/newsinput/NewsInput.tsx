@@ -20,7 +20,7 @@ const NewsInput: React.FC<NewsInputProps> = ({ value, onChange, onSubmit }) => {
         className={styles.inputStyle}
       />
       <button onClick={onSubmit} className={styles.buttonStyle}>
-        送信
+        作成
       </button>
     </div>
   );

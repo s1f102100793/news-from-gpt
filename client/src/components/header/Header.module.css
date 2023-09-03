@@ -33,6 +33,15 @@
   margin: 0 1.5%;
 }
 
+/* .headerbottom {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1.5% 5%; 
+  box-sizing: border-box;
+} */
+
 .headerTitle {
   font-size: 3.3em; /* フォントサイズを大きくする */
   font-weight: bold;

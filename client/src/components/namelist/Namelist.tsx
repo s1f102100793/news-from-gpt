@@ -24,7 +24,6 @@ const NameListComponent = () => {
 
     const interval = setInterval(fetchData, 100);
     return () => clearInterval(interval);
-    fetchData();
   }, []);
 
   const countNames = (data: NewsData[]): Map<string, number> => {

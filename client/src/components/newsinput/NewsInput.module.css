@@ -1,15 +1,11 @@
 .newsInputContainer {
-  position: fixed; /* absoluteからfixedに変更して、スクロールしても常に同じ位置になるようにします */
-  right: 0;
-  top: 12.5%;
-  align-items: center;
   display: flex;
   justify-content: space-between;
+  align-items: center;
   width: 100%;
-  z-index: 1000;
-  padding-left: 2%;
+  padding: 1% 5%;
+  box-sizing: border-box;
 }
-
 .inputStyle {
   padding: 1vh 1vw; /* 上下に1%、左右に2%のビューポートの高さと幅に相当するパディング */
   font-size: 1.6vh; /* フォントサイズをビューポートの高さの1.6%に相当するサイズに */

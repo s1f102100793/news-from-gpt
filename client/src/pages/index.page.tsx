@@ -30,8 +30,8 @@ const Home = () => {
   };
 
   const Reset = async () => {
-    const res = await apiClient.news.$post({ body: { name: inputValue } });
-    console.log(res);
+    // const res = await apiClient.news.$post({ body: { name: inputValue } });
+    // console.log(res);
     setResponsetitle(null);
     setResponsesubtitle(null);
     setResponsebody(null);

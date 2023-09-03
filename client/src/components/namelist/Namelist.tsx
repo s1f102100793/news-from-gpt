@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { apiClient } from 'src/utils/apiClient';
+import styles from './namelist.module.css';
 
 const NameListComponent = () => {
   type NewsData = {
@@ -40,17 +41,16 @@ const NameListComponent = () => {
   };
 
   const nameCounts = countNames(newsData);
-
   return (
-    <div>
+    <div className={styles.container}>
       {Array.from(nameCounts.entries()).map(([name, count]) => (
-        <div key={name} onClick={() => setSelectedName(name)}>
+        <div key={name} onClick={() => setSelectedName(name)} className={styles.nameItem}>
           {name} ({count})
         </div>
       ))}
 
       {selectedName !== null && (
-        <ul>
+        <ul className={styles.nameList}>
           {newsData
             .filter((item) => item.name === selectedName)
             .map((item, index) => (

@@ -38,6 +38,7 @@ const Home = () => {
       // setResponsetitle(res.title);
       // setResponsesubtitle(res.subtitle);
       // setResponsebody(res.body);
+      console.log(res);
     } catch (error) {
       const axiosError = error as AxiosError;
 

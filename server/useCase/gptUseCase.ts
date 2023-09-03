@@ -35,7 +35,6 @@ export const makeNews0to25 = async (
     partialVariables: { format_instructions: formatInstructions },
   });
 
-  // const news = await fetchNews(name);
   const news = await getNewsFromGoogleSearch(name, startPercentage, endPercentage);
   console.log('news', news);
 
@@ -43,9 +42,6 @@ export const makeNews0to25 = async (
     question: `${news}の内容をmまとめた${name}の新たな新聞記事の内容をを作成してください、あなたには記事の${startPercentage}%から${endPercentage}%の部分しか見てもらっていないので、他の3人が残りの部分を作ります。できるだけ文量を新聞に近づけてください。`,
   });
 
-  // const chat = new ChatOpenAI();
-  // const token_size = chat.getNumTokens(input);
-  // console.log('token_size', token_size);
   const llm = new OpenAI({
     openAIApiKey: OPENAIAPI,
     temperature: 0.9,
@@ -56,14 +52,6 @@ export const makeNews0to25 = async (
   console.log('aaa');
   creatNews(name, res);
 
-  // const textSplitter = new RecursiveCharacterTextSplitter({
-  //   chunkSize: 800,
-  //   chunkOverlap: 200,
-  // });
-
-  // const document = textSplitter.splitDocuments(res);
-  // console.log(document);
-  // return document;
   return await parser.parse(res);
 };
 
@@ -112,7 +100,6 @@ export const makeNews = async (name: string) => {
   const res25to50 = await makeNews25to100(name, 25, 50);
   const res50to75 = await makeNews25to100(name, 50, 75);
   const res75to100 = await makeNews25to100(name, 75, 100);
-  // await getYoutube(name);
 
   const mergedResult = {
     title: res0to25.title,

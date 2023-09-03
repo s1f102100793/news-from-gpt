@@ -20,7 +20,7 @@
 }
 
 .newsTitle {
-  font-size: var(--title-font-size);
+  font-size: var(--dynamic-title-font-size, var(--title-font-size));
   margin: 0;
   max-width: 90%;
   white-space: nowrap;
@@ -32,7 +32,7 @@
 }
 
 .newsSubtitle {
-  font-size: 1.5em;
+  font-size: calc(var(--dynamic-title-font-size, var(--title-font-size)) * 0.75);
   color: #555;
   --title-font-size: calc(2em + 2vw);
   --subtitle-margin-top-ratio: 1;
@@ -42,8 +42,9 @@
 }
 
 .newsBody {
-  font-size: 1.1em;
+  font-size: calc(var(--dynamic-title-font-size, var(--title-font-size)) * 0.55);
   line-height: 1.7;
   color: #333;
   text-align: justify;
 }
+

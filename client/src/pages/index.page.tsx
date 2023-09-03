@@ -32,14 +32,10 @@ const Home = () => {
     setResponsebody(null);
     try {
       const res = await apiClient.gpt.$post({ body: { name: inputValue } });
-      // console.log(res.title);
-      // console.log(res.subtitle);
-      // console.log(res.body);
-      // // console.log(res);
-      // setResponsetitle(res.title);
-      // setResponsesubtitle(res.subtitle);
-      // setResponsebody(res.body);
-      setResponsevideo(res);
+      setResponsetitle(res.title);
+      setResponsesubtitle(res.subtitle);
+      setResponsebody(res.body)
+      setResponsevideo(res.video);
       console.log(res);
     } catch (error) {
       const axiosError = error as AxiosError;
@@ -60,10 +56,17 @@ const Home = () => {
       <div className={styles.container}>
         <Header />
         <NewsInput value={inputValue} onChange={handleInputChange} onSubmit={postBackend} />
-        {responsebody !== null && responsetitle !== null && responsesubtitle !== null && (
-          <NewsComponent title={responsetitle} subtitle={responsesubtitle} body={responsebody} />
-        )}
-        {responsevideo !== null && <div dangerouslySetInnerHTML={{ __html: responsevideo }} />}
+        {responsebody !== null &&
+          responsetitle !== null &&
+          responsesubtitle !== null &&
+          responsevideo !== null && (
+            <NewsComponent
+              title={responsetitle}
+              subtitle={responsesubtitle}
+              body={responsebody}
+              video={responsevideo}
+            />
+          )}
       </div>
     </>
   );

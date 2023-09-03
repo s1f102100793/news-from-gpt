@@ -1,9 +1,10 @@
 import type { NewsModel } from '$/commonTypesWithClient/models';
 import { getNewsFromGoogleSearch } from '$/repository/playwrightRepository';
+import { getYoutube } from '$/repository/youtuberepository';
 import { OPENAIAPI } from '$/service/envValues';
 import { prismaClient } from '$/service/prismaClient';
 import { type News } from '@prisma/client';
-import { OpenAI } from 'langchain/llms';
+import { OpenAI } from 'langchain/llms/openai';
 import { StructuredOutputParser } from 'langchain/output_parsers';
 import { PromptTemplate } from 'langchain/prompts';
 import { z } from 'zod';
@@ -128,11 +129,15 @@ export const makeNews = async (name: string) => {
 
   const res = await llm.call(`${mergedResult.body}の文章を整えてください`);
 
+  const video = await getYoutube(name);
+
   const fixedResult = {
     title: res0to25.title,
     subtitle: `${res0to25.subtitle} ${res25to50.subtitle} ${res50to75.subtitle} ${res75to100.subtitle}`,
     body: `${res}`,
+    video: `${video}`,
   };
+
   return fixedResult;
 };
 export const creatNews = async (title: NewsModel['title'], content: NewsModel['content']) => {

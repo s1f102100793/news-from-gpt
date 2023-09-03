@@ -5,9 +5,10 @@ interface NewsProps {
   title: string;
   subtitle: string;
   body: string;
+  video: string;
 }
 
-const NewsComponent: React.FC<NewsProps> = ({ title, subtitle, body }) => {
+const NewsComponent: React.FC<NewsProps> = ({ title, subtitle, body, video }) => {
   const titleRef = useRef<HTMLHeadingElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -49,6 +50,7 @@ const NewsComponent: React.FC<NewsProps> = ({ title, subtitle, body }) => {
         </h1>
         <h2 className={styles.newsSubtitle}>{subtitle}</h2>
         <p className={styles.newsBody}>{body}</p>
+        <div dangerouslySetInnerHTML={{ __html: video }} />
       </div>
     </div>
   );

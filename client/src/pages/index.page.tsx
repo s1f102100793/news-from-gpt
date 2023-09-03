@@ -59,22 +59,27 @@ const Home = () => {
     return title !== null && subtitle !== null && body !== null && video !== null;
   };
 
+  const EmptyResponseComponent = () => {
+    return (
+      <div>
+        <p>何も表示する内容がありません。</p>
+      </div>
+    );
+  };
+
   return (
     <>
       <div className={styles.container}>
         <Header value={inputValue} onChange={handleInputChange} onSubmit={postBackend} />
-        {shouldRenderNewsComponent(
-          responsetitle,
-          responsesubtitle,
-          responsebody,
-          responsevideo
-        ) && (
+        {shouldRenderNewsComponent(responsetitle, responsesubtitle, responsebody, responsevideo) ? (
           <NewsComponent
             title={responsetitle as string}
             subtitle={responsesubtitle as string}
             body={responsebody as string}
             video={responsevideo as string}
           />
+        ) : (
+          <EmptyResponseComponent />
         )}
       </div>
     </>

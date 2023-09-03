@@ -18,7 +18,7 @@ export const getYoutube = async (searchQuery: string) => {
     await page
       .getByRole('link', { name: 'YouTube: ホーム YouTube https://www.youtube.com › ...' })
       .click();
-    await page.waitForNavigation();
+    await page.waitForTimeout(1000);
     await page.getByPlaceholder('Search').click();
     await page.getByPlaceholder('Search').fill(searchQuery);
     await page.getByPlaceholder('Search').press('Enter');

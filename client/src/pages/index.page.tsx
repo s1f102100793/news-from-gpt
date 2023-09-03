@@ -17,6 +17,7 @@ const Home = () => {
   const [responsebody, setResponsebody] = useState<string | null>(null);
   const [responsetitle, setResponsetitle] = useState<string | null>(null);
   const [responsesubtitle, setResponsesubtitle] = useState<string | null>(null);
+  const [responsevideo, setResponsevideo] = useState<string | null>(null);
 
   if (!user) return <Loading visible />;
 
@@ -38,6 +39,7 @@ const Home = () => {
       // setResponsetitle(res.title);
       // setResponsesubtitle(res.subtitle);
       // setResponsebody(res.body);
+      setResponsevideo(res);
       console.log(res);
     } catch (error) {
       const axiosError = error as AxiosError;
@@ -61,6 +63,7 @@ const Home = () => {
         {responsebody !== null && responsetitle !== null && responsesubtitle !== null && (
           <NewsComponent title={responsetitle} subtitle={responsesubtitle} body={responsebody} />
         )}
+        {responsevideo !== null && <div dangerouslySetInnerHTML={{ __html: responsevideo }} />}
       </div>
     </>
   );

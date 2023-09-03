@@ -1,7 +1,7 @@
 .newsContainer {
   width: 95%;
-  height: 80%;
-  margin: -10px auto 15px auto;
+  min-height: 80%;
+  margin: 0 auto 15px auto;
   padding: 20px;
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
   column-count: 2;
@@ -46,4 +46,9 @@
   line-height: 1.7;
   color: #333;
   text-align: justify;
+}
+
+.videoContainer {
+  max-width: 100%;
+  height: auto;
 }

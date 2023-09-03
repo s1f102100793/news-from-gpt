@@ -65,10 +65,7 @@ const NewsComponent: React.FC<NewsProps> = ({ title, subtitle, body, video }) =>
         </h1>
         <h2 className={styles.newsSubtitle}>{subtitle}</h2>
         <p className={styles.newsBody}>{body}</p>
-        <div
-          dangerouslySetInnerHTML={{ __html: video }}
-          style={{ maxWidth: '100%', height: 'auto' }}
-        />
+        <div className={styles.videoContainer} dangerouslySetInnerHTML={{ __html: video }} />
       </div>
     </div>
   );

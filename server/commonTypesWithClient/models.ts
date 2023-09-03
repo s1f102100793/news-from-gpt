@@ -20,6 +20,8 @@ export type TrendModel = {
 };
 
 export type NewsModel = {
+  createdAt: Date;
+  name: string;
   title: string;
   subtitle: string;
   body: string;

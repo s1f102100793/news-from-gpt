@@ -10,6 +10,8 @@ import { PromptTemplate } from 'langchain/prompts';
 import { z } from 'zod';
 
 export const toNewsModel = (prismaNews: News): NewsModel => ({
+  createdAt: prismaNews.createdAt,
+  name: prismaNews.name,
   title: prismaNews.title,
   subtitle: prismaNews.subtitle,
   body: prismaNews.body,
@@ -120,6 +122,8 @@ export const makeNews = async (name: string) => {
   const video = await getYoutube(name);
 
   const fixedResult: NewsModel = {
+    createdAt: new Date(),
+    name,
     title: res0to25.title,
     subtitle: `${ressubtitle}`,
     body: `${resbody}`,

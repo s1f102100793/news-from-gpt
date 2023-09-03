@@ -2,6 +2,7 @@ import type { AxiosError } from 'axios';
 import type { ChangeEvent } from 'react';
 import { Loading } from 'src/components/Loading/Loading';
 import Header from 'src/components/header/Header';
+import NameListComponent from 'src/components/namelist/Namelist';
 import NewsComponent from 'src/components/news/Newscomponet';
 import { useNews } from 'src/hooks/useNews';
 import { apiClient } from 'src/utils/apiClient';
@@ -63,14 +64,6 @@ const Home = () => {
     return title !== null && subtitle !== null && body !== null && video !== null;
   };
 
-  const EmptyResponseComponent = () => {
-    return (
-      <div>
-        <p>何も表示する内容がありません。</p>
-      </div>
-    );
-  };
-
   return (
     <>
       <div className={styles.container}>
@@ -83,7 +76,7 @@ const Home = () => {
             video={responsevideo as string}
           />
         ) : (
-          <EmptyResponseComponent />
+          <NameListComponent />
         )}
       </div>
     </>

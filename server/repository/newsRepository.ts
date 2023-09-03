@@ -29,10 +29,10 @@ export const getNews = async () => {
       createdAt: true,
       name: true,
       title: true,
-      subtitle : true,  
+      subtitle: true,
       body: true,
       video: true,
-    }
+    },
   });
-  return prismaNews.map(toNewsModel)
+  return prismaNews.map(toNewsModel);
 };

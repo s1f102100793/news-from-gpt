@@ -1,23 +1,42 @@
-import { useEffect, useState } from "react";
-import { apiClient } from "src/utils/apiClient";
-import { returnNull } from "src/utils/returnNull";
+import { useEffect, useState } from 'react';
+import { apiClient } from 'src/utils/apiClient';
 
 const NameListComponent = () => {
+  type NewsData = {
+    name: string;
+    title: string;
+    subtitle: string;
+  };
+
   const [newsData, setNewsData] = useState<NewsData[]>([]);
   const [selectedName, setSelectedName] = useState<string | null>(null);
 
   const fetchNews = async () => {
-    const fethedAllnews = await apiClient.news.$post(returnNull);
-  }
+    const fethedAllnews = await apiClient.news.$get();
+    return fethedAllnews;
+  };
 
   useEffect(() => {
     const fetchData = async () => {
-      const data = await fetchNewsData();
+      const data = await fetchNews();
       setNewsData(data);
     };
 
     fetchData();
   }, []);
+
+  const countNames = (data: NewsData[]): Map<string, number> => {
+    const counts = new Map<string, number>();
+    data.forEach((item) => {
+      const currentCount = counts.get(item.name);
+      if (typeof currentCount === 'number') {
+        counts.set(item.name, currentCount + 1);
+      } else {
+        counts.set(item.name, 1);
+      }
+    });
+    return counts;
+  };
 
   const nameCounts = countNames(newsData);
 
@@ -29,7 +48,7 @@ const NameListComponent = () => {
         </div>
       ))}
 
-      {selectedName && (
+      {selectedName !== null && (
         <ul>
           {newsData
             .filter((item) => item.name === selectedName)

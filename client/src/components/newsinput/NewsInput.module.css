@@ -4,9 +4,10 @@
   top: 12.5%;
   align-items: center;
   display: flex;
-  justify-content: flex-end;
-  width: auto; /* 100%からautoに変更して、コンテンツの幅に合わせる */
+  justify-content: space-between;
+  width: 100%;
   z-index: 1000;
+  padding-left: 2%;
 }
 
 .inputStyle {
@@ -29,4 +30,9 @@
 
 .buttonStyle:hover {
   background-color: #c9caaf; /* Darker shade for hover effect */
+}
+
+.rightContainer {
+  display: flex;
+  margin-left: auto;
 }

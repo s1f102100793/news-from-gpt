@@ -29,6 +29,12 @@ const Home = () => {
     setInputValue(e.target.value);
   };
 
+  const Reset = () => {
+    setResponsetitle(null);
+    setResponsesubtitle(null);
+    setResponsebody(null);
+  };
+
   const postBackend = async () => {
     console.log('押した');
     setResponsetitle(null);
@@ -67,7 +73,12 @@ const Home = () => {
   return (
     <>
       <div className={styles.container}>
-        <Header value={inputValue} onChange={handleInputChange} onSubmit={postBackend} />
+        <Header
+          value={inputValue}
+          onChange={handleInputChange}
+          onSubmit={postBackend}
+          onReset={Reset}
+        />
         {shouldRenderNewsComponent(responsetitle, responsesubtitle, responsebody, responsevideo) ? (
           <NewsComponent
             title={responsetitle as string}

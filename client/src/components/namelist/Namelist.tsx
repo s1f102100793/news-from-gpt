@@ -22,6 +22,8 @@ const NameListComponent = () => {
       setNewsData(data);
     };
 
+    const interval = setInterval(fetchData, 100);
+    return () => clearInterval(interval);
     fetchData();
   }, []);
 

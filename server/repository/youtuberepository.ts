@@ -2,7 +2,7 @@ export const getYoutube = async (searchQuery: string) => {
   try {
     const playwright = await require('playwright-core');
 
-    const browser = await playwright.chromium.launch({ channel: 'chrome', headless: false });
+    const browser = await playwright.chromium.launch({ channel: 'chrome', headless: true });
 
     const page = await browser.newPage();
     // Googleで検索を実行
@@ -25,8 +25,25 @@ export const getYoutube = async (searchQuery: string) => {
 
     await page.waitForTimeout(1000);
 
+    await page.getByLabel('Search filters').click();
+
+    await page.waitForTimeout(1000);
+
+    await page.getByRole('link', { name: 'Video', exact: true }).click();
+
+    await page.waitForTimeout(1000);
+
+    await page.getByLabel('Search filters').click();
+
+    await page.waitForTimeout(1000);
+
+    await page.getByRole('link', { name: '4 - 20 minutes' }).click();
+
+    await page.waitForTimeout(1000);
+
     await page.click('yt-formatted-string.style-scope.ytd-video-renderer:nth-of-type(1)');
 
+    console.log('share');
     await page.waitForTimeout(1000);
     await page.getByRole('button', { name: 'Share' }).click();
     await page.getByRole('button', { name: 'Embed' }).click();

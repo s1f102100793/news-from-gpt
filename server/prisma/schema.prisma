@@ -16,6 +16,9 @@ model Task {
 
 model News {
   createdAt DateTime @id
+  name      String
   title     String
-  content   String
+  subtitle  String
+  body      String
+  video     String
 }

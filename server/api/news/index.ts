@@ -5,4 +5,8 @@ export type Methods = DefineMethods<{
   get: {
     resBody: NewsModel[];
   };
+  post: {
+    reqBody: { name: string };
+    resBody: string;
+  };
 }>;

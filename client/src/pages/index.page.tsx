@@ -1,23 +1,27 @@
 import type { AxiosError } from 'axios';
-import { useAtom } from 'jotai';
 import type { ChangeEvent } from 'react';
-import { useState } from 'react';
 import { Loading } from 'src/components/Loading/Loading';
 import Header from 'src/components/header/Header';
 import NewsComponent from 'src/components/news/Newscomponet';
+import { useNews } from 'src/hooks/useNews';
 import { apiClient } from 'src/utils/apiClient';
-import { userAtom } from '../atoms/user';
 import './index.module.css';
 import styles from './index.module.css';
 
 const Home = () => {
-  const [user] = useAtom(userAtom);
-  const [inputValue, setInputValue] = useState('');
-  const [responsebody, setResponsebody] = useState<string | null>(null);
-  const [responsetitle, setResponsetitle] = useState<string | null>(null);
-  const [responsesubtitle, setResponsesubtitle] = useState<string | null>(null);
-  const [responsevideo, setResponsevideo] = useState<string | null>(null);
-
+  const {
+    user,
+    inputValue,
+    setInputValue,
+    responsebody,
+    setResponsebody,
+    responsetitle,
+    setResponsetitle,
+    responsesubtitle,
+    setResponsesubtitle,
+    responsevideo,
+    setResponsevideo,
+  } = useNews();
   if (!user) return <Loading visible />;
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {

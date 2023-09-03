@@ -7,9 +7,10 @@ interface NewsInputProps {
   value: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onSubmit: () => void;
+  onReset: () => void;
 }
 
-const Header: React.FC<NewsInputProps> = ({ value, onChange, onSubmit }) => {
+const Header: React.FC<NewsInputProps> = ({ value, onChange, onSubmit, onReset }) => {
   const [currentDateTime, setCurrentDateTime] = useState(new Date());
 
   useEffect(() => {
@@ -34,7 +35,7 @@ const Header: React.FC<NewsInputProps> = ({ value, onChange, onSubmit }) => {
       </h1>
       <div className={styles.dateTime}>{formattedDateTime}</div>
       <div className={styles.headerLine} />
-      <NewsInput value={value} onChange={onChange} onSubmit={onSubmit} />
+      <NewsInput value={value} onChange={onChange} onSubmit={onSubmit} onReset={onReset} />
     </div>
   );
 };

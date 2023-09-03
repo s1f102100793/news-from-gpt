@@ -51,22 +51,33 @@ const Home = () => {
     }
   };
 
+  const shouldRenderNewsComponent = (
+    title: string | null,
+    subtitle: string | null,
+    body: string | null,
+    video: string | null
+  ): boolean => {
+    return title !== null && subtitle !== null && body !== null && video !== null;
+  };
+
   return (
     <>
       <div className={styles.container}>
         <Header />
         <NewsInput value={inputValue} onChange={handleInputChange} onSubmit={postBackend} />
-        {responsebody !== null &&
-          responsetitle !== null &&
-          responsesubtitle !== null &&
-          responsevideo !== null && (
-            <NewsComponent
-              title={responsetitle}
-              subtitle={responsesubtitle}
-              body={responsebody}
-              video={responsevideo}
-            />
-          )}
+        {shouldRenderNewsComponent(
+          responsetitle,
+          responsesubtitle,
+          responsebody,
+          responsevideo
+        ) && (
+          <NewsComponent
+            title={responsetitle as string}
+            subtitle={responsesubtitle as string}
+            body={responsebody as string}
+            video={responsevideo as string}
+          />
+        )}
       </div>
     </>
   );

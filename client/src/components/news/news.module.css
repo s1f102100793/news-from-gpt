@@ -21,7 +21,6 @@
 
 .newsTitle {
   font-size: var(--dynamic-title-font-size, var(--title-font-size));
-  margin: 0;
   max-width: 90%;
   white-space: nowrap;
   font-family: 'Decorative Font', serif;
@@ -29,13 +28,14 @@
   top: 5px;
   left: 10px;
   color: #2a2a2a;
+  margin-bottom: var(--subtitle-margin-top-ratio, 1);
 }
 
 .newsSubtitle {
   font-size: calc(var(--dynamic-title-font-size, var(--title-font-size)) * 0.75);
   color: #555;
   --title-font-size: calc(2em + 2vw);
-  --subtitle-margin-top-ratio: 1;
+  --subtitle-margin-top-ratio: 0.5;
   margin-top: calc(var(--title-font-size) * var(--subtitle-margin-top-ratio));
   column-span: all;
   font-style: italic;
@@ -47,4 +47,3 @@
   color: #333;
   text-align: justify;
 }
-

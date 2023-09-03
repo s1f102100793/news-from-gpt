@@ -114,14 +114,15 @@ export const makeNews = async (name: string) => {
     maxTokens: 5000,
   });
 
-  const res = await llm.call(`${mergedResult.body}の文章を整えてください`);
+  const resbody = await llm.call(`${mergedResult.body}の文章を整えてください`);
+  const ressubtitle = await llm.call(`${mergedResult.subtitle}の文章を整えてください`);
 
   const video = await getYoutube(name);
 
   const fixedResult = {
     title: res0to25.title,
-    subtitle: `${res0to25.subtitle} ${res25to50.subtitle} ${res50to75.subtitle} ${res75to100.subtitle}`,
-    body: `${res}`,
+    subtitle: `${ressubtitle}`,
+    body: `${resbody}`,
     video: `${video}`,
   };
 

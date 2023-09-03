@@ -31,10 +31,10 @@ const Home = () => {
     setResponsebody(null);
     try {
       const res = await apiClient.gpt.$post({ body: { name: inputValue } });
-      // setResponsetitle(res.title);
-      // setResponsesubtitle(res.subtitle);
-      // setResponsebody(res.body);
-      // setResponsevideo(res.video);
+      setResponsetitle(res.title);
+      setResponsesubtitle(res.subtitle);
+      setResponsebody(res.body);
+      setResponsevideo(res.video);
       console.log(res);
     } catch (error) {
       const axiosError = error as AxiosError;

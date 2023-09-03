@@ -11,7 +11,9 @@ import { z } from 'zod';
 
 export const toNewsModel = (prismaNews: News): NewsModel => ({
   title: prismaNews.title,
-  content: prismaNews.content,
+  subtitle: prismaNews.subtitle,
+  body: prismaNews.body,
+  video: prismaNews.video,
 });
 
 export const makeNews0to25 = async (
@@ -49,8 +51,6 @@ export const makeNews0to25 = async (
     maxTokens: 5000,
   });
   const res = await llm.call(input);
-  console.log('aaa');
-  creatNews(name, res);
 
   return await parser.parse(res);
 };
@@ -89,8 +89,6 @@ export const makeNews25to100 = async (
     maxTokens: 5000,
   });
   const res = await llm.call(input);
-  console.log('aaa');
-  creatNews(name, res);
 
   return await parser.parse(res);
 };
@@ -121,18 +119,33 @@ export const makeNews = async (name: string) => {
 
   const video = await getYoutube(name);
 
-  const fixedResult = {
+  const fixedResult: NewsModel = {
     title: res0to25.title,
     subtitle: `${ressubtitle}`,
     body: `${resbody}`,
     video: `${video}`,
   };
 
+  creatNews(name, fixedResult.title, fixedResult.subtitle, fixedResult.body, fixedResult.video);
+
   return fixedResult;
 };
-export const creatNews = async (title: NewsModel['title'], content: NewsModel['content']) => {
+export const creatNews = async (
+  name: string,
+  title: NewsModel['title'],
+  subtitle: NewsModel['subtitle'],
+  body: NewsModel['body'],
+  video: NewsModel['video']
+) => {
   const prismaNews = await prismaClient.news.create({
-    data: { title, content, createdAt: new Date() },
+    data: {
+      name,
+      title,
+      subtitle,
+      body,
+      video,
+      createdAt: new Date(),
+    },
   });
   return toNewsModel(prismaNews);
 };

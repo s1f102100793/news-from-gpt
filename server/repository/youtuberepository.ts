@@ -2,7 +2,7 @@ export const getYoutube = async (searchQuery: string) => {
   try {
     const playwright = await require('playwright-core');
 
-    const browser = await playwright.chromium.launch({ channel: 'chrome', headless: false });
+    const browser = await playwright.chromium.launch({ channel: 'chrome', headless: true });
 
     const page = await browser.newPage();
     // Googleで検索を実行

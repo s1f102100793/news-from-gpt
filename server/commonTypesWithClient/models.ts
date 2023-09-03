@@ -21,5 +21,7 @@ export type TrendModel = {
 
 export type NewsModel = {
   title: string;
-  content: string;
+  subtitle: string;
+  body: string;
+  video: string;
 };

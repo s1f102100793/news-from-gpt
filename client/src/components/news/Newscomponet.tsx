@@ -13,6 +13,19 @@ const NewsComponent: React.FC<NewsProps> = ({ title, subtitle, body, video }) =>
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    const calculateAdjustedFontSize = (
+      currentFontSize: number,
+      targetWidth: number,
+      elementWidth: number,
+      maxFontSize: number
+    ): number => {
+      const scaleFactor = targetWidth / elementWidth;
+      const adjustedFontSize = currentFontSize * scaleFactor;
+
+      // Ensure the font size doesn't exceed the maximum
+      return Math.min(adjustedFontSize, maxFontSize);
+    };
+
     const adjustFontSize = () => {
       const newsTitle = titleRef.current;
       const newsContainer = containerRef.current;
@@ -21,27 +34,16 @@ const NewsComponent: React.FC<NewsProps> = ({ title, subtitle, body, video }) =>
       if (!newsTitle || !newsContainer) return;
 
       const targetWidth = newsContainer.offsetWidth * 0.8;
-      const fontSize = parseFloat(window.getComputedStyle(newsTitle).fontSize);
+      const currentFontSize = parseFloat(window.getComputedStyle(newsTitle).fontSize);
 
-      let adjustedFontSize = fontSize;
-
-      if (newsTitle.offsetWidth > targetWidth) {
-        const scaleFactor = targetWidth / newsTitle.offsetWidth;
-        adjustedFontSize = fontSize * scaleFactor;
-      } else if (newsTitle.offsetWidth < targetWidth) {
-        const scaleFactor = targetWidth / newsTitle.offsetWidth;
-        adjustedFontSize = fontSize * scaleFactor;
-      }
-
-      // Ensure the font size doesn't exceed the maximum
-      if (adjustedFontSize > maxFontSize) {
-        adjustedFontSize = maxFontSize;
-      }
-
-      newsTitle.style.fontSize = `${adjustedFontSize}px`;
-
-      // Set the adjusted font size to CSS custom property
-      if (newsContainer !== null && adjustedFontSize) {
+      if (newsTitle.offsetWidth !== targetWidth) {
+        const adjustedFontSize = calculateAdjustedFontSize(
+          currentFontSize,
+          targetWidth,
+          newsTitle.offsetWidth,
+          maxFontSize
+        );
+        newsTitle.style.fontSize = `${adjustedFontSize}px`;
         newsContainer.style.setProperty('--dynamic-title-font-size', `${adjustedFontSize}px`);
       }
     };

@@ -1,7 +1,7 @@
 .newsContainer {
   width: 95%;
-  height: 90%;
-  margin: 20px auto;
+  height: 80%;
+  margin: -10px auto 15px auto;
   padding: 20px;
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
   column-count: 2;
@@ -10,17 +10,20 @@
   border: 5px solid black;
   background-color: #f4f5ed;
 }
+
 .centerContainer {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: calc(100vh - 60px); /* Assuming BasicHeader has a height of 60px. Adjust accordingly. */
+  height: calc(100vh - 60px);
 }
 
 .newsTitle {
-  font-size: 4em;
+  font-size: var(--title-font-size);
   margin: 0;
+  max-width: 90%;
+  white-space: nowrap;
   font-family: 'Decorative Font', serif;
   position: absolute;
   top: 5px;
@@ -31,7 +34,9 @@
 .newsSubtitle {
   font-size: 1.5em;
   color: #555;
-  margin-top: 80px;
+  --title-font-size: calc(2em + 2vw);
+  --subtitle-margin-top-ratio: 1;
+  margin-top: calc(var(--title-font-size) * var(--subtitle-margin-top-ratio));
   column-span: all;
   font-style: italic;
 }

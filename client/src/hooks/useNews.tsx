@@ -27,9 +27,6 @@ export const useNews = () => {
 
   const postBackend = async () => {
     console.log('押した');
-    setResponsetitle(null);
-    setResponsesubtitle(null);
-    setResponsebody(null);
     try {
       const res = await apiClient.gpt.$post({ body: { name: inputValue } });
       setResponsetitle(res.title);

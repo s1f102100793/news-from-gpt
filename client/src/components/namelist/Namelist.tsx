@@ -1,20 +1,32 @@
+import type { NewsModel } from 'commonTypesWithClient/models';
 import { useEffect, useState } from 'react';
 import { apiClient } from 'src/utils/apiClient';
 import styles from './namelist.module.css';
 
-const NameListComponent = () => {
-  type NewsData = {
-    name: string;
-    title: string;
-    subtitle: string;
-  };
+type NameListComponentProps = {
+  onArticleClick: (article: NewsModel) => void;
+  selectedName: string | null;
+  setSelectedName: (name: string | null) => void;
+};
 
-  const [newsData, setNewsData] = useState<NewsData[]>([]);
-  const [selectedName, setSelectedName] = useState<string | null>(null);
-
+const NameListComponent: React.FC<NameListComponentProps> = ({
+  onArticleClick,
+  selectedName,
+  setSelectedName,
+}) => {
+  // コンポーネントの中身...
+  const [newsData, setNewsData] = useState<NewsModel[]>([]);
   const fetchNews = async () => {
     const fethedAllnews = await apiClient.news.$get();
     return fethedAllnews;
+  };
+
+  const handleNameClick = (name: string) => {
+    setSelectedName(name);
+  };
+
+  const handleArticleClick = (article: NewsModel) => {
+    onArticleClick(article);
   };
 
   useEffect(() => {
@@ -27,7 +39,7 @@ const NameListComponent = () => {
     return () => clearInterval(interval);
   }, []);
 
-  const countNames = (data: NewsData[]): Map<string, number> => {
+  const countNames = (data: NewsModel[]): Map<string, number> => {
     const counts = new Map<string, number>();
     data.forEach((item) => {
       const currentCount = counts.get(item.name);
@@ -41,24 +53,34 @@ const NameListComponent = () => {
   };
 
   const nameCounts = countNames(newsData);
+
   return (
     <div className={styles.container}>
-      {Array.from(nameCounts.entries()).map(([name, count]) => (
-        <div key={name} onClick={() => setSelectedName(name)} className={styles.nameItem}>
-          {name} ({count})
-        </div>
-      ))}
+      {selectedName === null &&
+        Array.from(nameCounts.entries()).map(([name, count]) => (
+          <div key={name} onClick={() => handleNameClick(name)} className={styles.nameItem}>
+            {name} ({count})
+          </div>
+        ))}
 
       {selectedName !== null && (
-        <ul className={styles.nameList}>
-          {newsData
-            .filter((item) => item.name === selectedName)
-            .map((item, index) => (
-              <li key={index}>
-                {item.title} - {item.subtitle}
-              </li>
-            ))}
-        </ul>
+        <>
+          <div onClick={() => handleNameClick(selectedName)} className={styles.nameItem}>
+            {selectedName} ({nameCounts.get(selectedName)})
+          </div>
+          <ul className={styles.nameList}>
+            {newsData
+              .filter((item) => item.name === selectedName)
+              .map((item, index) => (
+                <li key={index}>
+                  <div className={styles.title} onClick={() => handleArticleClick(item)}>
+                    {item.title}
+                  </div>
+                  <div className={styles.subtitle}>{item.subtitle}</div>
+                </li>
+              ))}
+          </ul>
+        </>
       )}
     </div>
   );

@@ -1,9 +1,11 @@
 import type { AxiosError } from 'axios';
+import type { NewsModel } from 'commonTypesWithClient/models';
 import type { ChangeEvent } from 'react';
 import { Loading } from 'src/components/Loading/Loading';
 import Header from 'src/components/header/Header';
 import NameListComponent from 'src/components/namelist/Namelist';
 import NewsComponent from 'src/components/news/Newscomponet';
+import { useNamelist } from 'src/hooks/useNamelist';
 import { useNews } from 'src/hooks/useNews';
 import { apiClient } from 'src/utils/apiClient';
 import './index.module.css';
@@ -23,18 +25,27 @@ const Home = () => {
     responsevideo,
     setResponsevideo,
   } = useNews();
+
+  const { selectedName, setSelectedName, resetSelectedName } = useNamelist();
+
   if (!user) return <Loading visible />;
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
   };
 
+  const handleArticleClick = (article: NewsModel) => {
+    setResponsetitle(article.title);
+    setResponsesubtitle(article.subtitle);
+    setResponsebody(article.body);
+    setResponsevideo(article.video);
+  };
+
   const Reset = async () => {
-    // const res = await apiClient.news.$post({ body: { name: inputValue } });
-    // console.log(res);
     setResponsetitle(null);
     setResponsesubtitle(null);
     setResponsebody(null);
+    resetSelectedName();
   };
 
   const postBackend = async () => {
@@ -89,7 +100,11 @@ const Home = () => {
             video={responsevideo as string}
           />
         ) : (
-          <NameListComponent />
+          <NameListComponent
+            onArticleClick={handleArticleClick}
+            selectedName={selectedName}
+            setSelectedName={setSelectedName}
+          />
         )}
       </div>
     </>

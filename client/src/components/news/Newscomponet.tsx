@@ -1,4 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect } from 'react';
+import type { DisplayProgress } from 'src/hooks/useContent';
+import { useContent } from 'src/hooks/useContent';
 import styles from './news.module.css';
 
 interface NewsProps {
@@ -9,16 +11,18 @@ interface NewsProps {
 }
 
 const NewsComponent: React.FC<NewsProps> = ({ title, subtitle, body, video }) => {
-  const titleRef = useRef<HTMLHeadingElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  const [currentText, setCurrentText] = useState('');
-
-  type DisplayProgress = 'title' | 'subtitle' | 'body' | 'video' | 'complete';
-  const [displayProgress, setDisplayProgress] = useState<DisplayProgress>('title');
-
-  const [currentIndex, setCurrentIndex] = useState(0);
-
+  const {
+    titleRef,
+    containerRef,
+    currentText,
+    setCurrentText,
+    displayProgress,
+    setDisplayProgress,
+    currentIndex,
+    setCurrentIndex,
+    DisplayText,
+    VideoContent,
+  } = useContent();
   useEffect(() => {
     const getTextToDisplay = () => {
       switch (displayProgress) {
@@ -70,7 +74,16 @@ const NewsComponent: React.FC<NewsProps> = ({ title, subtitle, body, video }) =>
     }, 50);
 
     return () => clearInterval(interval);
-  }, [title, subtitle, body, displayProgress, currentIndex]);
+  }, [
+    title,
+    subtitle,
+    body,
+    displayProgress,
+    currentIndex,
+    setCurrentIndex,
+    setCurrentText,
+    setDisplayProgress,
+  ]);
 
   useEffect(() => {
     const calculateAdjustedFontSize = (
@@ -118,50 +131,8 @@ const NewsComponent: React.FC<NewsProps> = ({ title, subtitle, body, video }) =>
     return () => {
       window.removeEventListener('resize', adjustFontSize);
     };
-  }, [title, currentText, displayProgress]);
+  }, [title, currentText, displayProgress, containerRef, titleRef]);
 
-  // eslint-disable-next-line complexity
-  const DisplayText = ({
-    currentProgress,
-    targetProgress,
-    current,
-    defaultText,
-  }: {
-    currentProgress: DisplayProgress;
-    targetProgress: DisplayProgress;
-    current: string;
-    defaultText: string;
-  }) => {
-    if (currentProgress === targetProgress) return <>{current}</>;
-
-    switch (targetProgress) {
-      case 'title':
-        return <>{defaultText}</>;
-      case 'subtitle':
-        return currentProgress !== 'title' ? <>{defaultText}</> : null;
-      case 'body':
-        return currentProgress !== 'title' && currentProgress !== 'subtitle' ? (
-          <>{defaultText}</>
-        ) : null;
-      default:
-        return null;
-    }
-  };
-
-  const VideoContent = ({
-    video,
-    displayProgress,
-  }: {
-    video: string;
-    displayProgress: DisplayProgress;
-  }) => {
-    if (displayProgress === 'complete') {
-      return <div dangerouslySetInnerHTML={{ __html: video }} />;
-    }
-    return null;
-  };
-
-  // In your main component's return statement
   return (
     <div className={styles.newsContainer} ref={containerRef}>
       <h1 className={styles.newsTitle} ref={titleRef}>

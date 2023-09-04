@@ -72,8 +72,11 @@ const NameListComponent: React.FC<NameListComponentProps> = ({
             {newsData
               .filter((item) => item.name === selectedName)
               .map((item, index) => (
-                <li key={index} onClick={() => handleArticleClick(item)}>
-                  {item.title} - {item.subtitle}
+                <li key={index}>
+                  <div className={styles.title} onClick={() => handleArticleClick(item)}>
+                    {item.title}
+                  </div>
+                  <div className={styles.subtitle}>{item.subtitle}</div>
                 </li>
               ))}
           </ul>

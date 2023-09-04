@@ -15,7 +15,36 @@
   background-color: #f5f5f5;
 }
 
+.nameItem.selected {
+  background-color: #e0e0e0;
+  font-weight: bold;
+}
+
 .nameList {
   margin-top: 20px;
   border-top: 1px solid #ddd;
+}
+
+.nameList li {
+  padding: 5px 0;
+  border-bottom: 1px solid #ddd;
+  justify-content: space-between;
+  max-width: 100%;
+}
+
+.nameList li:last-child {
+  border-bottom: none;
+}
+
+.nameList li:hover {
+  background-color: #fafafa;
+}
+
+.nameList .title,
+.nameList .subtitle {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  flex: 1; /* フレキシブルなサイズ調整 */
+  margin: 0 5px; /* 両端に少し余白を追加 */
 }

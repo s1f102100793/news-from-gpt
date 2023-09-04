@@ -1,4 +1,5 @@
 import type { AxiosError } from 'axios';
+import type { NewsModel } from 'commonTypesWithClient/models';
 import type { ChangeEvent } from 'react';
 import { Loading } from 'src/components/Loading/Loading';
 import Header from 'src/components/header/Header';
@@ -29,9 +30,14 @@ const Home = () => {
     setInputValue(e.target.value);
   };
 
+  const handleArticleClick = (article: NewsModel) => {
+    setResponsetitle(article.title);
+    setResponsesubtitle(article.subtitle);
+    setResponsebody(article.body);
+    setResponsevideo(article.video);
+  };
+
   const Reset = async () => {
-    // const res = await apiClient.news.$post({ body: { name: inputValue } });
-    // console.log(res);
     setResponsetitle(null);
     setResponsesubtitle(null);
     setResponsebody(null);
@@ -89,7 +95,7 @@ const Home = () => {
             video={responsevideo as string}
           />
         ) : (
-          <NameListComponent />
+          <NameListComponent onArticleClick={handleArticleClick} />
         )}
       </div>
     </>

@@ -1,23 +1,26 @@
+import type { NewsModel } from 'commonTypesWithClient/models';
 import { useEffect, useState } from 'react';
-import { useNews } from 'src/hooks/useNews';
 import { apiClient } from 'src/utils/apiClient';
 import styles from './namelist.module.css';
 
-const NameListComponent = () => {
-  type NewsData = {
-    name: string;
-    title: string;
-    subtitle: string;
-    body: string; // body情報を追加
-    video: string; // video情報を追加
-  };
+type NameListComponentProps = {
+  onArticleClick: (article: NewsModel) => void;
+};
 
-  const [newsData, setNewsData] = useState<NewsData[]>([]);
+const NameListComponent: React.FC<NameListComponentProps> = ({ onArticleClick }) => {
+  const [newsData, setNewsData] = useState<NewsModel[]>([]);
   const [selectedName, setSelectedName] = useState<string | null>(null);
-  const { setResponsebody, setResponsetitle, setResponsesubtitle, setResponsevideo } = useNews();
   const fetchNews = async () => {
     const fethedAllnews = await apiClient.news.$get();
-    return ;
+    return fethedAllnews;
+  };
+
+  const handleNameClick = (name: string) => {
+    setSelectedName(name);
+  };
+
+  const handleArticleClick = (article: NewsModel) => {
+    onArticleClick(article);
   };
 
   useEffect(() => {
@@ -30,20 +33,7 @@ const NameListComponent = () => {
     return () => clearInterval(interval);
   }, []);
 
-  const handleNameClick = (name: string) => {
-    setSelectedName(name);
-
-    // 選択された名前に一致する最初のデータ項目を検索します。
-    const matchedData = newsData.find((item) => item.name === name);
-    if (matchedData) {
-      setResponsetitle(matchedData.title);
-      setResponsesubtitle(matchedData.subtitle);
-      setResponsebody(matchedData.body);
-      setResponsevideo(matchedData.video);
-    }
-  };
-
-  const countNames = (data: NewsData[]): Map<string, number> => {
+  const countNames = (data: NewsModel[]): Map<string, number> => {
     const counts = new Map<string, number>();
     data.forEach((item) => {
       const currentCount = counts.get(item.name);
@@ -65,15 +55,13 @@ const NameListComponent = () => {
           {name} ({count})
         </div>
       ))}
-
       {selectedName !== null && (
         <ul className={styles.nameList}>
           {newsData
             .filter((item) => item.name === selectedName)
             .map((item, index) => (
-              <li key={index}>
+              <li key={index} onClick={() => handleArticleClick(item)}>
                 {item.title} - {item.subtitle}
-                {/* 必要に応じてbodyやvideoも表示することができます。 */}
               </li>
             ))}
         </ul>

@@ -1,3 +1,4 @@
+import { getYoutube } from '$/repository/youtuberepository';
 import { makeNews } from '$/useCase/gptUseCase';
 import { defineController } from './$relay';
 

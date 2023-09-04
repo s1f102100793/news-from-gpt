@@ -1,7 +1,11 @@
 export const getYoutube = async (searchQuery: string) => {
   const playwright = await require('playwright-core');
 
-  const browser = await playwright.chromium.launch({ channel: 'chrome', headless: true });
+  const browser = await playwright.chromium.launch({
+    channel: 'chrome',
+    headless: false,
+    locale: 'ja-JP',
+  });
   try {
     const page = await browser.newPage();
     // Googleで検索を実行
@@ -17,7 +21,7 @@ export const getYoutube = async (searchQuery: string) => {
     await page
       .getByRole('link', { name: 'YouTube: ホーム YouTube https://www.youtube.com › ...' })
       .click();
-    await page.waitForTimeout(1000);
+    await page.waitForTimeout(2000);
     await page.getByPlaceholder('Search').click();
     await page.waitForTimeout(1000);
     await page.getByPlaceholder('Search').fill(searchQuery);
@@ -30,6 +34,7 @@ export const getYoutube = async (searchQuery: string) => {
     console.log('share');
     await page.waitForTimeout(1000);
     await page.getByRole('button', { name: 'Share' }).click();
+    console.log('embed');
     await page.getByRole('button', { name: 'Embed' }).click();
     const textValue = await page
       .locator('.textarea-container .style-scope.tp-yt-iron-autogrow-textarea')
@@ -44,7 +49,7 @@ export const getYoutube = async (searchQuery: string) => {
     await browser.close();
     const playwright = await require('playwright-core');
 
-    const browser1 = await playwright.chromium.launch({ channel: 'chrome', headless: true });
+    const browser1 = await playwright.chromium.launch({ channel: 'chrome', headless: false });
 
     const page = await browser1.newPage();
     // Googleで検索を実行

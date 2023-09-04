@@ -1,13 +1,9 @@
-import type { AxiosError } from 'axios';
-import type { NewsModel } from 'commonTypesWithClient/models';
-import type { ChangeEvent } from 'react';
 import { Loading } from 'src/components/Loading/Loading';
 import Header from 'src/components/header/Header';
 import NameListComponent from 'src/components/namelist/Namelist';
 import NewsComponent from 'src/components/news/Newscomponet';
 import { useNamelist } from 'src/hooks/useNamelist';
 import { useNews } from 'src/hooks/useNews';
-import { apiClient } from 'src/utils/apiClient';
 import './index.module.css';
 import styles from './index.module.css';
 
@@ -15,7 +11,6 @@ const Home = () => {
   const {
     user,
     inputValue,
-    setInputValue,
     responsebody,
     setResponsebody,
     responsetitle,
@@ -23,64 +18,20 @@ const Home = () => {
     responsesubtitle,
     setResponsesubtitle,
     responsevideo,
-    setResponsevideo,
+    handleInputChange,
+    handleArticleClick,
+    postBackend,
+    shouldRenderNewsComponent,
   } = useNews();
 
   const { selectedName, setSelectedName, resetSelectedName } = useNamelist();
-
   if (!user) return <Loading visible />;
-
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setInputValue(e.target.value);
-  };
-
-  const handleArticleClick = (article: NewsModel) => {
-    setResponsetitle(article.title);
-    setResponsesubtitle(article.subtitle);
-    setResponsebody(article.body);
-    setResponsevideo(article.video);
-  };
 
   const Reset = async () => {
     setResponsetitle(null);
     setResponsesubtitle(null);
     setResponsebody(null);
     resetSelectedName();
-  };
-
-  const postBackend = async () => {
-    console.log('押した');
-    setResponsetitle(null);
-    setResponsesubtitle(null);
-    setResponsebody(null);
-    try {
-      const res = await apiClient.gpt.$post({ body: { name: inputValue } });
-      setResponsetitle(res.title);
-      setResponsesubtitle(res.subtitle);
-      setResponsebody(res.body);
-      setResponsevideo(res.video);
-      console.log(res);
-    } catch (error) {
-      const axiosError = error as AxiosError;
-
-      if (axiosError.response) {
-        console.error('Error data:', axiosError.response.data);
-        console.error('Error status:', axiosError.response.status);
-      } else if (axiosError.request !== null && axiosError.request !== undefined) {
-        console.error('No response from server:', axiosError.request);
-      } else {
-        console.error('Error:', axiosError.message);
-      }
-    }
-  };
-
-  const shouldRenderNewsComponent = (
-    title: string | null,
-    subtitle: string | null,
-    body: string | null,
-    video: string | null
-  ): boolean => {
-    return title !== null && subtitle !== null && body !== null && video !== null;
   };
 
   return (

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styles from './news.module.css';
 
 interface NewsProps {
@@ -11,6 +11,65 @@ interface NewsProps {
 const NewsComponent: React.FC<NewsProps> = ({ title, subtitle, body, video }) => {
   const titleRef = useRef<HTMLHeadingElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+
+  const [currentText, setCurrentText] = useState('');
+  const [displayProgress, setDisplayProgress] = useState('title');
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    const getTextToDisplay = () => {
+      switch (displayProgress) {
+        case 'title':
+          return title;
+        case 'subtitle':
+          return subtitle;
+        case 'body':
+          return body;
+        case 'video':
+          setDisplayProgress('complete');
+          return '';
+        default:
+          return '';
+      }
+    };
+
+    const interval = setInterval(() => {
+      const text = getTextToDisplay();
+
+      if (displayProgress === 'video') {
+        clearInterval(interval);
+        return;
+      }
+
+      if (currentIndex < text.length) {
+        setCurrentText((prev) => prev + text[currentIndex]);
+        setCurrentIndex((prev) => prev + 1);
+      } else {
+        clearInterval(interval);
+
+        // 次のテキストへ移行
+        switch (displayProgress) {
+          case 'title':
+            setDisplayProgress('subtitle');
+            break;
+          case 'subtitle':
+            setDisplayProgress('body');
+            break;
+          case 'body':
+            setDisplayProgress('video');
+            break;
+          case 'video':
+          default:
+            // すべてのテキストが表示された
+            break;
+        }
+        setCurrentText('');
+        setCurrentIndex(0);
+      }
+    }, 50);
+
+    return () => clearInterval(interval);
+  }, [title, subtitle, body, displayProgress, currentIndex]);
 
   useEffect(() => {
     const calculateAdjustedFontSize = (
@@ -29,7 +88,7 @@ const NewsComponent: React.FC<NewsProps> = ({ title, subtitle, body, video }) =>
     const adjustFontSize = () => {
       const newsTitle = titleRef.current;
       const newsContainer = containerRef.current;
-      const maxFontSize = 36; // Set your desired maximum font size here
+      const maxFontSize = 36;
 
       if (!newsTitle || !newsContainer) return;
 
@@ -48,23 +107,36 @@ const NewsComponent: React.FC<NewsProps> = ({ title, subtitle, body, video }) =>
       }
     };
 
-    adjustFontSize();
+    // displayProgressが'title'のときのみ、フォントサイズの調整を行う
+    if (displayProgress === 'title') {
+      adjustFontSize();
+    }
 
     window.addEventListener('resize', adjustFontSize);
 
     return () => {
       window.removeEventListener('resize', adjustFontSize);
     };
-  }, [title]);
+  }, [title, currentText, displayProgress]);
 
   return (
     <div className={styles.newsContainer} ref={containerRef}>
       <h1 className={styles.newsTitle} ref={titleRef}>
-        {title}
+        {displayProgress === 'title' ? currentText : title}
       </h1>
-      <h2 className={styles.newsSubtitle}>{subtitle}</h2>
-      <p className={styles.newsBody}>{body}</p>
-      <div className={styles.videoContainer} dangerouslySetInnerHTML={{ __html: video }} />
+      <h2 className={styles.newsSubtitle}>
+        {displayProgress === 'subtitle' ? currentText : displayProgress !== 'title' ? subtitle : ''}
+      </h2>
+      <p className={styles.newsBody}>
+        {displayProgress === 'body'
+          ? currentText
+          : displayProgress === 'video' || displayProgress === 'complete'
+          ? body
+          : ''}
+      </p>
+      <div className={styles.videoContainer}>
+        {displayProgress === 'complete' && <div dangerouslySetInnerHTML={{ __html: video }} />}
+      </div>
     </div>
   );
 };

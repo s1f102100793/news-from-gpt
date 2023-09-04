@@ -58,15 +58,13 @@ const NewsComponent: React.FC<NewsProps> = ({ title, subtitle, body, video }) =>
   }, [title]);
 
   return (
-    <div className={styles.centerContainer}>
-      <div className={styles.newsContainer} ref={containerRef}>
-        <h1 className={styles.newsTitle} ref={titleRef}>
-          {title}
-        </h1>
-        <h2 className={styles.newsSubtitle}>{subtitle}</h2>
-        <p className={styles.newsBody}>{body}</p>
-        <div className={styles.videoContainer} dangerouslySetInnerHTML={{ __html: video }} />
-      </div>
+    <div className={styles.newsContainer} ref={containerRef}>
+      <h1 className={styles.newsTitle} ref={titleRef}>
+        {title}
+      </h1>
+      <h2 className={styles.newsSubtitle}>{subtitle}</h2>
+      <p className={styles.newsBody}>{body}</p>
+      <div className={styles.videoContainer} dangerouslySetInnerHTML={{ __html: video }} />
     </div>
   );
 };

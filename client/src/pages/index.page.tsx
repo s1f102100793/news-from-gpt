@@ -29,7 +29,9 @@ const Home = () => {
     setInputValue(e.target.value);
   };
 
-  const Reset = () => {
+  const Reset = async () => {
+    // const res = await apiClient.news.$post({ body: { name: inputValue } });
+    // console.log(res);
     setResponsetitle(null);
     setResponsesubtitle(null);
     setResponsebody(null);

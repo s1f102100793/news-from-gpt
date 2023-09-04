@@ -20,6 +20,7 @@ export const getYoutube = async (searchQuery: string) => {
       .click();
     await page.waitForTimeout(1000);
     await page.getByPlaceholder('Search').click();
+    await page.waitForTimeout(1000);
     await page.getByPlaceholder('Search').fill(searchQuery);
     await page.getByPlaceholder('Search').press('Enter');
 

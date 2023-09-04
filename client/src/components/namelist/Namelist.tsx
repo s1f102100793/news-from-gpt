@@ -50,21 +50,28 @@ const NameListComponent: React.FC<NameListComponentProps> = ({ onArticleClick })
 
   return (
     <div className={styles.container}>
-      {Array.from(nameCounts.entries()).map(([name, count]) => (
-        <div key={name} onClick={() => handleNameClick(name)} className={styles.nameItem}>
-          {name} ({count})
-        </div>
-      ))}
+      {selectedName === null &&
+        Array.from(nameCounts.entries()).map(([name, count]) => (
+          <div key={name} onClick={() => handleNameClick(name)} className={styles.nameItem}>
+            {name} ({count})
+          </div>
+        ))}
+
       {selectedName !== null && (
-        <ul className={styles.nameList}>
-          {newsData
-            .filter((item) => item.name === selectedName)
-            .map((item, index) => (
-              <li key={index} onClick={() => handleArticleClick(item)}>
-                {item.title} - {item.subtitle}
-              </li>
-            ))}
-        </ul>
+        <>
+          <div onClick={() => handleNameClick(selectedName)} className={styles.nameItem}>
+            {selectedName} ({nameCounts.get(selectedName)})
+          </div>
+          <ul className={styles.nameList}>
+            {newsData
+              .filter((item) => item.name === selectedName)
+              .map((item, index) => (
+                <li key={index} onClick={() => handleArticleClick(item)}>
+                  {item.title} - {item.subtitle}
+                </li>
+              ))}
+          </ul>
+        </>
       )}
     </div>
   );

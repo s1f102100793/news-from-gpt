@@ -26,6 +26,7 @@ const NewsComponent: React.FC<NewsProps> = ({ title, subtitle, body, video }) =>
         case 'body':
           return body;
         case 'video':
+          setDisplayProgress('complete');
           return '';
         default:
           return '';
@@ -34,6 +35,11 @@ const NewsComponent: React.FC<NewsProps> = ({ title, subtitle, body, video }) =>
 
     const interval = setInterval(() => {
       const text = getTextToDisplay();
+
+      if (displayProgress === 'video') {
+        clearInterval(interval);
+        return;
+      }
 
       if (currentIndex < text.length) {
         setCurrentText((prev) => prev + text[currentIndex]);

@@ -13,7 +13,10 @@ const NewsComponent: React.FC<NewsProps> = ({ title, subtitle, body, video }) =>
   const containerRef = useRef<HTMLDivElement>(null);
 
   const [currentText, setCurrentText] = useState('');
-  const [displayProgress, setDisplayProgress] = useState('title');
+
+  type DisplayProgress = 'title' | 'subtitle' | 'body' | 'video' | 'complete';
+  const [displayProgress, setDisplayProgress] = useState<DisplayProgress>('title');
+
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
@@ -33,6 +36,20 @@ const NewsComponent: React.FC<NewsProps> = ({ title, subtitle, body, video }) =>
       }
     };
 
+    const getNextProgress = (currentProgress: DisplayProgress): DisplayProgress => {
+      switch (currentProgress) {
+        case 'title':
+          return 'subtitle';
+        case 'subtitle':
+          return 'body';
+        case 'body':
+          return 'video';
+        case 'video':
+        default:
+          return 'complete'; // または 'complete' もしそのステップが存在する場合
+      }
+    };
+
     const interval = setInterval(() => {
       const text = getTextToDisplay();
 
@@ -46,23 +63,7 @@ const NewsComponent: React.FC<NewsProps> = ({ title, subtitle, body, video }) =>
         setCurrentIndex((prev) => prev + 1);
       } else {
         clearInterval(interval);
-
-        // 次のテキストへ移行
-        switch (displayProgress) {
-          case 'title':
-            setDisplayProgress('subtitle');
-            break;
-          case 'subtitle':
-            setDisplayProgress('body');
-            break;
-          case 'body':
-            setDisplayProgress('video');
-            break;
-          case 'video':
-          default:
-            // すべてのテキストが表示された
-            break;
-        }
+        setDisplayProgress(getNextProgress(displayProgress));
         setCurrentText('');
         setCurrentIndex(0);
       }
@@ -119,23 +120,76 @@ const NewsComponent: React.FC<NewsProps> = ({ title, subtitle, body, video }) =>
     };
   }, [title, currentText, displayProgress]);
 
+  const DisplayText = ({
+    currentProgress,
+    targetProgress,
+    current,
+    defaultText,
+  }: {
+    currentProgress: DisplayProgress;
+    targetProgress: DisplayProgress;
+    current: string;
+    defaultText: string;
+  }) => {
+    if (currentProgress === targetProgress) return <>{current}</>;
+
+    switch (targetProgress) {
+      case 'title':
+        return <>{defaultText}</>;
+      case 'subtitle':
+        return currentProgress !== 'title' ? <>{defaultText}</> : null;
+      case 'body':
+        return currentProgress !== 'title' && currentProgress !== 'subtitle' ? (
+          <>{defaultText}</>
+        ) : null;
+      default:
+        return null;
+    }
+  };
+
+
+  const VideoContent = ({
+    video,
+    displayProgress,
+  }: {
+    video: string;
+    displayProgress: DisplayProgress;
+  }) => {
+    if (displayProgress === 'complete') {
+      return <div dangerouslySetInnerHTML={{ __html: video }} />;
+    }
+    return null;
+  };
+
+  // In your main component's return statement
   return (
     <div className={styles.newsContainer} ref={containerRef}>
       <h1 className={styles.newsTitle} ref={titleRef}>
-        {displayProgress === 'title' ? currentText : title}
+        <DisplayText
+          currentProgress={displayProgress}
+          targetProgress="title"
+          current={currentText}
+          defaultText={title}
+        />
       </h1>
       <h2 className={styles.newsSubtitle}>
-        {displayProgress === 'subtitle' ? currentText : displayProgress !== 'title' ? subtitle : ''}
+        <DisplayText
+          currentProgress={displayProgress}
+          targetProgress="subtitle"
+          current={currentText}
+          defaultText={subtitle}
+        />
       </h2>
       <p className={styles.newsBody}>
-        {displayProgress === 'body'
-          ? currentText
-          : displayProgress === 'video' || displayProgress === 'complete'
-          ? body
-          : ''}
+        <DisplayText
+          currentProgress={displayProgress}
+          targetProgress="body"
+          current={currentText}
+          defaultText={body}
+        />
       </p>
       <div className={styles.videoContainer}>
-        {displayProgress === 'complete' && <div dangerouslySetInnerHTML={{ __html: video }} />}
+        <VideoContent video={video} displayProgress={displayProgress} />
       </div>
     </div>
   );

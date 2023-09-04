@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useNews } from 'src/hooks/useNews';
 import { apiClient } from 'src/utils/apiClient';
 import styles from './namelist.module.css';
 
@@ -7,14 +8,16 @@ const NameListComponent = () => {
     name: string;
     title: string;
     subtitle: string;
+    body: string; // body情報を追加
+    video: string; // video情報を追加
   };
 
   const [newsData, setNewsData] = useState<NewsData[]>([]);
   const [selectedName, setSelectedName] = useState<string | null>(null);
-
+  const { setResponsebody, setResponsetitle, setResponsesubtitle, setResponsevideo } = useNews();
   const fetchNews = async () => {
     const fethedAllnews = await apiClient.news.$get();
-    return fethedAllnews;
+    return ;
   };
 
   useEffect(() => {
@@ -26,6 +29,19 @@ const NameListComponent = () => {
     const interval = setInterval(fetchData, 100);
     return () => clearInterval(interval);
   }, []);
+
+  const handleNameClick = (name: string) => {
+    setSelectedName(name);
+
+    // 選択された名前に一致する最初のデータ項目を検索します。
+    const matchedData = newsData.find((item) => item.name === name);
+    if (matchedData) {
+      setResponsetitle(matchedData.title);
+      setResponsesubtitle(matchedData.subtitle);
+      setResponsebody(matchedData.body);
+      setResponsevideo(matchedData.video);
+    }
+  };
 
   const countNames = (data: NewsData[]): Map<string, number> => {
     const counts = new Map<string, number>();
@@ -41,10 +57,11 @@ const NameListComponent = () => {
   };
 
   const nameCounts = countNames(newsData);
+
   return (
     <div className={styles.container}>
       {Array.from(nameCounts.entries()).map(([name, count]) => (
-        <div key={name} onClick={() => setSelectedName(name)} className={styles.nameItem}>
+        <div key={name} onClick={() => handleNameClick(name)} className={styles.nameItem}>
           {name} ({count})
         </div>
       ))}
@@ -56,6 +73,7 @@ const NameListComponent = () => {
             .map((item, index) => (
               <li key={index}>
                 {item.title} - {item.subtitle}
+                {/* 必要に応じてbodyやvideoも表示することができます。 */}
               </li>
             ))}
         </ul>

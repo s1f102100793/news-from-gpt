@@ -120,6 +120,7 @@ const NewsComponent: React.FC<NewsProps> = ({ title, subtitle, body, video }) =>
     };
   }, [title, currentText, displayProgress]);
 
+  // eslint-disable-next-line complexity
   const DisplayText = ({
     currentProgress,
     targetProgress,
@@ -146,7 +147,6 @@ const NewsComponent: React.FC<NewsProps> = ({ title, subtitle, body, video }) =>
         return null;
     }
   };
-
 
   const VideoContent = ({
     video,

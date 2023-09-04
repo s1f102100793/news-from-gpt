@@ -5,6 +5,7 @@ import { Loading } from 'src/components/Loading/Loading';
 import Header from 'src/components/header/Header';
 import NameListComponent from 'src/components/namelist/Namelist';
 import NewsComponent from 'src/components/news/Newscomponet';
+import { useNamelist } from 'src/hooks/useNamelist';
 import { useNews } from 'src/hooks/useNews';
 import { apiClient } from 'src/utils/apiClient';
 import './index.module.css';
@@ -24,6 +25,9 @@ const Home = () => {
     responsevideo,
     setResponsevideo,
   } = useNews();
+
+  const { selectedName, setSelectedName, resetSelectedName } = useNamelist();
+
   if (!user) return <Loading visible />;
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -41,6 +45,7 @@ const Home = () => {
     setResponsetitle(null);
     setResponsesubtitle(null);
     setResponsebody(null);
+    resetSelectedName();
   };
 
   const postBackend = async () => {
@@ -95,7 +100,11 @@ const Home = () => {
             video={responsevideo as string}
           />
         ) : (
-          <NameListComponent onArticleClick={handleArticleClick} />
+          <NameListComponent
+            onArticleClick={handleArticleClick}
+            selectedName={selectedName}
+            setSelectedName={setSelectedName}
+          />
         )}
       </div>
     </>

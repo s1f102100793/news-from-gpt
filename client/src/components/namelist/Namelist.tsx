@@ -5,11 +5,17 @@ import styles from './namelist.module.css';
 
 type NameListComponentProps = {
   onArticleClick: (article: NewsModel) => void;
+  selectedName: string | null;
+  setSelectedName: (name: string | null) => void;
 };
 
-const NameListComponent: React.FC<NameListComponentProps> = ({ onArticleClick }) => {
+const NameListComponent: React.FC<NameListComponentProps> = ({
+  onArticleClick,
+  selectedName,
+  setSelectedName,
+}) => {
+  // コンポーネントの中身...
   const [newsData, setNewsData] = useState<NewsModel[]>([]);
-  const [selectedName, setSelectedName] = useState<string | null>(null);
   const fetchNews = async () => {
     const fethedAllnews = await apiClient.news.$get();
     return fethedAllnews;

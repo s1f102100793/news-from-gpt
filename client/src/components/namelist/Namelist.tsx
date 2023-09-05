@@ -39,7 +39,7 @@ const NameListComponent: React.FC<NameListComponentProps> = ({
       setNewsData(data);
     };
 
-    const interval = setInterval(fetchData, 100);
+    const interval = setInterval(fetchData, 500);
     return () => clearInterval(interval);
   }, []);
 
@@ -66,7 +66,7 @@ const NameListComponent: React.FC<NameListComponentProps> = ({
     }
   };
 
-  const DIC_PATH = '/path_to_kuromoji_dict/';
+  const DIC_PATH = 'client/public/dict';
 
   type Token = {
     surface_form: string;

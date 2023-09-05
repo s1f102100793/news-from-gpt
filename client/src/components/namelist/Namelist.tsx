@@ -16,6 +16,9 @@ const NameListComponent: React.FC<NameListComponentProps> = ({
 }) => {
   // コンポーネントの中身...
   const [newsData, setNewsData] = useState<NewsModel[]>([]);
+  const [sortType, setSortType] = useState<'alphabetical' | 'count' | null>(null);
+  const [isAscending, setIsAscending] = useState(true);
+
   const fetchNews = async () => {
     const fethedAllnews = await apiClient.news.$get();
     return fethedAllnews;
@@ -54,8 +57,38 @@ const NameListComponent: React.FC<NameListComponentProps> = ({
 
   const nameCounts = countNames(newsData);
 
+  const toggleSort = (type: 'alphabetical' | 'count') => {
+    if (sortType === type) {
+      setIsAscending(!isAscending);
+    } else {
+      setSortType(type);
+    }
+  };
+
+  const sortNames = (names: [string, number][]) => {
+    if (sortType === 'alphabetical') {
+      return names.sort((a, b) =>
+        isAscending ? a[0].localeCompare(b[0]) : b[0].localeCompare(a[0])
+      );
+    } else if (sortType === 'count') {
+      return names.sort((a, b) => (isAscending ? a[1] - b[1] : b[1] - a[1]));
+    }
+    return names; // no sort
+  };
+
+  const sortedNames = sortNames(Array.from(nameCounts.entries()));
+
   return (
     <div className={styles.container}>
+      <button onClick={() => toggleSort('alphabetical')}>アイウエオ順</button>
+      <button onClick={() => toggleSort('count')}>記事数順</button>
+
+      {selectedName === null &&
+        sortedNames.map(([name, count]) => (
+          <div key={name} onClick={() => handleNameClick(name)} className={styles.nameItem}>
+            {name} ({count})
+          </div>
+        ))}
       {selectedName === null &&
         Array.from(nameCounts.entries()).map(([name, count]) => (
           <div key={name} onClick={() => handleNameClick(name)} className={styles.nameItem}>

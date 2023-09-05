@@ -73,23 +73,10 @@ const NameListComponent: React.FC<NameListComponentProps> = ({
     });
   };
 
-  const normalizeForSort = (str: string): string => {
-    let normalized = '';
-    for (const char of str) {
-      if (/^[ァ-ン]$/g.test(char)) {
-        // カタカナの場合
-        normalized += toHiragana(char);
-      } else {
-        normalized += char;
-      }
-    }
-    return normalized;
-  };
-
   const compareNames = (a: string, b: string): number => {
-    const normalizedA = normalizeForSort(a);
-    const normalizedB = normalizeForSort(b);
-    return normalizedA.localeCompare(normalizedB);
+    const hiraganaA = toHiragana(a);
+    const hiraganaB = toHiragana(b);
+    return hiraganaA.localeCompare(hiraganaB);
   };
 
   const sortNames = (names: [string, number][]) => {

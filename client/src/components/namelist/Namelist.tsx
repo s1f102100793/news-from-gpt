@@ -1,4 +1,5 @@
 import type { NewsModel } from 'commonTypesWithClient/models';
+import kuromoji from 'kuromoji';
 import { useEffect, useState } from 'react';
 import { apiClient } from 'src/utils/apiClient';
 import styles from './namelist.module.css';
@@ -65,12 +66,35 @@ const NameListComponent: React.FC<NameListComponentProps> = ({
     }
   };
 
+  const DIC_PATH = '/path_to_kuromoji_dict/';
+
+  type Token = {
+    surface_form: string;
+    reading?: string; // これは推測です。kuromoji の実際の返り値に合わせて調整してください。
+  };
+
+  type KuromojiTokenizer = {
+    tokenize: (text: string) => Token[];
+  };
+
+  let tokenizer: KuromojiTokenizer | null = null;
+
+  kuromoji.builder({ dicPath: DIC_PATH }).build((err, builtTokenizer: KuromojiTokenizer) => {
+    if (err !== null) {
+      console.error('Error building kuromoji tokenizer', err);
+      return;
+    }
+    tokenizer = builtTokenizer;
+  });
+
   const toHiragana = (str: string): string => {
-    // カタカナをひらがなに変換
-    return str.replace(/[\u30a1-\u30f6]/g, (match) => {
-      const chr = match.charCodeAt(0) - 0x60;
-      return String.fromCharCode(chr);
-    });
+    if (!tokenizer) {
+      console.warn('Tokenizer not yet initialized');
+      return str;
+    }
+
+    const tokens: Token[] = tokenizer.tokenize(str);
+    return tokens.map((token) => token.reading !== null || token.surface_form).join('');
   };
 
   const compareNames = (a: string, b: string): number => {

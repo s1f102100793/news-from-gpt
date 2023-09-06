@@ -159,7 +159,7 @@ export const upsertNews = async (
   const prismaNews = await prismaClient.news.upsert({
     where: { id },
     update: {
-      clickCount: { increment: 1 },
+      clickCount,
     },
     create: {
       id,

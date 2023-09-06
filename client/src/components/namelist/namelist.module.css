@@ -3,6 +3,31 @@
   padding: 20px;
 }
 
+.button {
+  padding: 1vh 2vw;
+  min-width: 10vw;
+  width: auto;
+  height: 5vh;
+  font-size: 1.6vh;
+  cursor: pointer;
+  background-color: #e3e4d3;
+  color: #09090b;
+  border: none;
+  border-radius: 1vh;
+  transition: background-color 0.2s;
+  margin-right: 10px;
+  white-space: nowrap;
+  justify-content: center;
+}
+
+.button:last-child {
+  margin-right: 0; /* Ensure the last button doesn't have extra margin */
+}
+
+.button:hover {
+  background-color: #c9caaf;
+}
+
 .nameItem {
   cursor: pointer;
   padding: 10px;

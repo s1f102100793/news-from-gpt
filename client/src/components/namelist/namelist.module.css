@@ -3,6 +3,66 @@
   padding: 20px;
 }
 
+.buttonAndSearchContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px; /* 必要に応じてボタンと下部のコンテンツの間隔を調整 */
+}
+
+.buttonContainer {
+  display: flex;
+}
+
+.button {
+  padding: 1vh 2vw;
+  min-width: 10vw;
+  width: auto;
+  height: 5vh;
+  font-size: 1.6vh;
+  cursor: pointer;
+  background-color: #e3e4d3;
+  color: #09090b;
+  border: none;
+  border-radius: 1vh;
+  transition: background-color 0.2s;
+  margin-right: 10px;
+  white-space: nowrap;
+  justify-content: center;
+}
+
+.button:last-child {
+  margin-right: 0; /* Ensure the last button doesn't have extra margin */
+}
+
+.button:hover {
+  background-color: #c9caaf;
+}
+
+.searchContainer {
+  display: flex;
+  align-items: center; /* 縦方向の中央に配置 */
+}
+
+.searchInput {
+  padding: 1vh 1vw;
+  font-size: 1.4vh;
+  border: 1px solid #09090b;
+  border-radius: 0.5vh;
+  margin-right: 1vw; /* 入力フィールドとボタンの間の余白 */
+}
+
+.searchButton {
+  padding: 1vh 2vw;
+  font-size: 1.6vh;
+  cursor: pointer;
+  background-color: #e3e4d3;
+  color: #09090b;
+  border: none;
+  border-radius: 1vh;
+  transition: background-color 0.2s;
+}
+
 .nameItem {
   cursor: pointer;
   padding: 10px;

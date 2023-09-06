@@ -7,6 +7,7 @@ import { type News } from '@prisma/client';
 import { OpenAI } from 'langchain/llms/openai';
 import { StructuredOutputParser } from 'langchain/output_parsers';
 import { PromptTemplate } from 'langchain/prompts';
+import { v4 as uuidv4 } from 'uuid';
 import { z } from 'zod';
 
 export const toNewsModel = (prismaNews: News): NewsModel => ({
@@ -124,33 +125,47 @@ export const makeNews = async (name: string) => {
   const video = await getYoutube(name);
 
   const fixedResult: NewsModel = {
+    id: uuidv4(),
     createdAt: new Date(),
     name,
     title: res0to25.title,
     subtitle: `${ressubtitle}`,
     body: `${resbody}`,
     video: `${video}`,
+    clickCount: 0,
   };
 
-  creatNews(name, fixedResult.title, fixedResult.subtitle, fixedResult.body, fixedResult.video);
+  creatNews(
+    fixedResult.id,
+    name,
+    fixedResult.title,
+    fixedResult.subtitle,
+    fixedResult.body,
+    fixedResult.video,
+    fixedResult.clickCount
+  );
 
   return fixedResult;
 };
 export const creatNews = async (
+  id: NewsModel['id'],
   name: string,
   title: NewsModel['title'],
   subtitle: NewsModel['subtitle'],
   body: NewsModel['body'],
-  video: NewsModel['video']
+  video: NewsModel['video'],
+  clickCount: NewsModel['clickCount']
 ) => {
   const prismaNews = await prismaClient.news.create({
     data: {
+      id,
       name,
       title,
       subtitle,
       body,
       video,
       createdAt: new Date(),
+      clickCount,
     },
   });
   return toNewsModel(prismaNews);

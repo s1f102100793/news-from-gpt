@@ -26,12 +26,14 @@ export const fetchNews = async (keyword: string): Promise<any> => {
 export const getNews = async () => {
   const prismaNews = await prismaClient.news.findMany({
     select: {
+      id: true,
       createdAt: true,
       name: true,
       title: true,
       subtitle: true,
       body: true,
       video: true,
+      clickCount: true,
     },
   });
   return prismaNews.map(toNewsModel);

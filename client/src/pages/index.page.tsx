@@ -20,7 +20,7 @@ const Home = () => {
     responsevideo,
     handleInputChange,
     handleArticleClick,
-    postBackend,
+    handleOnSubmit,
     shouldRenderNewsComponent,
   } = useNews();
 
@@ -40,7 +40,7 @@ const Home = () => {
         <Header
           value={inputValue}
           onChange={handleInputChange}
-          onSubmit={postBackend}
+          onSubmit={handleOnSubmit}
           onReset={Reset}
         />
         {shouldRenderNewsComponent(responsetitle, responsesubtitle, responsebody, responsevideo) ? (

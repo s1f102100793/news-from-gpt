@@ -1,6 +1,7 @@
 // NewsInput.tsx
 
 import React from 'react';
+import { useNews } from 'src/hooks/useNews';
 import styles from './NewsInput.module.css';
 
 interface NewsInputProps {
@@ -11,12 +12,14 @@ interface NewsInputProps {
 }
 
 const NewsInput: React.FC<NewsInputProps> = ({ value, onChange, onSubmit, onReset }) => {
+  const { isLoading } = useNews();
   return (
     <div className={styles.newsInputContainer}>
       <button className={styles.buttonStyle} onClick={onReset}>
         TOPへ
       </button>
       <div className={styles.rightContainer}>
+        {isLoading && <div className={styles.spinner} />}
         <input
           type="text"
           value={value}

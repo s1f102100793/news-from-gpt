@@ -1,7 +1,6 @@
 import type { NewsModel } from 'commonTypesWithClient/models';
 import React, { useEffect } from 'react';
 import { useNamelist } from 'src/hooks/useNamelist';
-import { apiClient } from 'src/utils/apiClient';
 import styles from './namelist.module.css';
 
 type NameListComponentProps = {
@@ -35,18 +34,6 @@ const NameListComponent: React.FC<NameListComponentProps> = ({
 
   const handleArticleClick = async (article: NewsModel) => {
     onArticleClick(article);
-    const updateCount = article.clickCount + 1;
-    await apiClient.news.$post({
-      body: {
-        id: article.id,
-        name: article.name,
-        title: article.title,
-        subtitle: article.subtitle,
-        body: article.body,
-        video: article.video,
-        clickCount: updateCount,
-      },
-    });
   };
 
   useEffect(() => {

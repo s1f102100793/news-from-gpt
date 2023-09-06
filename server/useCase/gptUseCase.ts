@@ -10,12 +10,14 @@ import { PromptTemplate } from 'langchain/prompts';
 import { z } from 'zod';
 
 export const toNewsModel = (prismaNews: News): NewsModel => ({
+  id: prismaNews.id,
   createdAt: prismaNews.createdAt,
   name: prismaNews.name,
   title: prismaNews.title,
   subtitle: prismaNews.subtitle,
   body: prismaNews.body,
   video: prismaNews.video,
+  clickCount: prismaNews.clickCount,
 });
 
 export const makeNews0to25 = async (

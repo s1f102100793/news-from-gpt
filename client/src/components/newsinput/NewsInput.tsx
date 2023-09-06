@@ -1,6 +1,6 @@
 // NewsInput.tsx
 
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useNews } from 'src/hooks/useNews';
 import styles from './NewsInput.module.css';
 
@@ -13,6 +13,21 @@ interface NewsInputProps {
 
 const NewsInput: React.FC<NewsInputProps> = ({ value, onChange, onSubmit, onReset }) => {
   const { isLoading } = useNews();
+
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
+
+  useEffect(() => {
+    intervalRef.current = setInterval(() => {
+      console.log('isLoading is: ', isLoading);
+    }, 1000); // 1秒ごとにisLoadingの値をログに出力
+
+    // コンポーネントのアンマウント時や依存関係が変更された際に、setIntervalをクリア
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+    };
+  }, [isLoading]);
   return (
     <div className={styles.newsInputContainer}>
       <button className={styles.buttonStyle} onClick={onReset}>

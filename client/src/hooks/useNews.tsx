@@ -51,8 +51,19 @@ export const useNews = () => {
 
   const handleOnSubmit = async () => {
     setIsLoading(true);
-    await postBackend();
+
+    // 少しの遅延を追加して、状態が更新されたことを確認します
+    setTimeout(() => {
+      console.log(isLoading);
+    }, 500);
+
+    postBackend();
+
     setIsLoading(false);
+
+    setTimeout(() => {
+      console.log(isLoading);
+    }, 500);
   };
 
   const shouldRenderNewsComponent = (

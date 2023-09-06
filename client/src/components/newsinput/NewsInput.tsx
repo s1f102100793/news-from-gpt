@@ -8,15 +8,17 @@ interface NewsInputProps {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onSubmit: () => void;
   onReset: () => void;
+  isLoading: boolean;
 }
 
-const NewsInput: React.FC<NewsInputProps> = ({ value, onChange, onSubmit, onReset }) => {
+const NewsInput: React.FC<NewsInputProps> = ({ value, onChange, onSubmit, onReset, isLoading }) => {
   return (
     <div className={styles.newsInputContainer}>
       <button className={styles.buttonStyle} onClick={onReset}>
         TOPへ
       </button>
       <div className={styles.rightContainer}>
+        {isLoading && <div className={styles.spinner} />}
         <input
           type="text"
           value={value}

@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react';
 import { Loading } from 'src/components/Loading/Loading';
 import Header from 'src/components/header/Header';
 import NameListComponent from 'src/components/namelist/Namelist';
@@ -20,9 +21,25 @@ const Home = () => {
     responsevideo,
     handleInputChange,
     handleArticleClick,
-    postBackend,
+    handleOnSubmit,
     shouldRenderNewsComponent,
+    isLoading,
   } = useNews();
+
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
+
+  useEffect(() => {
+    intervalRef.current = setInterval(() => {
+      console.log('isLoading is: ', isLoading);
+    }, 1000); // 1秒ごとにisLoadingの値をログに出力
+
+    // コンポーネントのアンマウント時や依存関係が変更された際に、setIntervalをクリア
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+    };
+  }, [isLoading]);
 
   const { selectedName, setSelectedName, resetSelectedName } = useNamelist();
   if (!user) return <Loading visible />;
@@ -40,8 +57,9 @@ const Home = () => {
         <Header
           value={inputValue}
           onChange={handleInputChange}
-          onSubmit={postBackend}
+          onSubmit={handleOnSubmit}
           onReset={Reset}
+          isLoading={isLoading}
         />
         {shouldRenderNewsComponent(responsetitle, responsesubtitle, responsebody, responsevideo) ? (
           <NewsComponent

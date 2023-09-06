@@ -31,4 +31,24 @@
 .rightContainer {
   display: flex;
   margin-left: auto;
+  align-items: center;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.spinner {
+  border: 0.5vh solid #f3f3f3;
+  border-top: 0.5vh solid #555;
+  border-radius: 50%;
+  width: 4vh;
+  height: 4vh;
+  animation: spin 1s linear infinite;
+  margin-right: 1vh;
 }

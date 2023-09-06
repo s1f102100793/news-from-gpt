@@ -38,7 +38,7 @@ const NameListComponent: React.FC<NameListComponentProps> = ({
       setNewsData(data);
     };
 
-    const interval = setInterval(fetchData, 500);
+    const interval = setInterval(fetchData, 100);
     return () => clearInterval(interval);
   }, []);
 

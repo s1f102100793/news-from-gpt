@@ -1,5 +1,5 @@
 import type { NewsModel } from 'commonTypesWithClient/models';
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useNamelist } from 'src/hooks/useNamelist';
 import styles from './namelist.module.css';
 
@@ -33,25 +33,43 @@ const NameListComponent: React.FC<NameListComponentProps> = ({
     onArticleClick(article);
   };
 
+  const [sortOrder, setSortOrder] = useState<'oldest' | 'newest'>('oldest');
+
+  const sortByDate = useCallback(
+    (data: NewsModel[]) => {
+      if (sortOrder === 'newest') {
+        return [...data].sort(
+          (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        );
+      } else {
+        return [...data].sort(
+          (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+        );
+      }
+    },
+    [sortOrder]
+  );
+
+  const toggleSortByDate = () => {
+    setSortOrder((prevOrder) => (prevOrder === 'newest' ? 'oldest' : 'newest'));
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       const data = await fetchNews();
-      setNewsData(data);
+      const sortedData = sortByDate(data);
+      setNewsData(sortedData);
     };
 
     const interval = setInterval(fetchData, 100);
     return () => clearInterval(interval);
-  }, [fetchNews, setNewsData]);
+  }, [fetchNews, setNewsData, sortOrder, sortByDate]);
 
   const handleSearch = () => {
     const foundName = sortedNames.find(([name]) => name.includes(searchTerm));
     if (foundName) {
       handleNameClick(foundName[0]); // foundName is an array with [name, count]
     }
-  };
-
-  const toggleSortByDate = () => {
-    // 最新の記事順に並び替えるロジックをここに書く
   };
 
   return (
@@ -69,7 +87,7 @@ const NameListComponent: React.FC<NameListComponentProps> = ({
             </>
           ) : (
             <button className={styles.button} onClick={toggleSortByDate}>
-              最新順
+              {sortOrder === 'newest' ? '古い順' : '最新順'}
             </button>
           )}
         </div>

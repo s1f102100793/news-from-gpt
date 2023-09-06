@@ -1,6 +1,7 @@
 import type { NewsModel } from 'commonTypesWithClient/models';
 import React, { useEffect } from 'react';
 import { useNamelist } from 'src/hooks/useNamelist';
+import { apiClient } from 'src/utils/apiClient';
 import styles from './namelist.module.css';
 
 type NameListComponentProps = {
@@ -28,12 +29,23 @@ const NameListComponent: React.FC<NameListComponentProps> = ({
     toggleSortByDate,
   } = useNamelist();
 
-  const handleNameClick = (name: string) => {
+  const handleNameClick = async (name: string) => {
     setSelectedName(name);
   };
 
-  const handleArticleClick = (article: NewsModel) => {
+  const handleArticleClick = async (article: NewsModel) => {
     onArticleClick(article);
+    await apiClient.news.$post({
+      body: {
+        id: article.id,
+        name: article.name,
+        title: article.title,
+        subtitle: article.subtitle,
+        body: article.body,
+        video: article.video,
+        clickCount: article.clickCount,
+      },
+    });
   };
 
   useEffect(() => {

@@ -135,7 +135,7 @@ export const makeNews = async (name: string) => {
     clickCount: 0,
   };
 
-  creatNews(
+  upsertNews(
     fixedResult.id,
     name,
     fixedResult.title,
@@ -147,7 +147,7 @@ export const makeNews = async (name: string) => {
 
   return fixedResult;
 };
-export const creatNews = async (
+export const upsertNews = async (
   id: NewsModel['id'],
   name: string,
   title: NewsModel['title'],
@@ -156,8 +156,12 @@ export const creatNews = async (
   video: NewsModel['video'],
   clickCount: NewsModel['clickCount']
 ) => {
-  const prismaNews = await prismaClient.news.create({
-    data: {
+  const prismaNews = await prismaClient.news.upsert({
+    where: { id },
+    update: {
+      clickCount: { increment: 1 },
+    },
+    create: {
       id,
       name,
       title,

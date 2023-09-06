@@ -31,6 +31,7 @@
 .rightContainer {
   display: flex;
   margin-left: auto;
+  align-items: center;
 }
 
 @keyframes spin {
@@ -43,11 +44,11 @@
 }
 
 .spinner {
-  border: 5px solid #f3f3f3;
-  border-top: 5px solid #555;
+  border: 0.5vh solid #f3f3f3;
+  border-top: 0.5vh solid #555;
   border-radius: 50%;
-  width: 24px; /* くるくるのサイズを変更可能 */
-  height: 24px; /* くるくるのサイズを変更可能 */
+  width: 4vh;
+  height: 4vh;
   animation: spin 1s linear infinite;
-  margin-right: 8px; /* input要素との間のスペース */
+  margin-right: 1vh;
 }

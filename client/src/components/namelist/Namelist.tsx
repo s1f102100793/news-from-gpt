@@ -2,6 +2,7 @@ import type { NewsModel } from 'commonTypesWithClient/models';
 import React, { useEffect } from 'react';
 import { useNamelist } from 'src/hooks/useNamelist';
 import styles from './namelist.module.css';
+import { s } from 'vitest/dist/types-3c7dbfa5';
 
 type NameListComponentProps = {
   onArticleClick: (article: NewsModel) => void;
@@ -26,6 +27,8 @@ const NameListComponent: React.FC<NameListComponentProps> = ({
     sortOrder,
     sortByDate,
     toggleSortByDate,
+    setButtonMain,
+    buttomMain,
   } = useNamelist();
 
   const handleNameClick = async (name: string) => {
@@ -36,16 +39,31 @@ const NameListComponent: React.FC<NameListComponentProps> = ({
     onArticleClick(article);
   };
 
+  const sortByClickCount = (data: NewsModel[]) => {
+    return [...data].sort((a, b) => b.clickCount - a.clickCount);
+  };
+
+  const toggleSortByClickCount = () => {
+    const sorted = sortByClickCount(newsData);
+    setNewsData(sorted);
+    setButtonMain(0);
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       const data = await fetchNews();
-      const sortedData = sortByDate(data);
+      let sortedData;
+      if (buttomMain === 1) {
+        sortedData = sortByDate(data);
+      } else {
+        sortedData = sortByClickCount(data);
+      }
       setNewsData(sortedData);
     };
 
     const interval = setInterval(fetchData, 100);
     return () => clearInterval(interval);
-  }, [fetchNews, setNewsData, sortByDate]);
+  }, [fetchNews, setNewsData, sortByDate, buttomMain]);
 
   const handleSearch = () => {
     const foundName = sortedNames.find(([name]) => name.includes(searchTerm));
@@ -68,9 +86,14 @@ const NameListComponent: React.FC<NameListComponentProps> = ({
               </button>
             </>
           ) : (
-            <button className={styles.button} onClick={toggleSortByDate}>
-              {sortOrder === 'newest' ? '古い順' : '最新順'}
-            </button>
+            <>
+              <button className={styles.button} onClick={toggleSortByDate}>
+                {sortOrder === 'newest' ? '古い順' : '最新順'}
+              </button>
+              <button className={styles.button} onClick={toggleSortByClickCount}>
+                クリック数順
+              </button>
+            </>
           )}
         </div>
         <div className={styles.searchContainer}>

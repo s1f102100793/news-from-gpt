@@ -73,6 +73,7 @@ export const useNamelist = () => {
     setSearchTerm(e.target.value);
   };
 
+  const [buttomMain, setButtonMain] = useState(1);
   const [sortOrder, setSortOrder] = useState<'oldest' | 'newest'>('oldest');
 
   const sortByDate = useCallback(
@@ -92,6 +93,7 @@ export const useNamelist = () => {
 
   const toggleSortByDate = () => {
     setSortOrder((prevOrder) => (prevOrder === 'newest' ? 'oldest' : 'newest'));
+    setButtonMain(1);
   };
   return {
     selectedName,
@@ -108,5 +110,7 @@ export const useNamelist = () => {
     sortOrder,
     sortByDate,
     toggleSortByDate,
+    setButtonMain,
+    buttomMain,
   };
 };

@@ -50,16 +50,28 @@ const NameListComponent: React.FC<NameListComponentProps> = ({
     }
   };
 
+  const toggleSortByDate = () => {
+    // 最新の記事順に並び替えるロジックをここに書く
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.buttonAndSearchContainer}>
         <div className={styles.buttonContainer}>
-          <button className={styles.button} onClick={() => toggleSort('alphabetical')}>
-            あいうえお順
-          </button>
-          <button className={styles.button} onClick={() => toggleSort('count')}>
-            記事数順
-          </button>
+          {selectedName === null ? (
+            <>
+              <button className={styles.button} onClick={() => toggleSort('alphabetical')}>
+                あいうえお順
+              </button>
+              <button className={styles.button} onClick={() => toggleSort('count')}>
+                記事数順
+              </button>
+            </>
+          ) : (
+            <button className={styles.button} onClick={toggleSortByDate}>
+              最新順
+            </button>
+          )}
         </div>
         <div className={styles.searchContainer}>
           <input

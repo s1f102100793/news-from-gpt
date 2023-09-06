@@ -1,5 +1,5 @@
 import type { NewsModel } from 'commonTypesWithClient/models';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useNamelist } from 'src/hooks/useNamelist';
 import styles from './namelist.module.css';
 
@@ -23,6 +23,9 @@ const NameListComponent: React.FC<NameListComponentProps> = ({
     sortedNames,
     searchTerm,
     handleSearchChange,
+    sortOrder,
+    sortByDate,
+    toggleSortByDate,
   } = useNamelist();
 
   const handleNameClick = (name: string) => {
@@ -31,27 +34,6 @@ const NameListComponent: React.FC<NameListComponentProps> = ({
 
   const handleArticleClick = (article: NewsModel) => {
     onArticleClick(article);
-  };
-
-  const [sortOrder, setSortOrder] = useState<'oldest' | 'newest'>('oldest');
-
-  const sortByDate = useCallback(
-    (data: NewsModel[]) => {
-      if (sortOrder === 'newest') {
-        return [...data].sort(
-          (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-        );
-      } else {
-        return [...data].sort(
-          (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
-        );
-      }
-    },
-    [sortOrder]
-  );
-
-  const toggleSortByDate = () => {
-    setSortOrder((prevOrder) => (prevOrder === 'newest' ? 'oldest' : 'newest'));
   };
 
   useEffect(() => {
@@ -63,12 +45,12 @@ const NameListComponent: React.FC<NameListComponentProps> = ({
 
     const interval = setInterval(fetchData, 100);
     return () => clearInterval(interval);
-  }, [fetchNews, setNewsData, sortOrder, sortByDate]);
+  }, [fetchNews, setNewsData, sortByDate]);
 
   const handleSearch = () => {
     const foundName = sortedNames.find(([name]) => name.includes(searchTerm));
     if (foundName) {
-      handleNameClick(foundName[0]); // foundName is an array with [name, count]
+      handleNameClick(foundName[0]);
     }
   };
 

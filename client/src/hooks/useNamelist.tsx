@@ -1,5 +1,5 @@
 import type { NewsModel } from 'commonTypesWithClient/models';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { apiClient } from 'src/utils/apiClient';
 
 export const useNamelist = () => {
@@ -62,7 +62,7 @@ export const useNamelist = () => {
     } else if (sortType === 'count') {
       return names.sort((a, b) => (isAscending ? a[1] - b[1] : b[1] - a[1]));
     }
-    return names; // no sort
+    return names;
   };
 
   const sortedNames = sortNames(Array.from(nameCounts.entries()));
@@ -73,21 +73,40 @@ export const useNamelist = () => {
     setSearchTerm(e.target.value);
   };
 
+  const [sortOrder, setSortOrder] = useState<'oldest' | 'newest'>('oldest');
+
+  const sortByDate = useCallback(
+    (data: NewsModel[]) => {
+      if (sortOrder === 'newest') {
+        return [...data].sort(
+          (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        );
+      } else {
+        return [...data].sort(
+          (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+        );
+      }
+    },
+    [sortOrder]
+  );
+
+  const toggleSortByDate = () => {
+    setSortOrder((prevOrder) => (prevOrder === 'newest' ? 'oldest' : 'newest'));
+  };
   return {
     selectedName,
     setSelectedName,
     resetSelectedName,
     newsData,
     setNewsData,
-    sortType,
-    setSortType,
-    isAscending,
-    setIsAscending,
     fetchNews,
     nameCounts,
     toggleSort,
     sortedNames,
     searchTerm,
     handleSearchChange,
+    sortOrder,
+    sortByDate,
+    toggleSortByDate,
   };
 };

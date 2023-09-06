@@ -2,7 +2,6 @@ import type { NewsModel } from 'commonTypesWithClient/models';
 import React, { useEffect } from 'react';
 import { useNamelist } from 'src/hooks/useNamelist';
 import styles from './namelist.module.css';
-import { s } from 'vitest/dist/types-3c7dbfa5';
 
 type NameListComponentProps = {
   onArticleClick: (article: NewsModel) => void;

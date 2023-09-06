@@ -3,7 +3,7 @@ export const getYoutube = async (searchQuery: string) => {
 
   const browser = await playwright.chromium.launch({
     channel: 'chrome',
-    headless: false,
+    headless: true,
     locale: 'ja-JP',
   });
   try {
@@ -49,7 +49,11 @@ export const getYoutube = async (searchQuery: string) => {
     await browser.close();
     const playwright = await require('playwright-core');
 
-    const browser1 = await playwright.chromium.launch({ channel: 'chrome', headless: false });
+    const browser1 = await playwright.chromium.launch({
+      channel: 'chrome',
+      headless: true,
+      locale: 'ja-JP',
+    });
 
     const page = await browser1.newPage();
     // Googleで検索を実行

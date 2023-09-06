@@ -1,5 +1,5 @@
 import type { NewsModel } from 'commonTypesWithClient/models';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { apiClient } from 'src/utils/apiClient';
 import styles from './namelist.module.css';
 
@@ -91,14 +91,43 @@ const NameListComponent: React.FC<NameListComponentProps> = ({
 
   const sortedNames = sortNames(Array.from(nameCounts.entries()));
 
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value);
+  };
+
+  const handleSearch = () => {
+    const foundName = sortedNames.find(([name]) => name.includes(searchTerm));
+    if (foundName) {
+      handleNameClick(foundName[0]); // foundName is an array with [name, count]
+    }
+  };
+
   return (
     <div className={styles.container}>
-      <button className={styles.button} onClick={() => toggleSort('alphabetical')}>
-        あいうえお順
-      </button>
-      <button className={styles.button} onClick={() => toggleSort('count')}>
-        記事数順
-      </button>
+      <div className={styles.buttonAndSearchContainer}>
+        <div className={styles.buttonContainer}>
+          <button className={styles.button} onClick={() => toggleSort('alphabetical')}>
+            あいうえお順
+          </button>
+          <button className={styles.button} onClick={() => toggleSort('count')}>
+            記事数順
+          </button>
+        </div>
+        <div className={styles.searchContainer}>
+          <input
+            type="text"
+            value={searchTerm}
+            onChange={handleSearchChange}
+            placeholder="名前を検索"
+            className={styles.searchInput}
+          />
+          <button onClick={handleSearch} className={styles.searchButton}>
+            検索
+          </button>
+        </div>
+      </div>
 
       {selectedName === null &&
         sortedNames.map(([name, count]) => (

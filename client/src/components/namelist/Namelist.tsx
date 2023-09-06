@@ -1,4 +1,5 @@
 import type { NewsModel } from 'commonTypesWithClient/models';
+import kuromoji from 'kuromoji';
 import { useEffect, useState } from 'react';
 import { apiClient } from 'src/utils/apiClient';
 import styles from './namelist.module.css';
@@ -38,7 +39,7 @@ const NameListComponent: React.FC<NameListComponentProps> = ({
       setNewsData(data);
     };
 
-    const interval = setInterval(fetchData, 100);
+    const interval = setInterval(fetchData, 500);
     return () => clearInterval(interval);
   }, []);
 
@@ -65,10 +66,47 @@ const NameListComponent: React.FC<NameListComponentProps> = ({
     }
   };
 
+  const DIC_PATH = 'client/public/dict';
+
+  type Token = {
+    surface_form: string;
+    reading?: string; // これは推測です。kuromoji の実際の返り値に合わせて調整してください。
+  };
+
+  type KuromojiTokenizer = {
+    tokenize: (text: string) => Token[];
+  };
+
+  let tokenizer: KuromojiTokenizer | null = null;
+
+  kuromoji.builder({ dicPath: DIC_PATH }).build((err, builtTokenizer: KuromojiTokenizer) => {
+    if (err !== null) {
+      console.error('Error building kuromoji tokenizer', err);
+      return;
+    }
+    tokenizer = builtTokenizer;
+  });
+
+  const toHiragana = (str: string): string => {
+    if (!tokenizer) {
+      console.warn('Tokenizer not yet initialized');
+      return str;
+    }
+
+    const tokens: Token[] = tokenizer.tokenize(str);
+    return tokens.map((token) => token.reading !== null || token.surface_form).join('');
+  };
+
+  const compareNames = (a: string, b: string): number => {
+    const hiraganaA = toHiragana(a);
+    const hiraganaB = toHiragana(b);
+    return hiraganaA.localeCompare(hiraganaB);
+  };
+
   const sortNames = (names: [string, number][]) => {
     if (sortType === 'alphabetical') {
       return names.sort((a, b) =>
-        isAscending ? a[0].localeCompare(b[0]) : b[0].localeCompare(a[0])
+        isAscending ? compareNames(a[0], b[0]) : compareNames(b[0], a[0])
       );
     } else if (sortType === 'count') {
       return names.sort((a, b) => (isAscending ? a[1] - b[1] : b[1] - a[1]));
@@ -85,12 +123,6 @@ const NameListComponent: React.FC<NameListComponentProps> = ({
 
       {selectedName === null &&
         sortedNames.map(([name, count]) => (
-          <div key={name} onClick={() => handleNameClick(name)} className={styles.nameItem}>
-            {name} ({count})
-          </div>
-        ))}
-      {selectedName === null &&
-        Array.from(nameCounts.entries()).map(([name, count]) => (
           <div key={name} onClick={() => handleNameClick(name)} className={styles.nameItem}>
             {name} ({count})
           </div>

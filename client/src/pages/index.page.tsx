@@ -1,4 +1,3 @@
-import { Loading } from 'src/components/Loading/Loading';
 import Header from 'src/components/header/Header';
 import NameListComponent from 'src/components/namelist/Namelist';
 import NewsComponent from 'src/components/news/Newscomponet';
@@ -9,7 +8,6 @@ import styles from './index.module.css';
 
 const Home = () => {
   const {
-    user,
     inputValue,
     responsebody,
     setResponsebody,
@@ -26,7 +24,6 @@ const Home = () => {
   } = useNews();
 
   const { selectedName, setSelectedName, resetSelectedName } = useNamelist();
-  if (!user) return <Loading visible />;
 
   const Reset = async () => {
     setResponsetitle(null);

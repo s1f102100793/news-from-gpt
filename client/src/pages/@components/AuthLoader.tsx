@@ -4,9 +4,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useReducer } from 'react';
 import { userAtom } from 'src/atoms/user';
 import { pagesPath } from 'src/utils/$path';
-import { apiClient } from 'src/utils/apiClient';
 import { createAuth } from 'src/utils/firebase';
-import { returnNull } from 'src/utils/returnNull';
 import { Loading } from '../../components/Loading/Loading';
 
 export const AuthLoader = () => {
@@ -16,16 +14,16 @@ export const AuthLoader = () => {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(createAuth(), async (fbUser) => {
-      if (fbUser) {
-        await fbUser
-          .getIdToken()
-          .then((id) => apiClient.session.$post({ body: { id } }))
-          .catch(returnNull);
-        await apiClient.me.$get().catch(returnNull).then(setUser);
-      } else {
-        await apiClient.session.$delete();
-        setUser(null);
-      }
+      // if (fbUser) {
+      //   await fbUser
+      //     .getIdToken()
+      //     .then((id) => apiClient.session.$post({ body: { id } }))
+      //     .catch(returnNull);
+      //   await apiClient.me.$get().catch(returnNull).then(setUser);
+      // } else {
+      //   await apiClient.session.$delete();
+      //   setUser(null);
+      // }
 
       dispatchIsInitedAuth();
     });

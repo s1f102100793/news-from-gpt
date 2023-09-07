@@ -20,10 +20,12 @@ export type TrendModel = {
 };
 
 export type NewsModel = {
+  id: string;
   createdAt: Date;
   name: string;
   title: string;
   subtitle: string;
   body: string;
   video: string;
+  clickCount: number;
 };

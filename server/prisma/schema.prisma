@@ -15,10 +15,12 @@ model Task {
 }
 
 model News {
-  createdAt DateTime @id
-  name      String
-  title     String
-  subtitle  String
-  body      String
-  video     String
+  id         String   @id @default(uuid())
+  createdAt  DateTime @default(now())
+  name       String
+  title      String
+  subtitle   String
+  body       String
+  video      String
+  clickCount Int      @default(0)
 }

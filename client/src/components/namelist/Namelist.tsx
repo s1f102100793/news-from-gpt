@@ -1,5 +1,5 @@
 import type { NewsModel } from 'commonTypesWithClient/models';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useNamelist } from 'src/hooks/useNamelist';
 import styles from './namelist.module.css';
 
@@ -23,52 +23,51 @@ const NameListComponent: React.FC<NameListComponentProps> = ({
     sortedNames,
     searchTerm,
     handleSearchChange,
+    sortOrder,
+    sortByDate,
+    toggleSortByDate,
+    setButtonMain,
+    buttomMain,
   } = useNamelist();
 
-  const handleNameClick = (name: string) => {
+  const handleNameClick = async (name: string) => {
     setSelectedName(name);
   };
 
-  const handleArticleClick = (article: NewsModel) => {
+  const handleArticleClick = async (article: NewsModel) => {
     onArticleClick(article);
   };
 
-  const [sortOrder, setSortOrder] = useState<'oldest' | 'newest'>('oldest');
+  const sortByClickCount = (data: NewsModel[]) => {
+    return [...data].sort((a, b) => b.clickCount - a.clickCount);
+  };
 
-  const sortByDate = useCallback(
-    (data: NewsModel[]) => {
-      if (sortOrder === 'newest') {
-        return [...data].sort(
-          (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-        );
-      } else {
-        return [...data].sort(
-          (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
-        );
-      }
-    },
-    [sortOrder]
-  );
-
-  const toggleSortByDate = () => {
-    setSortOrder((prevOrder) => (prevOrder === 'newest' ? 'oldest' : 'newest'));
+  const toggleSortByClickCount = () => {
+    const sorted = sortByClickCount(newsData);
+    setNewsData(sorted);
+    setButtonMain(0);
   };
 
   useEffect(() => {
     const fetchData = async () => {
       const data = await fetchNews();
-      const sortedData = sortByDate(data);
+      let sortedData;
+      if (buttomMain === 1) {
+        sortedData = sortByDate(data);
+      } else {
+        sortedData = sortByClickCount(data);
+      }
       setNewsData(sortedData);
     };
 
     const interval = setInterval(fetchData, 100);
     return () => clearInterval(interval);
-  }, [fetchNews, setNewsData, sortOrder, sortByDate]);
+  }, [fetchNews, setNewsData, sortByDate, buttomMain]);
 
   const handleSearch = () => {
     const foundName = sortedNames.find(([name]) => name.includes(searchTerm));
     if (foundName) {
-      handleNameClick(foundName[0]); // foundName is an array with [name, count]
+      handleNameClick(foundName[0]);
     }
   };
 
@@ -86,9 +85,14 @@ const NameListComponent: React.FC<NameListComponentProps> = ({
               </button>
             </>
           ) : (
-            <button className={styles.button} onClick={toggleSortByDate}>
-              {sortOrder === 'newest' ? '古い順' : '最新順'}
-            </button>
+            <>
+              <button className={styles.button} onClick={toggleSortByDate}>
+                {sortOrder === 'newest' ? '古い順' : '最新順'}
+              </button>
+              <button className={styles.button} onClick={toggleSortByClickCount}>
+                クリック数順
+              </button>
+            </>
           )}
         </div>
         <div className={styles.searchContainer}>

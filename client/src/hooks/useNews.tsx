@@ -19,11 +19,23 @@ export const useNews = () => {
     setInputValue(e.target.value);
   };
 
-  const handleArticleClick = (article: NewsModel) => {
+  const handleArticleClick = async (article: NewsModel) => {
     setResponsetitle(article.title);
     setResponsesubtitle(article.subtitle);
     setResponsebody(article.body);
     setResponsevideo(article.video);
+    const updateCount = article.clickCount + 1;
+    await apiClient.news.$post({
+      body: {
+        id: article.id,
+        name: article.name,
+        title: article.title,
+        subtitle: article.subtitle,
+        body: article.body,
+        video: article.video,
+        clickCount: updateCount,
+      },
+    });
   };
 
   const postBackend = async () => {

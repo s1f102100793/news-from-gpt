@@ -34,13 +34,20 @@
 }
 
 .headerTitle {
-  font-size: 3.3em; /* フォントサイズを大きくする */
+  font-size: 3.3em;
   font-weight: bold;
   display: inline-block;
-  padding: 0; /* テキストと線との間のスペース */
+  padding: 0; 
   margin-left: 5%;
 }
 
 .yellowText {
   color: #958b42;
+}
+
+@media (max-width: 480px) {
+  .dateTime {
+    font-size: 0.8em;
+    margin-top: -1rem;
+  }
 }

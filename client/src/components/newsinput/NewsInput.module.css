@@ -7,25 +7,25 @@
   box-sizing: border-box;
 }
 .inputStyle {
-  padding: 1vh 1vw; /* 上下に1%、左右に2%のビューポートの高さと幅に相当するパディング */
-  font-size: 1.6vh; /* フォントサイズをビューポートの高さの1.6%に相当するサイズに */
-  width: 20vw; /* ビューポートの幅の20%に相当する幅 */
-  max-width: 200px; /* サイズが大きくなりすぎないように最大幅を指定 */
+  padding: 1vh 1vw;
+  font-size: 1.6vh;
+  width: 20vw;
+  max-width: 200px;
 }
 
 .buttonStyle {
-  padding: 1vh 3vw; /* 上下に1%、左右に3%のビューポートの高さと幅に相当するパディング */
-  font-size: 1.6vh; /* フォントサイズをビューポートの高さの1.6%に相当するサイズに */
+  padding: 1vh 3vw;
+  font-size: 1.6vh;
   cursor: pointer;
   background-color: #e3e4d3;
   color: #09090b;
   border: none;
-  border-radius: 1vh; /* ビューポートの高さの1%に相当する角の丸み */
+  border-radius: 1vh;
   transition: background-color 0.2s;
 }
 
 .buttonStyle:hover {
-  background-color: #c9caaf; /* Darker shade for hover effect */
+  background-color: #c9caaf;
 }
 
 .rightContainer {
@@ -51,4 +51,11 @@
   height: 4vh;
   animation: spin 1s linear infinite;
   margin-right: 1vh;
+}
+
+@media (max-width: 480px) {
+  .inputStyle {
+    font-size: 1.2vh;
+    width: 45vw;
+  }
 }

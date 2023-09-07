@@ -23,7 +23,7 @@ const NewsInput: React.FC<NewsInputProps> = ({ value, onChange, onSubmit, onRese
           type="text"
           value={value}
           onChange={onChange}
-          placeholder="正確な知りたいニュースの話題名を入れてください"
+          placeholder="正確なニュースの話題名を入力"
           className={styles.inputStyle}
         />
         <button onClick={onSubmit} className={styles.buttonStyle}>

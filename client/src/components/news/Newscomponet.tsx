@@ -95,7 +95,6 @@ const NewsComponent: React.FC<NewsProps> = ({ title, subtitle, body, video }) =>
       const scaleFactor = targetWidth / elementWidth;
       const adjustedFontSize = currentFontSize * scaleFactor;
 
-      // Ensure the font size doesn't exceed the maximum
       return Math.min(adjustedFontSize, maxFontSize);
     };
 
@@ -121,7 +120,6 @@ const NewsComponent: React.FC<NewsProps> = ({ title, subtitle, body, video }) =>
       }
     };
 
-    // displayProgressが'title'のときのみ、フォントサイズの調整を行う
     if (displayProgress === 'title') {
       adjustFontSize();
     }

@@ -22,10 +22,10 @@ export const getYoutube = async (searchQuery: string) => {
       .getByRole('link', { name: 'YouTube: ホーム YouTube https://www.youtube.com › ...' })
       .click();
     await page.waitForTimeout(2000);
-    await page.getByPlaceholder('Search').click();
+    await page.getByPlaceholder('検索').click();
     await page.waitForTimeout(1000);
-    await page.getByPlaceholder('Search').fill(searchQuery);
-    await page.getByPlaceholder('Search').press('Enter');
+    await page.getByPlaceholder('検索').fill(searchQuery);
+    await page.getByPlaceholder('検索').press('Enter');
 
     await page.waitForTimeout(1000);
 
@@ -33,9 +33,9 @@ export const getYoutube = async (searchQuery: string) => {
 
     console.log('share');
     await page.waitForTimeout(1000);
-    await page.getByRole('button', { name: 'Share' }).click();
+    await page.getByRole('button', { name: '共有' }).click();
     console.log('embed');
-    await page.getByRole('button', { name: 'Embed' }).click();
+    await page.getByRole('button', { name: '埋め込む' }).click();
     const textValue = await page
       .locator('.textarea-container .style-scope.tp-yt-iron-autogrow-textarea')
       .inputValue();
@@ -70,10 +70,10 @@ export const getYoutube = async (searchQuery: string) => {
       .getByRole('link', { name: 'YouTube: ホーム YouTube https://www.youtube.com › ...' })
       .click();
     await page.waitForTimeout(1000);
-    await page.getByPlaceholder('Search').click();
+    await page.getByPlaceholder('検索').click();
     await page.waitForTimeout(1000);
-    await page.getByPlaceholder('Search').fill(searchQuery);
-    await page.getByPlaceholder('Search').press('Enter');
+    await page.getByPlaceholder('検索').fill(searchQuery);
+    await page.getByPlaceholder('検索').press('Enter');
 
     await page.waitForTimeout(1000);
 

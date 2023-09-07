@@ -57,3 +57,16 @@
   width: 100%;
   height: 100%;
 }
+
+@media (max-width: 480px) {
+  .newsContainer {
+    column-count: 1;
+  }
+  .newsTitle {
+    white-space: normal;
+    left: auto;
+  }
+  .newsSubtitle {
+    margin-top: calc(var(--title-font-size) * var(--subtitle-margin-top-ratio) + 1em);
+  }
+}

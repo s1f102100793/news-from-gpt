@@ -7,7 +7,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px; /* 必要に応じてボタンと下部のコンテンツの間隔を調整 */
+  margin-bottom: 20px;
 }
 
 .buttonContainer {
@@ -32,7 +32,7 @@
 }
 
 .button:last-child {
-  margin-right: 0; /* Ensure the last button doesn't have extra margin */
+  margin-right: 0;
 }
 
 .button:hover {
@@ -41,7 +41,7 @@
 
 .searchContainer {
   display: flex;
-  align-items: center; /* 縦方向の中央に配置 */
+  align-items: center;
 }
 
 .searchInput {
@@ -49,7 +49,7 @@
   font-size: 1.4vh;
   border: 1px solid #09090b;
   border-radius: 0.5vh;
-  margin-right: 1vw; /* 入力フィールドとボタンの間の余白 */
+  margin-right: 1vw;
 }
 
 .searchButton {
@@ -83,6 +83,7 @@
 .nameList {
   margin-top: 20px;
   border-top: 1px solid #ddd;
+  align-items: center;
 }
 
 .nameList li {
@@ -105,6 +106,30 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
-  flex: 1; /* フレキシブルなサイズ調整 */
-  margin: 0 5px; /* 両端に少し余白を追加 */
+  flex: 1;
+  margin: 0 5px;
+}
+
+@media (max-width: 480px) {
+  .searchInput {
+    padding: 0.8vh 0.8vw;
+    font-size: 1.2vh;
+    min-width: 10vw;
+    width: auto;
+    height: 5vh;
+  }
+
+  .searchButton {
+    padding: 0.8vh 1.6vw;
+    font-size: 1.4vh;
+    min-width: 10vw;
+    width: auto;
+    height: 5vh;
+  }
+
+  .button {
+    padding: 0.8vh 1.6vw;
+    font-size: 1.4vh;
+    margin-right: 8px;
+  }
 }

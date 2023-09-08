@@ -36,12 +36,21 @@ const Home = () => {
     setResponsebody(null);
     resetSelectedName();
   };
+  const checkValidName = (name: string | null): string => {
+    if (name === null || name === '') {
+      console.error('Name is not defined or empty');
+      throw new Error('Name is not valid');
+    }
+    return name;
+  };
 
   const postBackend2 = async () => {
-    setInputValue(selectedName as string);
+    const validName = checkValidName(selectedName);
+    setInputValue(validName);
+    console.log(selectedName);
     console.log('押した');
     try {
-      const res = await apiClient.gpt.$post({ body: { name: inputValue } });
+      const res = await apiClient.gpt.$post({ body: { name: validName } });
       setResponsetitle(res.title);
       setResponsesubtitle(res.subtitle);
       setResponsebody(res.body);

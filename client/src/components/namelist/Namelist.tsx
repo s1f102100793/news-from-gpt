@@ -1,19 +1,24 @@
 import type { NewsModel } from 'commonTypesWithClient/models';
 import React, { useEffect } from 'react';
 import { useNamelist } from 'src/hooks/useNamelist';
-import { useNews } from 'src/hooks/useNews';
 import styles from './namelist.module.css';
 
 type NameListComponentProps = {
   onArticleClick: (article: NewsModel) => void;
   selectedName: string | null;
   setSelectedName: (name: string | null) => void;
+  setInputValue: (name: string) => void;
+  onSubmit: () => void;
+  isLoading: boolean;
 };
 
 const NameListComponent: React.FC<NameListComponentProps> = ({
   onArticleClick,
   selectedName,
   setSelectedName,
+  setInputValue,
+  onSubmit,
+  isLoading,
 }) => {
   const {
     newsData,
@@ -30,8 +35,6 @@ const NameListComponent: React.FC<NameListComponentProps> = ({
     setButtonMain,
     buttomMain,
   } = useNamelist();
-
-  const { handleOnSubmit2, setInputValue, isLoading2 } = useNews();
 
   const handleNameClick = async (name: string) => {
     setSelectedName(name);
@@ -115,8 +118,8 @@ const NameListComponent: React.FC<NameListComponentProps> = ({
             </>
           ) : (
             <>
-              {isLoading2 && <div className={styles.spinner} />}
-              <button onClick={() => handleOnSubmit2()} className={styles.buttonWithSelectedName}>
+              {isLoading && <div className={styles.spinner} />}
+              <button onClick={() => onSubmit()} className={styles.buttonWithSelectedName}>
                 この話題の新しいの記事を生成
               </button>
             </>

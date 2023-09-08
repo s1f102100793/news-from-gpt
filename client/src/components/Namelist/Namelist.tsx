@@ -1,7 +1,9 @@
 import type { NewsModel } from 'commonTypesWithClient/models';
 import React, { useEffect } from 'react';
 import { useNamelist } from 'src/hooks/useNamelist';
+import NameLabel from '../NameLabel/NameLabel';
 import SearchContainer from '../SearchContainer/SearchContainer';
+import SelectedNameDetails from '../SelectedNameDetails.tsx/SelectedNameDetails';
 import SortButtons from '../SortButtons/SortButtons';
 import styles from './namelist.module.css';
 
@@ -100,28 +102,17 @@ const NameListComponent: React.FC<NameListComponentProps> = ({
         </div>
       </div>
 
-      {selectedName === null &&
-        sortedNames.map(([name, count]) => (
-          <div key={name} onClick={() => handleNameClick(name)} className={styles.nameItem}>
-            {name} ({count})
-          </div>
-        ))}
-      {selectedName !== null && (
-        <>
-          <div onClick={() => handleNameClick(selectedName)} className={styles.nameItem}>
-            {selectedName} ({nameCounts.get(selectedName)})
-          </div>
-          <ul className={styles.nameList}>
-            {newsData
-              .filter((item) => item.name === selectedName)
-              .map((item, index) => (
-                <li key={index} onClick={() => handleArticleClick(item)}>
-                  <div className={styles.title}>{item.title}</div>
-                  <div className={styles.subtitle}>{item.subtitle}</div>
-                </li>
-              ))}
-          </ul>
-        </>
+      {selectedName === null ? (
+        <NameLabel sortedNames={sortedNames} handleNameClick={handleNameClick} styles={styles} />
+      ) : (
+        <SelectedNameDetails
+          selectedName={selectedName}
+          nameCounts={nameCounts}
+          newsData={newsData}
+          handleNameClick={handleNameClick}
+          handleArticleClick={handleArticleClick}
+          styles={styles}
+        />
       )}
     </div>
   );

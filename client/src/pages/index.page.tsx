@@ -1,6 +1,6 @@
 import type { AxiosError } from 'axios';
+import NameListComponent from 'src/components/Namelist/Namelist';
 import Header from 'src/components/header/Header';
-import NameListComponent from 'src/components/namelist/Namelist';
 import NewsComponent from 'src/components/news/Newscomponet';
 import { useNamelist } from 'src/hooks/useNamelist';
 import { useNews } from 'src/hooks/useNews';

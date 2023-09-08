@@ -14,7 +14,6 @@ export const useNews = () => {
   const [responsesubtitle, setResponsesubtitle] = useState<string | null>(null);
   const [responsevideo, setResponsevideo] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [isLoading2, setIsLoading2] = useState(false);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);

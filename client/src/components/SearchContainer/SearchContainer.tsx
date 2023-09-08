@@ -3,7 +3,6 @@ import type { ChangeEventHandler, FC } from 'react';
 
 interface SearchContainerProps {
   selectedName: string | null;
-  isLoading: boolean;
   searchTerm: string;
   handleSearchChange: ChangeEventHandler<HTMLInputElement>;
   handleSearch: () => void;
@@ -13,7 +12,6 @@ interface SearchContainerProps {
 
 const SearchContainer: FC<SearchContainerProps> = ({
   selectedName,
-  isLoading,
   searchTerm,
   handleSearchChange,
   handleSearch,
@@ -39,7 +37,6 @@ const SearchContainer: FC<SearchContainerProps> = ({
 
   return (
     <>
-      {isLoading && <div className={styles.spinner} />}
       <button onClick={onSubmit} className={styles.buttonWithSelectedName}>
         この話題の新しいの記事を生成
       </button>

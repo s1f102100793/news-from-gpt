@@ -68,12 +68,6 @@ export const useNews = () => {
     setIsLoading(false);
   };
 
-  const handleOnSubmit2 = async () => {
-    setIsLoading2(true);
-    await postBackend();
-    setIsLoading2(false);
-  };
-
   const shouldRenderNewsComponent = (
     title: string | null,
     subtitle: string | null,
@@ -98,9 +92,9 @@ export const useNews = () => {
     handleInputChange,
     handleArticleClick,
     handleOnSubmit,
-    handleOnSubmit2,
     shouldRenderNewsComponent,
     isLoading,
-    isLoading2,
+    setIsLoading,
+    postBackend,
   };
 };

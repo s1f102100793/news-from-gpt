@@ -9,18 +9,14 @@ type NameListComponentProps = {
   onArticleClick: (article: NewsModel) => void;
   selectedName: string | null;
   setSelectedName: (name: string | null) => void;
-  setInputValue: (name: string) => void;
   onSubmit: () => void;
-  isLoading: boolean;
 };
 
 const NameListComponent: React.FC<NameListComponentProps> = ({
   onArticleClick,
   selectedName,
   setSelectedName,
-  setInputValue,
   onSubmit,
-  isLoading,
 }) => {
   const {
     newsData,
@@ -40,7 +36,6 @@ const NameListComponent: React.FC<NameListComponentProps> = ({
 
   const handleNameClick = async (name: string) => {
     setSelectedName(name);
-    setInputValue(name);
   };
 
   const handleArticleClick = async (article: NewsModel) => {
@@ -96,7 +91,6 @@ const NameListComponent: React.FC<NameListComponentProps> = ({
         <div className={styles.searchContainer}>
           <SearchContainer
             selectedName={selectedName}
-            isLoading={isLoading}
             searchTerm={searchTerm}
             handleSearchChange={handleSearchChange}
             handleSearch={handleSearch}

@@ -1,8 +1,10 @@
+import type { AxiosError } from 'axios';
+import NameListComponent from 'src/components/Namelist/Namelist';
 import Header from 'src/components/header/Header';
-import NameListComponent from 'src/components/namelist/Namelist';
 import NewsComponent from 'src/components/news/Newscomponet';
 import { useNamelist } from 'src/hooks/useNamelist';
 import { useNews } from 'src/hooks/useNews';
+import { apiClient } from 'src/utils/apiClient';
 import './index.module.css';
 import styles from './index.module.css';
 
@@ -20,10 +22,10 @@ const Home = () => {
     handleInputChange,
     handleArticleClick,
     handleOnSubmit,
-    handleOnSubmit2,
+    setResponsevideo,
     shouldRenderNewsComponent,
     isLoading,
-    isLoading2,
+    setIsLoading,
   } = useNews();
 
   const { selectedName, setSelectedName, resetSelectedName } = useNamelist();
@@ -33,6 +35,49 @@ const Home = () => {
     setResponsesubtitle(null);
     setResponsebody(null);
     resetSelectedName();
+  };
+  const checkValidName = (name: string | null): string => {
+    if (name === null || name === '') {
+      console.error('Name is not defined or empty');
+      throw new Error('Name is not valid');
+    }
+    return name;
+  };
+
+  const postBackend2 = async () => {
+    const validName = checkValidName(selectedName);
+    setInputValue(validName);
+    console.log(selectedName);
+    console.log('押した');
+    try {
+      const res = await apiClient.gpt.$post({ body: { name: validName } });
+      setResponsetitle(null);
+      setResponsesubtitle(null);
+      setResponsebody(null);
+      setResponsevideo(null);
+      setResponsetitle(res.title);
+      setResponsesubtitle(res.subtitle);
+      setResponsebody(res.body);
+      setResponsevideo(res.video);
+      setInputValue('');
+    } catch (error) {
+      const axiosError = error as AxiosError;
+
+      if (axiosError.response) {
+        console.error('Error data:', axiosError.response.data);
+        console.error('Error status:', axiosError.response.status);
+      } else if (axiosError.request !== null && axiosError.request !== undefined) {
+        console.error('No response from server:', axiosError.request);
+      } else {
+        console.error('Error:', axiosError.message);
+      }
+    }
+  };
+
+  const handleOnSubmit2 = async () => {
+    setIsLoading(true);
+    await postBackend2();
+    setIsLoading(false);
   };
 
   return (
@@ -57,9 +102,7 @@ const Home = () => {
             onArticleClick={handleArticleClick}
             selectedName={selectedName}
             setSelectedName={setSelectedName}
-            setInputValue={setInputValue}
             onSubmit={handleOnSubmit2}
-            isLoading={isLoading2}
           />
         )}
       </div>

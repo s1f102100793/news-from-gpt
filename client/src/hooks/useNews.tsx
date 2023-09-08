@@ -14,7 +14,6 @@ export const useNews = () => {
   const [responsesubtitle, setResponsesubtitle] = useState<string | null>(null);
   const [responsevideo, setResponsevideo] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [isLoading2, setIsLoading2] = useState(false);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
@@ -43,11 +42,15 @@ export const useNews = () => {
     console.log('押した');
     try {
       const res = await apiClient.gpt.$post({ body: { name: inputValue } });
+      setResponsetitle(null);
+      setResponsesubtitle(null);
+      setResponsebody(null);
+      setResponsevideo(null);
       setResponsetitle(res.title);
       setResponsesubtitle(res.subtitle);
       setResponsebody(res.body);
       setResponsevideo(res.video);
-      console.log(res);
+      setInputValue('');
     } catch (error) {
       const axiosError = error as AxiosError;
 
@@ -66,12 +69,6 @@ export const useNews = () => {
     setIsLoading(true);
     await postBackend();
     setIsLoading(false);
-  };
-
-  const handleOnSubmit2 = async () => {
-    setIsLoading2(true);
-    await postBackend();
-    setIsLoading2(false);
   };
 
   const shouldRenderNewsComponent = (
@@ -98,9 +95,9 @@ export const useNews = () => {
     handleInputChange,
     handleArticleClick,
     handleOnSubmit,
-    handleOnSubmit2,
     shouldRenderNewsComponent,
     isLoading,
-    isLoading2,
+    setIsLoading,
+    postBackend,
   };
 };

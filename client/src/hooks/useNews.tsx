@@ -14,6 +14,7 @@ export const useNews = () => {
   const [responsesubtitle, setResponsesubtitle] = useState<string | null>(null);
   const [responsevideo, setResponsevideo] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [isLoading2, setIsLoading2] = useState(false);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
@@ -67,6 +68,12 @@ export const useNews = () => {
     setIsLoading(false);
   };
 
+  const handleOnSubmit2 = async () => {
+    setIsLoading2(true);
+    await postBackend();
+    setIsLoading2(false);
+  };
+
   const shouldRenderNewsComponent = (
     title: string | null,
     subtitle: string | null,
@@ -91,7 +98,9 @@ export const useNews = () => {
     handleInputChange,
     handleArticleClick,
     handleOnSubmit,
+    handleOnSubmit2,
     shouldRenderNewsComponent,
     isLoading,
+    isLoading2,
   };
 };

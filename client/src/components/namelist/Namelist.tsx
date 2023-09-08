@@ -1,6 +1,8 @@
 import type { NewsModel } from 'commonTypesWithClient/models';
 import React, { useEffect } from 'react';
 import { useNamelist } from 'src/hooks/useNamelist';
+import SearchContainer from '../SearchContainer/SearchContainer';
+import SortButtons from '../SortButtons/SortButtons';
 import styles from './namelist.module.css';
 
 type NameListComponentProps = {
@@ -82,48 +84,25 @@ const NameListComponent: React.FC<NameListComponentProps> = ({
     <div className={styles.container}>
       <div className={styles.buttonAndSearchContainer}>
         <div className={styles.buttonContainer}>
-          {selectedName === null ? (
-            <>
-              <button className={styles.button} onClick={() => toggleSort('alphabetical')}>
-                あいうえお順
-              </button>
-              <button className={styles.button} onClick={() => toggleSort('count')}>
-                記事数順
-              </button>
-            </>
-          ) : (
-            <>
-              <button className={styles.button} onClick={toggleSortByDate}>
-                {sortOrder === 'newest' ? '古い順' : '最新順'}
-              </button>
-              <button className={styles.button} onClick={toggleSortByClickCount}>
-                クリック数順
-              </button>
-            </>
-          )}
+          <SortButtons
+            selectedName={selectedName}
+            toggleSort={toggleSort}
+            toggleSortByDate={toggleSortByDate}
+            toggleSortByClickCount={toggleSortByClickCount}
+            sortOrder={sortOrder}
+            styles={styles}
+          />
         </div>
         <div className={styles.searchContainer}>
-          {selectedName === null ? (
-            <>
-              <input
-                type="text"
-                value={searchTerm}
-                onChange={handleSearchChange}
-                placeholder="名前を検索"
-                className={styles.searchInput}
-              />
-              <button onClick={handleSearch} className={styles.searchButton}>
-                検索
-              </button>
-            </>
-          ) : (
-            <>
-              {isLoading && <div className={styles.spinner} />}
-              <button onClick={() => onSubmit()} className={styles.buttonWithSelectedName}>
-                この話題の新しいの記事を生成
-              </button>
-            </>
-          )}
+          <SearchContainer
+            selectedName={selectedName}
+            isLoading={isLoading}
+            searchTerm={searchTerm}
+            handleSearchChange={handleSearchChange}
+            handleSearch={handleSearch}
+            onSubmit={onSubmit}
+            styles={styles}
+          />
         </div>
       </div>
 

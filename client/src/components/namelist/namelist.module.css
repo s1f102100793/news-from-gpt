@@ -110,30 +110,6 @@
   margin: 0 5px;
 }
 
-@media (max-width: 480px) {
-  .searchInput {
-    padding: 0.8vh 0.8vw;
-    font-size: 1.2vh;
-    min-width: 10vw;
-    width: auto;
-    height: 5vh;
-  }
-
-  .searchButton {
-    padding: 0.8vh 1.6vw;
-    font-size: 1.4vh;
-    min-width: 10vw;
-    width: auto;
-    height: 5vh;
-  }
-
-  .button {
-    padding: 0.8vh 1.6vw;
-    font-size: 1.4vh;
-    margin-right: 8px;
-  }
-}
-
 @keyframes spin {
   0% {
     transform: rotate(0deg);
@@ -154,4 +130,50 @@
 }
 
 .buttonWithSelectedName {
+  padding: 1vh 2vw;
+  min-width: 10vw;
+  width: auto;
+  height: 5vh;
+  font-size: 1.6vh;
+  cursor: pointer;
+  background-color: #e3e4d3;
+  color: #09090b;
+  border: none;
+  border-radius: 1vh;
+  transition: background-color 0.2s;
+  margin-right: 10px;
+  white-space: nowrap;
+  justify-content: center;
+}
+
+.buttonWithSelectedName:last-child {
+  margin-right: 0;
+}
+
+.buttonWithSelectedName:hover {
+  background-color: #c9caaf;
+}
+
+@media (max-width: 480px) {
+  .searchInput {
+    padding: 0.8vh 0.8vw;
+    font-size: 1.2vh;
+    min-width: 10vw;
+    width: auto;
+    height: 5vh;
+  }
+
+  .searchButton {
+    padding: 0.8vh 1.6vw;
+    font-size: 1.4vh;
+    min-width: 10vw;
+    width: auto;
+    height: 5vh;
+  }
+
+  .button .buttonWithSelectedName {
+    padding: 0.8vh 1.6vw;
+    font-size: 1.4vh;
+    margin-right: 8px;
+  }
 }

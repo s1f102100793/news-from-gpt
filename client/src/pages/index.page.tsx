@@ -9,6 +9,7 @@ import styles from './index.module.css';
 const Home = () => {
   const {
     inputValue,
+    setInputValue,
     responsebody,
     setResponsebody,
     responsetitle,
@@ -19,8 +20,10 @@ const Home = () => {
     handleInputChange,
     handleArticleClick,
     handleOnSubmit,
+    handleOnSubmit2,
     shouldRenderNewsComponent,
     isLoading,
+    isLoading2,
   } = useNews();
 
   const { selectedName, setSelectedName, resetSelectedName } = useNamelist();
@@ -54,6 +57,9 @@ const Home = () => {
             onArticleClick={handleArticleClick}
             selectedName={selectedName}
             setSelectedName={setSelectedName}
+            setInputValue={setInputValue}
+            onSubmit={handleOnSubmit2}
+            isLoading={isLoading2}
           />
         )}
       </div>

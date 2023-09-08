@@ -51,11 +51,15 @@ const Home = () => {
     console.log('押した');
     try {
       const res = await apiClient.gpt.$post({ body: { name: validName } });
+      setResponsetitle(null);
+      setResponsesubtitle(null);
+      setResponsebody(null);
+      setResponsevideo(null);
       setResponsetitle(res.title);
       setResponsesubtitle(res.subtitle);
       setResponsebody(res.body);
       setResponsevideo(res.video);
-      console.log(res);
+      setInputValue('');
     } catch (error) {
       const axiosError = error as AxiosError;
 

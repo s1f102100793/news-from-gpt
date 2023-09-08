@@ -1,6 +1,7 @@
 import type { NewsModel } from 'commonTypesWithClient/models';
 import React, { useEffect } from 'react';
 import { useNamelist } from 'src/hooks/useNamelist';
+import { useNews } from 'src/hooks/useNews';
 import styles from './namelist.module.css';
 
 type NameListComponentProps = {
@@ -30,8 +31,11 @@ const NameListComponent: React.FC<NameListComponentProps> = ({
     buttomMain,
   } = useNamelist();
 
+  const { handleOnSubmit2, setInputValue, isLoading2 } = useNews();
+
   const handleNameClick = async (name: string) => {
     setSelectedName(name);
+    setInputValue(name);
   };
 
   const handleArticleClick = async (article: NewsModel) => {
@@ -96,16 +100,27 @@ const NameListComponent: React.FC<NameListComponentProps> = ({
           )}
         </div>
         <div className={styles.searchContainer}>
-          <input
-            type="text"
-            value={searchTerm}
-            onChange={handleSearchChange}
-            placeholder="名前を検索"
-            className={styles.searchInput}
-          />
-          <button onClick={handleSearch} className={styles.searchButton}>
-            検索
-          </button>
+          {selectedName === null ? (
+            <>
+              <input
+                type="text"
+                value={searchTerm}
+                onChange={handleSearchChange}
+                placeholder="名前を検索"
+                className={styles.searchInput}
+              />
+              <button onClick={handleSearch} className={styles.searchButton}>
+                検索
+              </button>
+            </>
+          ) : (
+            <>
+              {isLoading2 && <div className={styles.spinner} />}
+              <button onClick={() => handleOnSubmit2()} className={styles.buttonWithSelectedName}>
+                この話題の新しいの記事を生成
+              </button>
+            </>
+          )}
         </div>
       </div>
 

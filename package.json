@@ -16,7 +16,8 @@
     "test": "npm run test --prefix client && npm run test --prefix server",
     "typecheck": "run-p typecheck:*",
     "typecheck:client": "npm run typecheck --prefix client",
-    "typecheck:server": "npm run typecheck --prefix server"
+    "typecheck:server": "npm run typecheck --prefix server",
+    "heroku-postbuild": "npm install --prefix server && npm run build --prefix server"
   },
   "devDependencies": {
     "@stylelint/postcss-css-in-js": "^0.38.0",

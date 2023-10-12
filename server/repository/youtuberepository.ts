@@ -5,6 +5,7 @@ export const getYoutube = async (searchQuery: string) => {
     channel: 'chrome',
     headless: true,
     locale: 'ja-JP',
+    chromiumSandbox: false,
   });
   try {
     const page = await browser.newPage();
@@ -53,6 +54,7 @@ export const getYoutube = async (searchQuery: string) => {
       channel: 'chrome',
       headless: true,
       locale: 'ja-JP',
+      chromiumSandbox: false,
     });
 
     const page = await browser1.newPage();

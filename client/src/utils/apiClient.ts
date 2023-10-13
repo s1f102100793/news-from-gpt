@@ -5,7 +5,7 @@ import axios from 'axios';
 export const apiClient = api(
   aspida(
     axios.create({
-      baseURL: 'https://news-from-gpt-backend-59f4f221099f.herokuapp.com/',
+      baseURL: process.env.NEXT_PUBLIC_API_BASE_URL,
       withCredentials: true,
     })
   )

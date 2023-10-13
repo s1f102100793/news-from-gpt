@@ -11,7 +11,6 @@ export const getNewsFromGoogleSearch = async (
   endPercentage: number
 ) => {
   const browser = await chromium.launch({
-    channel: 'chrome',
     headless: true,
     chromiumSandbox: false,
   });

@@ -66,8 +66,7 @@ const NameListComponent: React.FC<NameListComponentProps> = ({
       setNewsData(sortedData);
     };
 
-    const interval = setInterval(fetchData, 100);
-    return () => clearInterval(interval);
+    fetchData();
   }, [fetchNews, setNewsData, sortByDate, buttomMain]);
 
   const handleSearch = () => {

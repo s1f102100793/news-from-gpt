@@ -2,7 +2,6 @@ export const getYoutube = async (searchQuery: string) => {
   const playwright = await require('playwright-core');
 
   const browser = await playwright.chromium.launch({
-    channel: 'chrome',
     headless: true,
     locale: 'ja-JP',
     chromiumSandbox: false,
@@ -51,7 +50,6 @@ export const getYoutube = async (searchQuery: string) => {
     const playwright = await require('playwright-core');
 
     const browser1 = await playwright.chromium.launch({
-      channel: 'chrome',
       headless: true,
       locale: 'ja-JP',
       chromiumSandbox: false,

@@ -6,10 +6,12 @@ import helmet from '@fastify/helmet';
 import type { FastifyServerFactory } from 'fastify';
 import Fastify from 'fastify';
 
+const CORS_ORIGIN_STRING = CORS_ORIGIN.split(',');
+
 export const init = (serverFactory?: FastifyServerFactory) => {
   const app = Fastify({ serverFactory });
   app.register(helmet);
-  app.register(cors, { origin: CORS_ORIGIN, credentials: true });
+  app.register(cors, { origin: CORS_ORIGIN_STRING, credentials: true });
   app.register(cookie);
   server(app, { basePath: API_BASE_PATH });
 

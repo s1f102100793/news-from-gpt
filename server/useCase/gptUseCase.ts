@@ -52,8 +52,7 @@ export const makeNews0to25 = async (
   const llm = new OpenAI({
     openAIApiKey: OPENAIAPI,
     temperature: 0.9,
-    modelName: 'gpt-4',
-    maxTokens: 5000,
+    modelName: 'gpt-4-1106-preview',
   });
   const res = await llm.call(input);
 
@@ -90,8 +89,7 @@ export const makeNews25to100 = async (
   const llm = new OpenAI({
     openAIApiKey: OPENAIAPI,
     temperature: 0.9,
-    modelName: 'gpt-4',
-    maxTokens: 5000,
+    modelName: 'gpt-4-1106-preview',
   });
   const res = await llm.call(input);
 
@@ -113,8 +111,7 @@ export const makeNews = async (name: string) => {
   const llm = new OpenAI({
     openAIApiKey: OPENAIAPI,
     temperature: 0.9,
-    modelName: 'gpt-4',
-    maxTokens: 5000,
+    modelName: 'gpt-4-1106-preview',
   });
 
   const resbody = await llm.call(`${mergedResult.body}の文章を整えてください`);
